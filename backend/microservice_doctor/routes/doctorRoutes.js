@@ -2,9 +2,15 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { getTokenData } = require("../util");
+
 const User = require("../models/User");
 const Profile = require("../models/Profile");
 const Chamber = require("../models/Chamber");
+const Slot = require("../models/Slot");
+const { eachDayOfInterval, format } = require("date-fns");
+const Booking = require("../models/Booking");
+
+// ---------------Auth---------------
 
 //REGISTER
 router.post("/register", async (req, res) => {
@@ -58,6 +64,8 @@ router.post("/login", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+// ---------------Profile---------------
 
 //GET PROFILE
 router.get("/profile", async (req, res) => {
@@ -127,6 +135,8 @@ router.patch("/profile", async (req, res) => {
   }
 });
 
+// ---------------Chamber---------------
+
 //POST CHAMBER
 router.post("/chamber", async (req, res) => {
   try {
@@ -191,6 +201,169 @@ router.delete("/chamber/:chamberId", async (req, res) => {
       } else {
         await Chamber.findByIdAndDelete(req.params.chamberId);
         return res.status(200).json({ message: "Chamber deleted" });
+      }
+    } else {
+      return res.status(404).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// ---------------Slot---------------
+
+//POST Slot
+router.post("/slot", async (req, res) => {
+  try {
+    const token = await getTokenData(req);
+    if (token) {
+      const profile = await Profile.findOne({ userId: token._id });
+
+      if (!profile) {
+        return res.status(404).json({ message: "Profile does not exist" });
+      } else {
+        const newSlot = new Slot({
+          ...req.body,
+          doctorId: token._id,
+        });
+
+        await newSlot.save();
+        return res.status(200).json({ message: "Slot created" });
+      }
+    } else {
+      return res.status(404).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//POST Multipleslots
+router.post("/slot/multiple", async (req, res) => {
+  try {
+    const token = await getTokenData(req);
+
+    if (token) {
+      const profile = await Profile.findOne({ userId: token._id });
+
+      if (!profile) {
+        return res.status(404).json({ message: "Profile does not exist" });
+      } else {
+        const result = eachDayOfInterval({
+          start: new Date(req.body.startDate),
+          end: new Date(req.body.endDate),
+        });
+
+        result.forEach(async (i) => {
+          let day = format(i, "EEEEEE");
+          if (req.body.days.includes(day)) {
+            const newSlot = new Slot({
+              chamberId: req.body.chamberId,
+              time: req.body.time,
+              date: i,
+              doctorId: token._id,
+            });
+
+            await newSlot.save();
+          }
+        });
+        return res.status(200).json({ message: "Slots created" });
+      }
+    } else {
+      return res.status(404).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//PATCH Slot
+router.patch("/slot/:slotId", async (req, res) => {
+  try {
+    const token = await getTokenData(req);
+
+    if (token) {
+      const profile = await Profile.findOne({ userId: token._id });
+
+      if (!profile) {
+        return res.status(404).json({ message: "Profile does not exist" });
+      } else {
+        await Slot.findByIdAndUpdate(req.params.slotId, {
+          $set: req.body,
+        });
+        return res.status(200).json({ message: "Slot updated" });
+      }
+    } else {
+      return res.status(404).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//DELETE
+router.delete("/slot/:slotId", async (req, res) => {
+  try {
+    const token = await getTokenData(req);
+
+    if (token) {
+      const profile = await Profile.findOne({ userId: token._id });
+
+      if (!profile) {
+        return res.status(404).json({ message: "Profile does not exist" });
+      } else {
+        await Slot.findByIdAndDelete(req.params.slotId);
+        return res.status(200).json({ message: "Slot deleted" });
+      }
+    } else {
+      return res.status(404).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// ---------------Bookings---------------
+
+//PATCH BookingStatus
+router.patch("/booking/:bookingId", async (req, res) => {
+  try {
+    const token = await getTokenData(req);
+
+    if (token) {
+      const profile = await Profile.findOne({ userId: token._id });
+
+      if (!profile) {
+        return res.status(404).json({ message: "Profile does not exist" });
+      } else {
+        await Booking.findByIdAndUpdate(req.params.bookingId, {
+          status: req.body.status,
+        });
+        return res.status(200).json({ message: "Booking updated" });
+      }
+    } else {
+      return res.status(404).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//GET Bookings By SlotId
+router.get("/booking/:slotId", async (req, res) => {
+  try {
+    const token = await getTokenData(req);
+
+    if (token) {
+      const profile = await Profile.findOne({ userId: token._id });
+
+      if (!profile) {
+        return res.status(404).json({ message: "Profile does not exist" });
+      } else {
+        const allbookings = await Booking.find({
+          slotId: req.params.slotId,
+        });
+        return res.status(200).json(allbookings);
       }
     } else {
       return res.status(404).json({ message: "Invalid token" });

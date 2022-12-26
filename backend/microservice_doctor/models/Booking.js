@@ -10,6 +10,10 @@ const BookingSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       required: true,
     },
+    status: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
