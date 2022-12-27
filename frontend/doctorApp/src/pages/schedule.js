@@ -32,7 +32,10 @@ function FocusAwareStatusBar(props) {
 
 const Schedule = () => {
   const [month, setMonth] = useState(new Date());
-  const [dates, setDates] = useState({});
+  const [dates, setDates] = useState({
+    start: startOfMonth(month),
+    end: endOfMonth(month),
+  });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
