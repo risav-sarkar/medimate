@@ -14,6 +14,7 @@ import Profile from './pages/TabNavigatorPages/profile';
 import SplashScreen from './pages/splashscreen';
 import Error from './pages/error';
 import TabBarIcon from './components/tabBarIcon';
+import Schedule from './pages/schedule';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -85,6 +86,7 @@ const NavigatorContainer = () => {
           profile ? (
             <>
               <Stack.Screen name="MainScreen" component={MainScreen} />
+              <Stack.Screen name="Schedule" component={Schedule} />
             </>
           ) : (
             <>

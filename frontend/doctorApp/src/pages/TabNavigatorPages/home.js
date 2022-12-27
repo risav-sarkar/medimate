@@ -62,7 +62,10 @@ const Home = ({navigation}) => {
             <Text style={styles.headerText2}>Good Morning</Text>
           </View>
 
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Profile');
+            }}>
             <FontAwesomeIcon icon={faCircleUser} color={'#fff'} size={40} />
           </TouchableOpacity>
         </View>
@@ -140,15 +143,20 @@ const Home = ({navigation}) => {
               paddingVertical: 8,
               alignItems: 'center',
               ...shadow,
+            }}
+            onPress={() => {
+              navigation.navigate('Schedule');
             }}>
             <Text style={{...fontRegular, fontSize: 14}}>View Schedule</Text>
           </TouchableOpacity>
         </View>
 
-        <SlotCard />
-        <SlotCard />
-        <SlotCard />
-        <SlotCard />
+        <View style={{paddingHorizontal: 5}}>
+          <SlotCard />
+          <SlotCard />
+          <SlotCard />
+          <SlotCard />
+        </View>
       </View>
     </ScrollView>
   );

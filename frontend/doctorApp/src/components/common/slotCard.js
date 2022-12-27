@@ -11,15 +11,11 @@ import React, {useContext, useEffect, useState} from 'react';
 import {
   backgroundColor1,
   backgroundColor2,
-  chamberColor,
   dark1,
   fontBold,
   fontMedium,
-  fontRegular,
-  fontSemiBold,
   patientColor,
   shadow,
-  slotColor,
 } from '../../globalStyle';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faClock, faUserGroup} from '@fortawesome/free-solid-svg-icons';
@@ -27,7 +23,7 @@ import {faClock, faUserGroup} from '@fortawesome/free-solid-svg-icons';
 const SlotCard = ({isShadow}) => {
   return (
     <View style={styles.container}>
-      <View
+      <TouchableOpacity
         style={[
           styles.content,
           isShadow ? {...shadow, backgroundColor: backgroundColor1} : null,
@@ -53,7 +49,7 @@ const SlotCard = ({isShadow}) => {
                 alignItems: 'center',
                 marginBottom: 15,
               }}>
-              <FontAwesomeIcon icon={faClock} color={dark1} />
+              <FontAwesomeIcon icon={faClock} color={dark1} size={14} />
               <Text
                 style={{...fontMedium, fontSize: 14, marginLeft: 8}}
                 numberOfLines={1}>
@@ -86,13 +82,13 @@ const SlotCard = ({isShadow}) => {
             </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {paddingHorizontal: 15, paddingVertical: 10},
+  container: {paddingHorizontal: 5, paddingVertical: 10},
   content: {
     borderRadius: 15,
     backgroundColor: backgroundColor1,

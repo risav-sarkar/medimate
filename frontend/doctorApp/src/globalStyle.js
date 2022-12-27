@@ -26,4 +26,4 @@ export const fontRegular = {fontFamily: 'Nunito-Regular'};
 export const fontSemiBold = {fontFamily: 'Nunito-SemiBold'};
 export const fontBold = {fontFamily: 'Nunito-Bold'};
 export const fontMedium = {fontFamily: 'Nunito-Medium'};
-export const fontBlack = {fontFamily: 'Nunito-Black'};
+export const fontLight = {fontFamily: 'Nunito-Light'};
