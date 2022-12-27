@@ -17,7 +17,7 @@ function FocusAwareStatusBar(props) {
   return isFocused ? <StatusBar {...props} /> : null;
 }
 
-const Tab4 = ({navigation}) => {
+const Chamber = ({navigation}) => {
   const {token, dispatch} = useContext(AuthContext);
 
   return (
@@ -37,4 +37,4 @@ const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: backgroundColor1},
 });
 
-export default Tab4;
+export default Chamber;

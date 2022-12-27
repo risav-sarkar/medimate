@@ -1,20 +1,19 @@
 import React, {useContext} from 'react';
 
-import {AuthContext} from './src/context/AuthContext';
+import {AuthContext} from './context/AuthContext';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 //Tab Navigator Pages
-import Home from './src/pages/TabNavigatorPages/home';
-import Tab2 from './src/pages/TabNavigatorPages/tab2';
-import Tab3 from './src/pages/TabNavigatorPages/tab3';
-import Tab4 from './src/pages/TabNavigatorPages/tab4';
+import Home from './pages/TabNavigatorPages/home';
+import Chamber from './pages/TabNavigatorPages/chamber';
+import Profile from './pages/TabNavigatorPages/profile';
 
-import SplashScreen from './src/pages/splashscreen';
-import Error from './src/pages/error';
-import TabBarIcon from './src/components/tabBarIcon';
+import SplashScreen from './pages/splashscreen';
+import Error from './pages/error';
+import TabBarIcon from './components/tabBarIcon';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -46,28 +45,18 @@ const MainScreen = () => {
       />
 
       <Tab.Screen
-        name="Tab2"
-        component={Tab2}
+        name="Chamber"
+        component={Chamber}
         options={{
           tabBarIcon: ({focused}) => (
-            <TabBarIcon focused={focused} type={'Schedule'} />
+            <TabBarIcon focused={focused} type={'Chamber'} />
           ),
         }}
       />
 
       <Tab.Screen
-        name="Tab3"
-        component={Tab3}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <TabBarIcon focused={focused} type={'Analytics'} />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Tab4"
-        component={Tab4}
+        name="Profile"
+        component={Profile}
         options={{
           tabBarIcon: ({focused}) => (
             <TabBarIcon focused={focused} type={'Profile'} />

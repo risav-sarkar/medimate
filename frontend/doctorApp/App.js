@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import NavigatorContainer from './NavigatorContainer';
+import NavigatorContainer from './src/NavigatorContainer';
 import {AuthContextProvider} from './src/context/AuthContext';
 import {ToastProvider} from 'react-native-toast-notifications';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';

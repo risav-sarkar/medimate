@@ -51,7 +51,7 @@ const AuthReducer = (state, action) => {
         profile: null,
         isFetching: false,
         isLoading: false,
-        error: null,
+        error: false,
       };
     default:
       return state;

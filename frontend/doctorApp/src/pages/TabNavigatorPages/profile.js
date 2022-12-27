@@ -17,7 +17,7 @@ function FocusAwareStatusBar(props) {
   return isFocused ? <StatusBar {...props} /> : null;
 }
 
-const Tab2 = ({navigation}) => {
+const Profile = ({navigation}) => {
   const {token, dispatch} = useContext(AuthContext);
 
   return (
@@ -37,4 +37,4 @@ const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: backgroundColor1},
 });
 
-export default Tab2;
+export default Profile;
