@@ -30,6 +30,8 @@ import {
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
 
+import SlotCard from '../../components/common/slotCard';
+
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
   return isFocused ? <StatusBar {...props} /> : null;
@@ -64,6 +66,7 @@ const Home = ({navigation}) => {
             <FontAwesomeIcon icon={faCircleUser} color={'#fff'} size={40} />
           </TouchableOpacity>
         </View>
+
         <View
           style={{
             backgroundColor: dark1,
@@ -141,6 +144,11 @@ const Home = ({navigation}) => {
             <Text style={{...fontRegular, fontSize: 14}}>View Schedule</Text>
           </TouchableOpacity>
         </View>
+
+        <SlotCard />
+        <SlotCard />
+        <SlotCard />
+        <SlotCard />
       </View>
     </ScrollView>
   );
@@ -159,7 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff33',
     alignSelf: 'center',
   },
-  headerText1: {color: '#bac3cf', fontSize: 26, ...fontBold},
+  headerText1: {color: '#d1e2f6', fontSize: 26, ...fontBold},
   headerText2: {
     color: '#fff',
     fontSize: 20,
