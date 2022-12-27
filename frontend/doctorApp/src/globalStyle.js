@@ -1,4 +1,4 @@
-export const color1 = '#143159';
+export const color1 = '#d1e2f6';
 export const color1_light = '#143159';
 
 export const dark1 = '#3b3b3b';
@@ -19,7 +19,7 @@ export const shadow = {
   shadowOpacity: 0.23,
   shadowRadius: 2.62,
 
-  elevation: 4,
+  elevation: 5,
 };
 
 export const fontRegular = {fontFamily: 'Nunito-Regular'};

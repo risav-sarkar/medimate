@@ -10,7 +10,22 @@ import React, {useContext, useEffect, useState} from 'react';
 import {AuthContext} from '../../context/AuthContext';
 
 import {useIsFocused} from '@react-navigation/native';
-import {backgroundColor1} from '../../globalStyle';
+import {
+  backgroundColor1,
+  color1,
+  dark1,
+  fontBold,
+  fontSemiBold,
+  shadow,
+} from '../../globalStyle';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {
+  faAngleRight,
+  faGear,
+  faPenToSquare,
+  faRightFromBracket,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -29,12 +44,137 @@ const Profile = ({navigation}) => {
         barStyle="dark-content"
         backgroundColor={backgroundColor1}
       />
+      <Text
+        style={{
+          ...fontSemiBold,
+          fontSize: 18,
+          textAlign: 'center',
+          paddingTop: 30,
+          paddingBottom: 20,
+        }}>
+        Profile
+      </Text>
+      <View style={{alignItems: 'center', padding: 20}}>
+        <View style={styles.imageContainer}>
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              right: 0,
+              borderRadius: 500,
+              backgroundColor: '#fff',
+              padding: 8,
+              borderWidth: 2,
+              ...shadow,
+            }}>
+            <FontAwesomeIcon icon={faPenToSquare} color={dark1} />
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View
+        style={{
+          paddingHorizontal: 20,
+          alignItems: 'center',
+          paddingVertical: 10,
+        }}>
+        <Text style={{...fontBold, fontSize: 22, textAlign: 'center'}}>
+          Dr. A Roy
+        </Text>
+
+        <Text
+          style={{
+            ...fontSemiBold,
+            fontSize: 14,
+            color: '#00000099',
+            textAlign: 'center',
+          }}>
+          MBBS, MD, Cardiologist
+        </Text>
+      </View>
+
+      <View style={{paddingTop: 40}}>
+        <View style={styles.btnContainer}>
+          <TouchableOpacity style={styles.btn}>
+            <View style={styles.btnContent}>
+              <View style={styles.btnIconContainer}>
+                <FontAwesomeIcon icon={faUser} color={dark1} size={20} />
+              </View>
+              <Text style={styles.btnText}>Edit Profile</Text>
+            </View>
+
+            <FontAwesomeIcon icon={faAngleRight} color={dark1} size={20} />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.btnContainer}>
+          <TouchableOpacity style={styles.btn}>
+            <View style={styles.btnContent}>
+              <View style={styles.btnIconContainer}>
+                <FontAwesomeIcon icon={faGear} color={dark1} size={20} />
+              </View>
+              <Text style={styles.btnText}>Settings</Text>
+            </View>
+
+            <FontAwesomeIcon icon={faAngleRight} color={dark1} size={20} />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.btnContainer}>
+          <TouchableOpacity style={styles.btn}>
+            <View style={styles.btnContent}>
+              <View
+                style={[
+                  styles.btnIconContainer,
+                  {backgroundColor: '#ff00006b'},
+                ]}>
+                <FontAwesomeIcon
+                  icon={faRightFromBracket}
+                  color={dark1}
+                  size={20}
+                />
+              </View>
+              <Text style={styles.btnText}>Logout</Text>
+            </View>
+
+            <FontAwesomeIcon icon={faAngleRight} color={dark1} size={20} />
+          </TouchableOpacity>
+        </View>
+      </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: backgroundColor1},
+  imageContainer: {
+    height: 140,
+    width: 140,
+    backgroundColor: dark1,
+    borderRadius: 500,
+    shadowColor: color1,
+    elevation: 50,
+    borderWidth: 5,
+    borderColor: color1,
+  },
+  btnContainer: {paddingHorizontal: 20, paddingTop: 2, paddingBottom: 12},
+  btn: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 5,
+    paddingRight: 15,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    ...shadow,
+  },
+  btnContent: {flexDirection: 'row', alignItems: 'center'},
+  btnIconContainer: {
+    padding: 12,
+    borderRadius: 5,
+    marginRight: 10,
+    backgroundColor: color1,
+  },
+  btnText: {...fontSemiBold, fontSize: 16},
 });
 
 export default Profile;
