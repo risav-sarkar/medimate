@@ -14,6 +14,7 @@ import {
   backgroundColor1,
   backgroundColor2,
   chamberColor,
+  color1,
   dark1,
   fontBold,
   fontRegular,
@@ -24,6 +25,7 @@ import {
 } from '../../globalStyle';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
+  faCheckToSlot,
   faCircleUser,
   faHourglass,
   faHouseMedical,
@@ -95,7 +97,7 @@ const Home = ({navigation}) => {
 
           <View style={styles.boxContainer}>
             <View style={styles.boxheaderContainer}>
-              <FontAwesomeIcon icon={faHourglass} color={slotColor} />
+              <FontAwesomeIcon icon={faCheckToSlot} color={slotColor} />
               <Text style={styles.boxheaderText} numberOfLines={1}>
                 Slots
               </Text>
@@ -175,7 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff33',
     alignSelf: 'center',
   },
-  headerText1: {color: '#d1e2f6', fontSize: 26, ...fontBold},
+  headerText1: {color: color1, fontSize: 26, ...fontBold},
   headerText2: {
     color: '#fff',
     fontSize: 20,

@@ -15,6 +15,8 @@ import SplashScreen from './pages/splashscreen';
 import Error from './pages/error';
 import TabBarIcon from './components/tabBarIcon';
 import Schedule from './pages/schedule';
+import ChamberCreate from './pages/chamberCreate';
+import ChamberView from './pages/chamberView';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -34,6 +36,7 @@ const MainScreen = () => {
           elevation: 0,
           backgroundColor: '#fff',
         },
+        tabBarHideOnKeyboard: true,
       })}>
       <Tab.Screen
         name="Home"
@@ -87,6 +90,9 @@ const NavigatorContainer = () => {
             <>
               <Stack.Screen name="MainScreen" component={MainScreen} />
               <Stack.Screen name="Schedule" component={Schedule} />
+              <Stack.Screen name="ChamberCreate" component={ChamberCreate} />
+              <Stack.Screen name="ChamberEdit" component={ChamberCreate} />
+              <Stack.Screen name="ChamberView" component={ChamberView} />
             </>
           ) : (
             <>

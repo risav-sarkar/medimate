@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
-import {color1} from '../globalStyle';
+import {color1} from '../../globalStyle';
 
 const Tabbar = ({tabBtns, selectFunc, currIndex}) => {
   return (

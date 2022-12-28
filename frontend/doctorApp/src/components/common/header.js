@@ -47,7 +47,7 @@ const Header = ({name}) => {
             navigation.goBack();
           }}
           style={{
-            padding: 5,
+            padding: 10,
           }}>
           <FontAwesomeIcon icon={faAngleLeft} color={'#fff'} size={20} />
         </TouchableOpacity>
