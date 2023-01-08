@@ -17,6 +17,7 @@ import TabBarIcon from './components/tabBarIcon';
 import Schedule from './pages/schedule';
 import ChamberCreate from './pages/chamberCreate';
 import ChamberView from './pages/chamberView';
+import SlotCreate from './pages/slotCreate';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -93,6 +94,8 @@ const NavigatorContainer = () => {
               <Stack.Screen name="ChamberCreate" component={ChamberCreate} />
               <Stack.Screen name="ChamberEdit" component={ChamberCreate} />
               <Stack.Screen name="ChamberView" component={ChamberView} />
+              <Stack.Screen name="SlotCreate" component={SlotCreate} />
+              <Stack.Screen name="SlotEdit" component={SlotCreate} />
             </>
           ) : (
             <>

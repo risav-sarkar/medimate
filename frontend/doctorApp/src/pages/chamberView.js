@@ -74,7 +74,11 @@ const ChamberView = ({navigation}) => {
         </View>
 
         <View style={styles.heroBtnContainer}>
-          <TouchableOpacity style={styles.heroBtn}>
+          <TouchableOpacity
+            style={styles.heroBtn}
+            onPress={() => {
+              navigation.navigate('SlotCreate');
+            }}>
             <FontAwesomeIcon icon={faCheckToSlot} color={slotColor} />
             <Text style={styles.heroBtnText} numberOfLines={1}>
               Create Slot

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
-import {color1} from '../../globalStyle';
+import {dark1} from '../../globalStyle';
 
 const Tabbar = ({tabBtns, selectFunc, currIndex}) => {
   return (
@@ -19,7 +19,7 @@ const Tabbar = ({tabBtns, selectFunc, currIndex}) => {
               onPress={() => {
                 selectFunc(e.index);
               }}>
-              <Text style={{color: currIndex === e.index ? color1 : '#fff'}}>
+              <Text style={{color: currIndex === e.index ? dark1 : '#fff'}}>
                 {e.name}
               </Text>
             </TouchableOpacity>
@@ -35,13 +35,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 8,
     paddingTop: 5,
   },
   tabBtnContainer: {
     flex: 1,
-    paddingHorizontal: 8,
-    paddingBottom: 15,
   },
   tabBtn: {
     width: '100%',
