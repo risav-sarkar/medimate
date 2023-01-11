@@ -31,7 +31,9 @@ import Header from '../components/common/header';
 import Tabbar from '../components/common/tabbar';
 import PagerView from 'react-native-pager-view';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import {format, setDay} from 'date-fns';
+import {format, isBefore, setDay} from 'date-fns';
+import {useToast} from 'react-native-toast-notifications';
+import {ToastError, ToastSuccess} from '../components/toastFunction';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -39,6 +41,7 @@ function FocusAwareStatusBar(props) {
 }
 
 const SlotCreate = ({navigation}) => {
+  const toast = useToast();
   const route = useRoute();
   const ref = useRef(PagerView);
   const [index, setIndex] = useState(0);
@@ -58,8 +61,53 @@ const SlotCreate = ({navigation}) => {
   const [slotEndDatePicker, setSlotEndDatePicker] = useState(false);
 
   const dayList = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-  console.log(days);
-  const HandleSubmit = () => {};
+
+  const HandleSingleSubmit = () => {
+    if (slot.time.start === '-' || slot.time.end === '-') {
+      ToastError(toast, 'Select timings for the slot');
+      return;
+    } else if (!isBefore(slot.time.start, slot.time.end)) {
+      ToastError(toast, 'Start time should be less than end time');
+      return;
+    }
+
+    if (slot.date === '-') {
+      ToastError(toast, 'Select date for the slot');
+      return;
+    }
+
+    console.log({...slot});
+  };
+
+  const HandleMultipleSubmit = () => {
+    if (slot.time.start === '-' || slot.time.end === '-') {
+      ToastError(toast, 'Select timings for the slot');
+      return;
+    } else if (!isBefore(slot.time.start, slot.time.end)) {
+      ToastError(toast, 'Start time should be less than end time');
+      return;
+    }
+
+    if (dateRange.startDate === '-' || dateRange.endDate === '-') {
+      ToastError(toast, 'Select date range for the slot');
+      return;
+    } else if (!isBefore(dateRange.startDate, dateRange.endDate)) {
+      ToastError(toast, 'Start date should be less than end date');
+      return;
+    }
+
+    if (!days.length) {
+      ToastError(toast, 'Select days');
+      return;
+    }
+
+    console.log({
+      chamberId: slot.chamberId,
+      time: slot.time,
+      ...dateRange,
+      days: days,
+    });
+  };
 
   return (
     <ScrollView
@@ -186,7 +234,7 @@ const SlotCreate = ({navigation}) => {
             <View style={{paddingHorizontal: 7.5, paddingTop: 20}}>
               <TouchableOpacity
                 style={styles.submitBtn}
-                onPress={() => HandleSubmit()}>
+                onPress={() => HandleSingleSubmit()}>
                 <Text style={{color: '#fff', ...fontBold, fontSize: 16}}>
                   Submit
                 </Text>
@@ -301,7 +349,7 @@ const SlotCreate = ({navigation}) => {
             <View style={{paddingHorizontal: 7.5, paddingTop: 20}}>
               <TouchableOpacity
                 style={styles.submitBtn}
-                onPress={() => HandleSubmit()}>
+                onPress={() => HandleMultipleSubmit()}>
                 <Text style={{color: '#fff', ...fontBold, fontSize: 16}}>
                   Submit
                 </Text>

@@ -11,7 +11,7 @@ export const backgroundColor1 = '#f7f7f7';
 export const backgroundColor2 = '#212121';
 
 export const shadow = {
-  shadowColor: '#3b3b3b',
+  shadowColor: '#000000',
   shadowOffset: {
     width: 0,
     height: 2,
@@ -19,7 +19,7 @@ export const shadow = {
   shadowOpacity: 0.23,
   shadowRadius: 2.62,
 
-  elevation: 5,
+  elevation: 6,
 };
 
 export const fontRegular = {fontFamily: 'Nunito-Regular'};

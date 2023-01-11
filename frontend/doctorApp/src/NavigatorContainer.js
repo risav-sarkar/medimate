@@ -18,6 +18,8 @@ import Schedule from './pages/schedule';
 import ChamberCreate from './pages/chamberCreate';
 import ChamberView from './pages/chamberView';
 import SlotCreate from './pages/slotCreate';
+import StartUp from './pages/Auth/startup';
+import Auth from './pages/Auth/auth';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -105,8 +107,9 @@ const NavigatorContainer = () => {
           )
         ) : (
           <>
-            <Stack.Screen name="MainScreen" component={MainScreen} />
-            {/* Login Pages*/}
+            <Stack.Screen name="StartUp" component={StartUp} />
+            <Stack.Screen name="Login" component={Auth} />
+            <Stack.Screen name="Signup" component={Auth} />
           </>
         )}
       </Stack.Navigator>
