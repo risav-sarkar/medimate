@@ -20,6 +20,7 @@ import ChamberView from './pages/chamberView';
 import SlotCreate from './pages/slotCreate';
 import StartUp from './pages/Auth/startup';
 import Auth from './pages/Auth/auth';
+import SlotView from './pages/slotView';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -98,6 +99,7 @@ const NavigatorContainer = () => {
               <Stack.Screen name="ChamberView" component={ChamberView} />
               <Stack.Screen name="SlotCreate" component={SlotCreate} />
               <Stack.Screen name="SlotEdit" component={SlotCreate} />
+              <Stack.Screen name="SlotView" component={SlotView} />
             </>
           ) : (
             <>

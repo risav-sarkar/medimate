@@ -19,15 +19,20 @@ import {
 } from '../../globalStyle';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faClock, faUserGroup} from '@fortawesome/free-solid-svg-icons';
+import {useNavigation} from '@react-navigation/native';
 
 const SlotCard = ({isShadow}) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={[
           styles.content,
           isShadow ? {...shadow, backgroundColor: backgroundColor1} : null,
-        ]}>
+        ]}
+        onPress={() => {
+          navigation.navigate('SlotView');
+        }}>
         <View style={styles.imageContainer}>
           <View
             style={{
