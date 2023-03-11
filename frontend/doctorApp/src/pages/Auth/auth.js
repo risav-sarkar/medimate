@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 
@@ -21,6 +22,11 @@ import {
 } from '../../globalStyle';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faGoogle} from '@fortawesome/free-brands-svg-icons';
+import Input from '../../components/common/input';
+import {AuthContext} from '../../context/AuthContext';
+import {ToastError, ToastSuccess} from '../../components/toastFunction';
+import {useToast} from 'react-native-toast-notifications';
+import {userLogin, userRegister} from '../../apiCalls';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -28,10 +34,24 @@ function FocusAwareStatusBar(props) {
 }
 
 const Auth = ({navigation, route}) => {
+  const toast = useToast();
+  const {isLoading, dispatch} = useContext(AuthContext);
   const [form, setForm] = useState({email: '', password: ''});
-  console.log(route);
+  console.log(form);
 
-  const HandleSubmit = () => {};
+  const HandleSubmit = () => {
+    if (!form.email) {
+      ToastError(toast, 'Enter Email');
+      return;
+    }
+    if (!form.password) {
+      ToastError(toast, 'Enter Password');
+      return;
+    }
+    if (route.name === 'Login') {
+      userLogin(form, toast, dispatch);
+    } else userRegister(form, toast, dispatch);
+  };
 
   return (
     <View style={styles.container}>
@@ -67,29 +87,25 @@ const Auth = ({navigation, route}) => {
 
         <ScrollView style={styles.auth} contentContainerStyle={{flexGrow: 1}}>
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-              autoCorrect={false}
-              style={[styles.inputStyle]}
-              placeholder={'abc@gmail.com'}
+            <Input
+              label={'Email'}
               value={form.email}
-              onChangeText={e => {
+              placeholder={'abc@gmail.com'}
+              handleOnChange={e => {
                 setForm({...form, email: e});
               }}
-              placeholderTextColor={'#adadad'}
+              autoCapitalize="none"
             />
 
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-              autoCorrect={false}
-              style={[styles.inputStyle]}
-              placeholder={'ah#%53'}
+            <Input
+              label={'Password'}
               value={form.password}
-              onChangeText={e => {
+              placeholder={'ah#%53'}
+              handleOnChange={e => {
                 setForm({...form, password: e});
               }}
-              placeholderTextColor={'#adadad'}
               secureTextEntry={true}
+              autoCapitalize="none"
             />
           </View>
 
@@ -119,9 +135,13 @@ const Auth = ({navigation, route}) => {
               onPress={() => {
                 HandleSubmit();
               }}>
-              <Text style={{color: '#fff', ...fontSemiBold, fontSize: 16}}>
-                {route.name === 'Login' ? 'Login' : 'Signup'}
-              </Text>
+              {isLoading ? (
+                <ActivityIndicator color={'#fff'} />
+              ) : (
+                <Text style={{color: '#fff', ...fontSemiBold, fontSize: 16}}>
+                  {route.name === 'Login' ? 'Login' : 'Signup'}
+                </Text>
+              )}
             </TouchableOpacity>
           </View>
 

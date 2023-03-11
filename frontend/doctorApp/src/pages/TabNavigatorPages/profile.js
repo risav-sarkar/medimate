@@ -26,6 +26,7 @@ import {
   faRightFromBracket,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
+import {signOutUser} from '../../apiCalls';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -120,7 +121,11 @@ const Profile = ({navigation}) => {
         </View>
 
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => {
+              signOutUser(dispatch);
+            }}>
             <View style={styles.btnContent}>
               <View
                 style={[

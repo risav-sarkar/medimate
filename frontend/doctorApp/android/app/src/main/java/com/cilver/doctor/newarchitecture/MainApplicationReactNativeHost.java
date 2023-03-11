@@ -1,4 +1,4 @@
-package com.h4u_doctor.newarchitecture;
+package com.cilver.doctor.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.h4u_doctor.BuildConfig;
-import com.h4u_doctor.newarchitecture.components.MainComponentsRegistry;
-import com.h4u_doctor.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.cilver.doctor.BuildConfig;
+import com.cilver.doctor.newarchitecture.components.MainComponentsRegistry;
+import com.cilver.doctor.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

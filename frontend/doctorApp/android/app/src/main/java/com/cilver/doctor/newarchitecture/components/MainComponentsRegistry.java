@@ -1,4 +1,4 @@
-package com.h4u_doctor.newarchitecture.components;
+package com.cilver.doctor.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

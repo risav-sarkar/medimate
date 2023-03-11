@@ -1,4 +1,4 @@
-package com.h4u_doctor;
+package com.cilver.doctor;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -13,7 +13,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "h4u_doctor";
+    return "Cilver Doctor";
   }
 
   /**

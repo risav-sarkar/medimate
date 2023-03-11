@@ -17,6 +17,7 @@ const AuthReducer = (state, action) => {
       return {
         ...state,
         token: null,
+        profile: null,
         isFetching: false,
       };
     case 'FETCH_USER_ERROR':
@@ -28,6 +29,7 @@ const AuthReducer = (state, action) => {
       return {
         ...state,
         token: null,
+        profile: null,
         isLoading: true,
       };
     case 'LOGIN_USER_SUCCESS':
