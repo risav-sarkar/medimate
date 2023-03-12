@@ -120,9 +120,7 @@ const SlotCreate = ({navigation}) => {
       />
 
       <View style={styles.header}>
-        <Header
-          name={route.name === 'SlotCreate' ? 'Create Slot' : 'Edit Slot'}
-        />
+        <Header name={'Create Slot'} />
 
         <View style={{marginTop: 20}}>
           <Tabbar

@@ -27,6 +27,7 @@ import {AuthContext} from '../../context/AuthContext';
 import {ToastError, ToastSuccess} from '../../components/toastFunction';
 import {useToast} from 'react-native-toast-notifications';
 import {userLogin, userRegister} from '../../apiCalls';
+import ActionButton from '../../components/common/actionButton';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -37,7 +38,6 @@ const Auth = ({navigation, route}) => {
   const toast = useToast();
   const {isLoading, dispatch} = useContext(AuthContext);
   const [form, setForm] = useState({email: '', password: ''});
-  console.log(form);
 
   const HandleSubmit = () => {
     if (!form.email) {
@@ -121,28 +121,11 @@ const Auth = ({navigation, route}) => {
           ) : null}
 
           <View style={{padding: 15}}>
-            <TouchableOpacity
-              style={[
-                {
-                  backgroundColor: dark1,
-                  borderRadius: 15,
-                  padding: 15,
-                  alignItems: 'center',
-                  marginTop: 15,
-                },
-                shadow,
-              ]}
-              onPress={() => {
-                HandleSubmit();
-              }}>
-              {isLoading ? (
-                <ActivityIndicator color={'#fff'} />
-              ) : (
-                <Text style={{color: '#fff', ...fontSemiBold, fontSize: 16}}>
-                  {route.name === 'Login' ? 'Login' : 'Signup'}
-                </Text>
-              )}
-            </TouchableOpacity>
+            <ActionButton
+              loading={isLoading}
+              label={route.name === 'Login' ? 'Login' : 'Signup'}
+              handlePress={HandleSubmit}
+            />
           </View>
 
           <View style={{flex: 1, paddingBottom: 20}}>
@@ -167,7 +150,7 @@ const Auth = ({navigation, route}) => {
                     borderWidth: 1.5,
                     borderColor: dark1,
                     backgroundColor: '#fff',
-                    borderRadius: 15,
+                    borderRadius: 10,
                     padding: 15,
                     paddingLeft: 20,
                     alignItems: 'center',

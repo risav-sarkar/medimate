@@ -29,7 +29,6 @@ const Input = ({label, value, placeholder, handleOnChange, ...props}) => {
 };
 
 const styles = StyleSheet.create({
-  inputContainer: {paddingHorizontal: 20, paddingTop: 20},
   inputStyle: {
     borderBottomWidth: 2,
     borderBottomColor: '#4a4a4a',

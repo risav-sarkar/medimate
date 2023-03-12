@@ -64,6 +64,13 @@ export const userRegister = async (data, toast, dispatch) => {
   }
 };
 
+export const signOutUser = async dispatch => {
+  await AsyncStorage.removeItem('CILVER_TOKEN_DOCTOR');
+  // await GoogleSignin.signOut();
+  dispatch({type: 'USER_SIGNOUT'});
+};
+
+//PROFILE
 export const setProfile = async (token, dispatch) => {
   const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
   try {
@@ -79,8 +86,63 @@ export const setProfile = async (token, dispatch) => {
   }
 };
 
-export const signOutUser = async dispatch => {
-  await AsyncStorage.removeItem('CILVER_TOKEN_DOCTOR');
-  // await GoogleSignin.signOut();
-  dispatch({type: 'USER_SIGNOUT'});
+export const getProfile = async params => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const token = params.queryKey[1];
+  const res = await axios.get(`${DoctorURL}/doctor/profile`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data;
+};
+
+export const postProfile = async (
+  data,
+  setLoading,
+  token,
+  navigation,
+  toast,
+  dispatch,
+) => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  try {
+    const res = await axios.post(`${DoctorURL}/doctor/profile`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    navigation.navigate('MainScreen');
+    await setProfile(token, dispatch);
+  } catch (err) {
+    console.log(err);
+    ToastError(toast, err.response?.data?.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+export const patchProfile = async (
+  data,
+  setLoading,
+  token,
+  navigation,
+  toast,
+  dispatch,
+) => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  try {
+    const res = await axios.patch(`${DoctorURL}/doctor/profile`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    navigation.navigate('Profile');
+    await setProfile(token, dispatch);
+  } catch (err) {
+    console.log(err);
+    ToastError(toast, err.response?.data?.message);
+  } finally {
+    setLoading(false);
+  }
 };

@@ -15,12 +15,14 @@ import SplashScreen from './pages/splashscreen';
 import Error from './pages/error';
 import TabBarIcon from './components/tabBarIcon';
 import Schedule from './pages/schedule';
-import ChamberCreate from './pages/chamberCreate';
+import ChamberCreateEdit from './pages/chamberCreateEdit';
 import ChamberView from './pages/chamberView';
 import SlotCreate from './pages/slotCreate';
+import SlotEdit from './pages/slotEdit';
 import StartUp from './pages/Auth/startup';
 import Auth from './pages/Auth/auth';
 import SlotView from './pages/slotView';
+import ProfileCreateEdit from './pages/profileCreateEdit';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -93,18 +95,24 @@ const NavigatorContainer = () => {
           profile ? (
             <>
               <Stack.Screen name="MainScreen" component={MainScreen} />
+              <Stack.Screen name="ProfileEdit" component={ProfileCreateEdit} />
               <Stack.Screen name="Schedule" component={Schedule} />
-              <Stack.Screen name="ChamberCreate" component={ChamberCreate} />
-              <Stack.Screen name="ChamberEdit" component={ChamberCreate} />
+              <Stack.Screen
+                name="ChamberCreate"
+                component={ChamberCreateEdit}
+              />
+              <Stack.Screen name="ChamberEdit" component={ChamberCreateEdit} />
               <Stack.Screen name="ChamberView" component={ChamberView} />
               <Stack.Screen name="SlotCreate" component={SlotCreate} />
-              <Stack.Screen name="SlotEdit" component={SlotCreate} />
+              <Stack.Screen name="SlotEdit" component={SlotEdit} />
               <Stack.Screen name="SlotView" component={SlotView} />
             </>
           ) : (
             <>
-              <Stack.Screen name="MainScreen" component={MainScreen} />
-              {/* Profile Creation Pages */}
+              <Stack.Screen
+                name="ProfileCreate"
+                component={ProfileCreateEdit}
+              />
             </>
           )
         ) : (

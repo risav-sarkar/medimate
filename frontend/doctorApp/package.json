@@ -27,6 +27,7 @@
     "date-fns": "^2.29.3",
     "react": "18.1.0",
     "react-native": "0.70.6",
+    "react-native-element-dropdown": "^2.8.0",
     "react-native-modal": "^13.0.1",
     "react-native-modal-datetime-picker": "^14.0.1",
     "react-native-pager-view": "^6.1.2",

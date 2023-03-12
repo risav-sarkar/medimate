@@ -62,7 +62,7 @@ const SlotView = ({navigation}) => {
           <TouchableOpacity
             style={styles.heroBtn}
             onPress={() => {
-              navigation.navigate('SlotCreate');
+              navigation.navigate('SlotEdit');
             }}>
             <FontAwesomeIcon icon={faPenToSquare} color={slotColor} />
             <Text style={styles.heroBtnText} numberOfLines={1}>

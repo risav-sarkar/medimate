@@ -33,6 +33,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import SlotCard from '../../components/common/slotCard';
+import {format} from 'date-fns';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -40,7 +41,14 @@ function FocusAwareStatusBar(props) {
 }
 
 const Home = ({navigation}) => {
-  const {token, dispatch} = useContext(AuthContext);
+  const {token, dispatch, profile} = useContext(AuthContext);
+
+  const salutation = [
+    'Good Morning',
+    'Good Afternoon',
+    'Good Evening',
+    'Time to Sleep',
+  ];
 
   return (
     <ScrollView
@@ -60,8 +68,17 @@ const Home = ({navigation}) => {
             paddingVertical: 20,
           }}>
           <View>
-            <Text style={styles.headerText1}>Hello, Snowman</Text>
-            <Text style={styles.headerText2}>Good Morning</Text>
+            <Text
+              style={styles.headerText1}>{`Hello, Dr. ${profile.name}`}</Text>
+            <Text style={styles.headerText2}>
+              {format(new Date(), 'H') >= 6 && format(new Date(), 'H') < 12
+                ? salutation[0]
+                : format(new Date(), 'H') >= 12 && format(new Date(), 'H') <= 17
+                ? salutation[1]
+                : format(new Date(), 'H') > 17 && format(new Date(), 'H') <= 20
+                ? salutation[2]
+                : salutation[3]}
+            </Text>
           </View>
 
           <TouchableOpacity

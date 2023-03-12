@@ -9,7 +9,7 @@ import {
 import React, {useContext, useEffect, useState} from 'react';
 import {AuthContext} from '../../context/AuthContext';
 
-import {useIsFocused} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {
   backgroundColor1,
   color1,
@@ -33,8 +33,9 @@ function FocusAwareStatusBar(props) {
   return isFocused ? <StatusBar {...props} /> : null;
 }
 
-const Profile = ({navigation}) => {
-  const {token, dispatch} = useContext(AuthContext);
+const Profile = () => {
+  const navigation = useNavigation();
+  const {token, dispatch, profile} = useContext(AuthContext);
 
   return (
     <ScrollView
@@ -79,7 +80,7 @@ const Profile = ({navigation}) => {
           paddingVertical: 10,
         }}>
         <Text style={{...fontBold, fontSize: 22, textAlign: 'center'}}>
-          Dr. A Roy
+          {`Dr. ${profile.name}`}
         </Text>
 
         <Text
@@ -89,13 +90,17 @@ const Profile = ({navigation}) => {
             color: '#00000099',
             textAlign: 'center',
           }}>
-          MBBS, MD, Cardiologist
+          {`${profile.qualification} | ${profile.medicalDepartment}`}
         </Text>
       </View>
 
       <View style={{paddingTop: 40}}>
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => {
+              navigation.navigate('ProfileEdit');
+            }}>
             <View style={styles.btnContent}>
               <View style={styles.btnIconContainer}>
                 <FontAwesomeIcon icon={faUser} color={dark1} size={20} />
