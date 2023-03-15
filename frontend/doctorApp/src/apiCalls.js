@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // import auth, {firebase} from '@react-native-firebase/auth';
 import axios from 'axios';
 import NetInfo from '@react-native-community/netinfo';
-import {ToastError} from './components/toastFunction';
+import {ToastError, ToastSuccess} from './components/toastFunction';
 
 //AUTH
 export const fetchUser = async dispatch => {
@@ -20,11 +20,16 @@ export const fetchUser = async dispatch => {
       NetInfo.fetch().then(async state => {
         if (state.isConnected) {
           try {
-            await setProfile(token, dispatch);
+            const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+            const res = await axios.get(`${DoctorURL}/doctor/profile`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            dispatch({type: 'SET_PROFILE', payload: res.data});
             dispatch({type: 'FETCH_USER_FOUND', payload: token});
           } catch (err) {
-            console.log(err);
-            signOutUser(dispatch);
+            dispatch({type: 'FETCH_USER_ERROR'});
           }
         } else {
           dispatch({type: 'FETCH_USER_ERROR'});
@@ -148,10 +153,17 @@ export const patchProfile = async (
 };
 
 //Chamber
-export const getChamber = async params => {
+export const getChambers = async params => {
   const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
   const doctorID = params.queryKey[1];
   const res = await axios.get(`${DoctorURL}/api/chambers/${doctorID}`);
+  return res.data;
+};
+
+export const getChamber = async params => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const chamberID = params.queryKey[1];
+  const res = await axios.get(`${DoctorURL}/api/chamber/${chamberID}`);
   return res.data;
 };
 
@@ -196,7 +208,7 @@ export const patchChamber = async (
         },
       },
     );
-    navigation.navigate('Chamber');
+    navigation.goBack();
   } catch (err) {
     console.log(err);
     ToastError(toast, err.response?.data?.message);
@@ -220,6 +232,55 @@ export const deleteChamber = async (
       },
     });
     navigation.navigate('Chamber');
+  } catch (err) {
+    console.log(err);
+    ToastError(toast, err.response?.data?.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+//Slot
+export const postSingleSlot = async (
+  data,
+  setLoading,
+  token,
+  navigation,
+  toast,
+) => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  try {
+    const res = await axios.post(`${DoctorURL}/doctor/slot`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    navigation.goBack();
+    ToastSuccess(toast, 'Slot Created');
+  } catch (err) {
+    console.log(err);
+    ToastError(toast, err.response?.data?.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+export const postMultipleSlot = async (
+  data,
+  setLoading,
+  token,
+  navigation,
+  toast,
+) => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  try {
+    const res = await axios.post(`${DoctorURL}/doctor/slot/multiple`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    navigation.goBack();
+    ToastSuccess(toast, 'Slots Created');
   } catch (err) {
     console.log(err);
     ToastError(toast, err.response?.data?.message);

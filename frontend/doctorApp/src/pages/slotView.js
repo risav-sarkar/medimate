@@ -32,7 +32,6 @@ import {
   faPenToSquare,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import ScheduleComponent from '../components/common/scheduleComponent';
 import PatientCard from '../components/common/patientCard';
 
 function FocusAwareStatusBar(props) {

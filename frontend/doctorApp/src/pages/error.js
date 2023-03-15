@@ -2,7 +2,7 @@ import {faTriangleExclamation} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import React, {useContext} from 'react';
 import {TouchableOpacity, View, Text} from 'react-native';
-import {fetchUser} from '../apiCalls';
+import {fetchUser, signOutUser} from '../apiCalls';
 import ActionButton from '../components/common/actionButton';
 import FocusAwareStatusBar from '../components/statusBar';
 import {AuthContext} from '../context/AuthContext';
@@ -35,10 +35,19 @@ const Error = () => {
           Something Went Wrong
         </Text>
 
+        <View style={{marginBottom: 10}}>
+          <ActionButton
+            label="Refresh"
+            handlePress={() => {
+              fetchUser(dispatch);
+            }}
+          />
+        </View>
+
         <ActionButton
-          label="Refresh"
+          label="Sign Out"
           handlePress={() => {
-            fetchUser(dispatch);
+            signOutUser(dispatch);
           }}
         />
       </View>

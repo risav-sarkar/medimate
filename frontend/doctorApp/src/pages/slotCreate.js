@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useContext, useEffect, useRef, useState} from 'react';
 
-import {useIsFocused, useRoute} from '@react-navigation/native';
+import {useIsFocused, useNavigation, useRoute} from '@react-navigation/native';
 import {
   backgroundColor1,
   backgroundColor2,
@@ -34,25 +34,30 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import {format, isBefore, setDay} from 'date-fns';
 import {useToast} from 'react-native-toast-notifications';
 import {ToastError, ToastSuccess} from '../components/toastFunction';
+import ActionButton from '../components/common/actionButton';
+import {postMultipleSlot, postSingleSlot} from '../apiCalls';
+import {AuthContext} from '../context/AuthContext';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
   return isFocused ? <StatusBar {...props} /> : null;
 }
 
-const SlotCreate = ({navigation}) => {
+const SlotCreate = () => {
   const toast = useToast();
   const route = useRoute();
+  const navigation = useNavigation();
+  const {token} = useContext(AuthContext);
   const ref = useRef(PagerView);
   const [index, setIndex] = useState(0);
-
   const [slot, setSlot] = useState({
-    chamberId: '',
+    chamberId: route.params.data,
     time: {start: '-', end: '-'},
     date: '-',
   });
   const [days, setDays] = useState([]);
   const [dateRange, setDateRange] = useState({startDate: '-', endDate: '-'});
+  const [loading, setLoading] = useState(false);
 
   const [slotDatePicker, setSlotDatePicker] = useState(false);
   const [slotStartTimePicker, setSlotStartTimePicker] = useState(false);
@@ -76,7 +81,8 @@ const SlotCreate = ({navigation}) => {
       return;
     }
 
-    console.log({...slot});
+    setLoading(true);
+    postSingleSlot({...slot}, setLoading, token, navigation, toast);
   };
 
   const HandleMultipleSubmit = () => {
@@ -101,12 +107,19 @@ const SlotCreate = ({navigation}) => {
       return;
     }
 
-    console.log({
-      chamberId: slot.chamberId,
-      time: slot.time,
-      ...dateRange,
-      days: days,
-    });
+    setLoading(true);
+    postMultipleSlot(
+      {
+        chamberId: slot.chamberId,
+        time: slot.time,
+        ...dateRange,
+        days: days,
+      },
+      setLoading,
+      token,
+      navigation,
+      toast,
+    );
   };
 
   return (
@@ -230,13 +243,11 @@ const SlotCreate = ({navigation}) => {
             </View>
 
             <View style={{paddingHorizontal: 7.5, paddingTop: 20}}>
-              <TouchableOpacity
-                style={styles.submitBtn}
-                onPress={() => HandleSingleSubmit()}>
-                <Text style={{color: '#fff', ...fontBold, fontSize: 16}}>
-                  Submit
-                </Text>
-              </TouchableOpacity>
+              <ActionButton
+                loading={loading}
+                label="Submit"
+                handlePress={() => HandleSingleSubmit()}
+              />
             </View>
           </View>
 
@@ -345,13 +356,11 @@ const SlotCreate = ({navigation}) => {
               })}
             </View>
             <View style={{paddingHorizontal: 7.5, paddingTop: 20}}>
-              <TouchableOpacity
-                style={styles.submitBtn}
-                onPress={() => HandleMultipleSubmit()}>
-                <Text style={{color: '#fff', ...fontBold, fontSize: 16}}>
-                  Submit
-                </Text>
-              </TouchableOpacity>
+              <ActionButton
+                loading={loading}
+                label="Submit"
+                handlePress={() => HandleMultipleSubmit()}
+              />
             </View>
           </View>
         </PagerView>
@@ -438,15 +447,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   mainContent: {paddingHorizontal: 12.5},
-  inputContainer: {paddingHorizontal: 20, marginBottom: 15},
-  label: {...fontSemiBold, fontSize: 16, marginBottom: 8},
-  inputStyle: {
-    borderWidth: 2,
-    borderRadius: 10,
-    borderColor: dark1,
-    paddingHorizontal: 15,
-    color: '#000000',
-  },
   submitBtn: {
     backgroundColor: dark1,
     alignItems: 'center',

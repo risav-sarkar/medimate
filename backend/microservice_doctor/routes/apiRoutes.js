@@ -4,7 +4,7 @@ const Chamber = require("../models/Chamber");
 const Slot = require("../models/Slot");
 const Booking = require("../models/Booking");
 
-//GET AllDoctors
+//GET All Doctors
 router.get("/doctors", async (req, res) => {
   try {
     const allDoctors = await Profile.find();
@@ -14,7 +14,7 @@ router.get("/doctors", async (req, res) => {
   }
 });
 
-//GET ChambersByDoctorId
+//GET Chambers By DoctorId
 router.get("/chambers/:doctorId", async (req, res) => {
   try {
     const allChambers = await Chamber.find({ doctorId: req.params.doctorId });
@@ -24,11 +24,31 @@ router.get("/chambers/:doctorId", async (req, res) => {
   }
 });
 
+//GET Chamber By Id
+router.get("/chamber/:id", async (req, res) => {
+  try {
+    const chamber = await Chamber.findOne({ _id: req.params.id });
+    return res.status(200).json(chamber);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 //GET Slots By ChamberId
-router.get("/slot/:chamberId", async (req, res) => {
+router.get("/slots/:chamberId", async (req, res) => {
   try {
     const allSlots = await Slot.find({ chamberId: req.params.chamberId });
     return res.status(200).json(allSlots);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//GET Slot By Id
+router.get("/slot/:id", async (req, res) => {
+  try {
+    const slot = await Slot.findOne({ _id: req.params.id });
+    return res.status(200).json(slot);
   } catch (err) {
     res.status(500).json(err);
   }

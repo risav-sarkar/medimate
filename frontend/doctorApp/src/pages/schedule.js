@@ -23,7 +23,7 @@ import Header from '../components/common/header';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faAngleLeft, faAngleRight} from '@fortawesome/free-solid-svg-icons';
 import {endOfMonth, format, startOfMonth, addMonths, subMonths} from 'date-fns';
-import ScheduleComponent from '../components/common/scheduleComponent';
+import SlotCard from '../components/common/slotCard';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -99,14 +99,31 @@ const Schedule = () => {
       </View>
 
       <View style={styles.content}>
-        {loading ? (
-          <ActivityIndicator
-            style={{alignItems: 'center', flex: 1}}
-            color={dark1}
-          />
-        ) : (
-          <ScheduleComponent />
-        )}
+        <View style={styles.dateContainer}>
+          <View style={styles.dateContent}>
+            <Text style={{...fontRegular, fontSize: 14, color: '#00000099'}}>
+              Thu
+            </Text>
+            <Text style={{...fontBold, fontSize: 16}}>29</Text>
+          </View>
+
+          <View style={{flex: 1, paddingRight: 10}}>
+            <SlotCard isShadow={true} />
+          </View>
+        </View>
+
+        <View style={styles.dateContainer}>
+          <View style={styles.dateContent}>
+            <Text style={{...fontRegular, fontSize: 14, color: '#00000099'}}>
+              Thu
+            </Text>
+            <Text style={{...fontBold, fontSize: 16}}>29</Text>
+          </View>
+
+          <View style={{flex: 1, paddingRight: 10}}>
+            <SlotCard isShadow={true} />
+          </View>
+        </View>
       </View>
     </ScrollView>
   );
@@ -132,8 +149,16 @@ const styles = StyleSheet.create({
     backgroundColor: backgroundColor1,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
-    paddingTop: 20,
+    paddingTop: 5,
     paddingBottom: 20,
+  },
+  dateContainer: {
+    flexDirection: 'row',
+  },
+  dateContent: {
+    width: 70,
+    alignItems: 'center',
+    paddingVertical: 10,
   },
 });
 

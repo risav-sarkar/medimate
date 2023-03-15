@@ -24,7 +24,7 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHouseMedical, faPlus} from '@fortawesome/free-solid-svg-icons';
 import ChamberCard from '../../components/common/chamberCard';
-import {getChamber} from '../../apiCalls';
+import {getChambers} from '../../apiCalls';
 import {useQuery} from '@tanstack/react-query';
 import LoadingScreen from '../../components/common/loadingScreen';
 import ErrorScreen from '../../components/common/errorScreen';
@@ -38,7 +38,7 @@ const Chamber = () => {
 
   const {isError, isLoading, isRefetching, data, refetch} = useQuery({
     queryKey: [`Chambers`, profile.userId],
-    queryFn: getChamber,
+    queryFn: getChambers,
   });
 
   useEffect(() => {

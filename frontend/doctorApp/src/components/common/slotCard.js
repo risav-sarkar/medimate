@@ -21,7 +21,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faClock, faUserGroup} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 
-const SlotCard = ({isShadow}) => {
+const SlotCard = ({data, isShadow}) => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>

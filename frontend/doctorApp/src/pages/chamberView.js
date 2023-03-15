@@ -29,19 +29,21 @@ import {
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import {endOfMonth, format, startOfMonth, addMonths, subMonths} from 'date-fns';
-import ScheduleComponent from '../components/common/scheduleComponent';
+import ScheduleChamber from '../components/common/scheduleChamber';
 import DeletePanel from '../components/common/deletePanel';
-import {deleteChamber} from '../apiCalls';
+import {deleteChamber, getChamber} from '../apiCalls';
 import {useToast} from 'react-native-toast-notifications';
 import {AuthContext} from '../context/AuthContext';
 import FocusAwareStatusBar from '../components/statusBar';
+import {useQuery} from '@tanstack/react-query';
+import LoadingScreen from '../components/common/loadingScreen';
+import ErrorScreen from '../components/common/errorScreen';
 
 const ChamberView = () => {
   const toast = useToast();
   const route = useRoute();
   const navigation = useNavigation();
   const {token} = useContext(AuthContext);
-  const data = route.params.data;
   const [isPanelActive, setIsPanelActive] = useState(false);
   const [month, setMonth] = useState(new Date());
   const [dates, setDates] = useState({
@@ -49,6 +51,11 @@ const ChamberView = () => {
     end: endOfMonth(month),
   });
   const [loading, setLoading] = useState(false);
+
+  const {isError, isLoading, isRefetching, data, refetch} = useQuery({
+    queryKey: [`Chamber${route.params.data._id}`, route.params.data._id],
+    queryFn: getChamber,
+  });
 
   useEffect(() => {
     setLoading(true);
@@ -59,10 +66,23 @@ const ChamberView = () => {
     setLoading(false);
   }, [month]);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      refetch();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   const HandleDeleteChamber = () => {
     setLoading(true);
     deleteChamber(data._id, setLoading, token, navigation, toast);
   };
+
+  if (isLoading) return <LoadingScreen />;
+  if (isError)
+    return (
+      <ErrorScreen refetch={refetch} loading={isLoading || isRefetching} />
+    );
 
   return (
     <ScrollView
@@ -83,7 +103,7 @@ const ChamberView = () => {
           <TouchableOpacity
             style={styles.heroBtn}
             onPress={() => {
-              navigation.navigate('SlotCreate', {data});
+              navigation.navigate('SlotCreate', {data: route.params.data._id});
             }}>
             <FontAwesomeIcon icon={faCheckToSlot} color={slotColor} />
             <Text style={styles.heroBtnText} numberOfLines={1}>
@@ -151,7 +171,7 @@ const ChamberView = () => {
       </View>
 
       <View style={styles.content}>
-        <ScheduleComponent />
+        <ScheduleChamber />
       </View>
 
       <DeletePanel
@@ -205,7 +225,7 @@ const styles = StyleSheet.create({
     backgroundColor: backgroundColor1,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
-    paddingTop: 20,
+    paddingTop: 10,
     paddingBottom: 20,
   },
 });
