@@ -50,12 +50,45 @@ router.get("/slots/:chamberId", async (req, res) => {
       for (let j = 0; j < arr.length; j++) {
         if (arr[j].date.dateNumber === slotDate.dateNumber) {
           t = t + 1;
-          arr[j].slot.push(allSlots[i]);
+          arr[j].slots.push(allSlots[i]);
           break;
         }
       }
       if (t === 0) {
-        arr.push({ date: { ...slotDate }, slot: [allSlots[i]] });
+        arr.push({ date: { ...slotDate }, slots: [allSlots[i]] });
+      }
+    }
+    return res.status(200).json(arr);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//GET Slots By ChamberId and Month
+router.get("/slots/:chamberId/:date", async (req, res) => {
+  try {
+    const allSlots = await Slot.find({ chamberId: req.params.chamberId });
+    let arr = [];
+    for (let i = 0; i < allSlots.length; i++) {
+      let slotDate = {
+        dateNumber: format(new Date(allSlots[i].date), "YMMdd"),
+        jsDate: allSlots[i].date,
+      };
+      if (
+        slotDate.dateNumber.toString().substring(0, 6) ===
+        req.params.date.toString().substring(0, 6)
+      ) {
+        let t = 0;
+        for (let j = 0; j < arr.length; j++) {
+          if (arr[j].date.dateNumber === slotDate.dateNumber) {
+            t = t + 1;
+            arr[j].slots.push(allSlots[i]);
+            break;
+          }
+        }
+        if (t === 0) {
+          arr.push({ date: { ...slotDate }, slots: [allSlots[i]] });
+        }
       }
     }
     return res.status(200).json(arr);
