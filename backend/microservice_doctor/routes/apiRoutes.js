@@ -3,6 +3,7 @@ const Profile = require("../models/Profile");
 const Chamber = require("../models/Chamber");
 const Slot = require("../models/Slot");
 const Booking = require("../models/Booking");
+const { format } = require("date-fns");
 
 //GET All Doctors
 router.get("/doctors", async (req, res) => {
@@ -38,7 +39,26 @@ router.get("/chamber/:id", async (req, res) => {
 router.get("/slots/:chamberId", async (req, res) => {
   try {
     const allSlots = await Slot.find({ chamberId: req.params.chamberId });
-    return res.status(200).json(allSlots);
+    let arr = [];
+    for (let i = 0; i < allSlots.length; i++) {
+      let slotDate = {
+        dateNumber: format(new Date(allSlots[i].date), "YMMdd"),
+        jsDate: allSlots[i].date,
+      };
+
+      let t = 0;
+      for (let j = 0; j < arr.length; j++) {
+        if (arr[j].date.dateNumber === slotDate.dateNumber) {
+          t = t + 1;
+          arr[j].slot.push(allSlots[i]);
+          break;
+        }
+      }
+      if (t === 0) {
+        arr.push({ date: { ...slotDate }, slot: [allSlots[i]] });
+      }
+    }
+    return res.status(200).json(arr);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -94,4 +114,5 @@ router.get("/booking/:patientId", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 module.exports = router;
