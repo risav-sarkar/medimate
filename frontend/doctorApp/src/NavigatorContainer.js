@@ -79,7 +79,7 @@ const MainScreen = () => {
 
 const NavigatorContainer = () => {
   const {token, profile, isFetching, error} = useContext(AuthContext);
-
+  console.log(token, profile, isFetching, error);
   return (
     <NavigationContainer>
       <Stack.Navigator

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 
-import {useIsFocused, useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   backgroundColor1,
   backgroundColor2,
@@ -24,17 +24,47 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHouseMedical, faPlus} from '@fortawesome/free-solid-svg-icons';
 import Header from '../components/common/header';
+import Input from '../components/common/input';
+import FocusAwareStatusBar from '../components/statusBar';
+import {useQuery} from '@tanstack/react-query';
+import ActionButton from '../components/common/actionButton';
+import {patchChamber, postChamber} from '../apiCalls';
+import {AuthContext} from '../context/AuthContext';
+import {useToast} from 'react-native-toast-notifications';
 
-function FocusAwareStatusBar(props) {
-  const isFocused = useIsFocused();
-  return isFocused ? <StatusBar {...props} /> : null;
-}
-
-const ChamberCreateEdit = ({navigation}) => {
+const ChamberCreateEdit = () => {
+  const toast = useToast();
   const route = useRoute();
-  const [chamber, setChamber] = useState({});
+  const navigation = useNavigation();
+  const {token} = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({
+    name: '',
+    address: '',
+    pincode: '',
+  });
 
-  const HandleSubmit = () => {};
+  useEffect(() => {
+    if (route.name === 'ChamberEdit') {
+      const data = route.params.data;
+      setForm({
+        ...form,
+        name: data.name,
+        address: data.address,
+        pincode: data.pincode,
+        _id: data._id,
+      });
+    }
+  }, [route.params]);
+
+  const HandleSubmit = async () => {
+    setLoading(true);
+    if (route.name === 'ChamberCreate') {
+      await postChamber(form, setLoading, token, navigation, toast);
+    } else {
+      await patchChamber(form, setLoading, token, navigation, toast);
+    }
+  };
 
   return (
     <ScrollView
@@ -57,56 +87,45 @@ const ChamberCreateEdit = ({navigation}) => {
       <View style={styles.content}>
         <View>
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Name</Text>
-            <TextInput
-              autoCorrect={false}
-              style={styles.inputStyle}
+            <Input
+              label={'Name'}
+              value={form.name}
               placeholder={'Hope Clinic'}
-              value={chamber.name}
-              onChangeText={e => {
-                setChamber({...chamber, name: e});
+              handleOnChange={e => {
+                setForm({...form, name: e});
               }}
-              placeholderTextColor={'#adadad'}
             />
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Address</Text>
-            <TextInput
-              autoCorrect={false}
-              style={styles.inputStyle}
+            <Input
+              label={'Address'}
+              value={form.address}
               placeholder={'32/A, Sector 1'}
-              value={chamber.address}
-              onChangeText={e => {
-                setChamber({...chamber, address: e});
+              handleOnChange={e => {
+                setForm({...form, address: e});
               }}
-              placeholderTextColor={'#adadad'}
             />
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Pincode</Text>
-            <TextInput
-              autoCorrect={false}
-              style={styles.inputStyle}
+            <Input
+              label={'Pincode'}
+              value={form.pincode}
               placeholder={'110001'}
-              value={chamber.pincode}
-              onChangeText={e => {
-                setChamber({...chamber, pincode: e});
+              handleOnChange={e => {
+                setForm({...form, pincode: e});
               }}
-              placeholderTextColor={'#adadad'}
               keyboardType="numeric"
             />
           </View>
 
           <View style={{paddingHorizontal: 20}}>
-            <TouchableOpacity
-              style={styles.submitBtn}
-              onPress={() => HandleSubmit()}>
-              <Text style={{color: '#fff', ...fontBold, fontSize: 16}}>
-                Submit
-              </Text>
-            </TouchableOpacity>
+            <ActionButton
+              label="Submit"
+              loading={loading}
+              handlePress={() => HandleSubmit()}
+            />
           </View>
         </View>
       </View>
@@ -129,23 +148,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   inputContainer: {paddingHorizontal: 20, marginBottom: 15},
-  inputStyle: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#4a4a4a',
-    borderRadius: 3,
-    paddingVertical: 5,
-    marginBottom: 15,
-    fontSize: 16,
-    ...fontSemiBold,
-    color: '#000000',
-  },
-  label: {...fontBold, fontSize: 16, color: '#6d6d6d'},
-  submitBtn: {
-    backgroundColor: dark1,
-    alignItems: 'center',
-    paddingVertical: 15,
-    borderRadius: 10,
-  },
 });
 
 export default ChamberCreateEdit;

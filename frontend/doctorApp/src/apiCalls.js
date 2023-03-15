@@ -146,3 +146,84 @@ export const patchProfile = async (
     setLoading(false);
   }
 };
+
+//Chamber
+export const getChamber = async params => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const doctorID = params.queryKey[1];
+  const res = await axios.get(`${DoctorURL}/api/chambers/${doctorID}`);
+  return res.data;
+};
+
+export const postChamber = async (
+  data,
+  setLoading,
+  token,
+  navigation,
+  toast,
+) => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  try {
+    const res = await axios.post(`${DoctorURL}/doctor/chamber`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    navigation.navigate('Chamber');
+  } catch (err) {
+    console.log(err);
+    ToastError(toast, err.response?.data?.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+export const patchChamber = async (
+  data,
+  setLoading,
+  token,
+  navigation,
+  toast,
+) => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  try {
+    const res = await axios.patch(
+      `${DoctorURL}/doctor/chamber/${data._id}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    navigation.navigate('Chamber');
+  } catch (err) {
+    console.log(err);
+    ToastError(toast, err.response?.data?.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+export const deleteChamber = async (
+  id,
+  setLoading,
+  token,
+  navigation,
+  toast,
+) => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  try {
+    const res = await axios.delete(`${DoctorURL}/doctor/chamber/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    navigation.navigate('Chamber');
+  } catch (err) {
+    console.log(err);
+    ToastError(toast, err.response?.data?.message);
+  } finally {
+    setLoading(false);
+  }
+};

@@ -29,7 +29,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 
-const ChamberCard = ({isShadow}) => {
+const ChamberCard = ({isShadow, data}) => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -50,7 +50,7 @@ const ChamberCard = ({isShadow}) => {
         <View style={styles.textContainer}>
           <View>
             <Text style={{...fontBold, fontSize: 20, marginBottom: 5}}>
-              Belle Vue Clinic
+              {data.name}
             </Text>
 
             <View
@@ -66,7 +66,7 @@ const ChamberCard = ({isShadow}) => {
                   fontSize: 14,
                   marginLeft: 8,
                 }}>
-                32/A, Sector 1
+                {data.address}
               </Text>
             </View>
 
@@ -81,7 +81,7 @@ const ChamberCard = ({isShadow}) => {
                 size={14}
               />
               <Text style={{...fontMedium, fontSize: 14, marginLeft: 8}}>
-                110001
+                {data.pincode}
               </Text>
             </View>
 
@@ -89,7 +89,7 @@ const ChamberCard = ({isShadow}) => {
               <TouchableOpacity
                 style={[styles.btns, {marginLeft: 10, paddingHorizontal: 20}]}
                 onPress={() => {
-                  navigation.navigate('ChamberView');
+                  navigation.navigate('ChamberView', {data});
                 }}>
                 <Text
                   style={{

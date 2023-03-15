@@ -1,16 +1,12 @@
 import {faTriangleExclamation} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import React, {useContext} from 'react';
-import {TouchableOpacity, View, Text} from 'react-native';
-import {fetchUser} from '../apiCalls';
-import ActionButton from '../components/common/actionButton';
-import FocusAwareStatusBar from '../components/statusBar';
-import {AuthContext} from '../context/AuthContext';
-import {backgroundColor1, dark1} from '../globalStyle';
+import React from 'react';
+import {View, Text} from 'react-native';
+import FocusAwareStatusBar from '../statusBar';
+import {backgroundColor1, dark1} from '../../globalStyle';
+import ActionButton from './actionButton';
 
-const Error = () => {
-  const {dispatch} = useContext(AuthContext);
-
+const ErrorScreen = ({refetch, loading}) => {
   return (
     <View
       style={{
@@ -37,8 +33,9 @@ const Error = () => {
 
         <ActionButton
           label="Refresh"
+          loading={loading}
           handlePress={() => {
-            fetchUser(dispatch);
+            refetch();
           }}
         />
       </View>
@@ -46,4 +43,4 @@ const Error = () => {
   );
 };
 
-export default Error;
+export default ErrorScreen;

@@ -31,17 +31,18 @@ import {useToast} from 'react-native-toast-notifications';
 import {getProfile, patchProfile, postProfile} from '../apiCalls';
 import {AuthContext} from '../context/AuthContext';
 import {useQuery} from '@tanstack/react-query';
-
-function FocusAwareStatusBar(props) {
-  const isFocused = useIsFocused();
-  return isFocused ? <StatusBar {...props} /> : null;
-}
+import FocusAwareStatusBar from '../components/statusBar';
+import LoadingScreen from '../components/common/loadingScreen';
+import ErrorScreen from '../components/common/errorScreen';
 
 const ProfileCreateEdit = () => {
   const toast = useToast();
   const route = useRoute();
   const navigation = useNavigation();
   const {token, dispatch} = useContext(AuthContext);
+
+  const medicalDepartment = [{name: 'Cardiology'}, {name: 'Pediatrics'}];
+
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: '',
@@ -52,7 +53,7 @@ const ProfileCreateEdit = () => {
     location: '',
   });
 
-  const {isError, isLoading, data} = useQuery({
+  const {isError, isLoading, isRefetching, data, refetch} = useQuery({
     queryKey: [`Profile`, token],
     queryFn: getProfile,
     enabled: route.name === 'ProfileEdit',
@@ -81,7 +82,11 @@ const ProfileCreateEdit = () => {
     }
   };
 
-  const medicalDepartment = [{name: 'Cardiology'}, {name: 'Pediatrics'}];
+  if (route.name === 'ProfileEdit' && isLoading) return <LoadingScreen />;
+  if (route.name === 'ProfileEdit' && isError)
+    return (
+      <ErrorScreen refetch={refetch} loading={isLoading || isRefetching} />
+    );
 
   return (
     <ScrollView

@@ -10,7 +10,6 @@ import {
 import React, {useContext, useEffect, useState} from 'react';
 import {AuthContext} from '../../context/AuthContext';
 
-import {useIsFocused} from '@react-navigation/native';
 import {
   backgroundColor1,
   backgroundColor2,
@@ -24,17 +23,36 @@ import {
 } from '../../globalStyle';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHouseMedical, faPlus} from '@fortawesome/free-solid-svg-icons';
-import {SwipeablePanel} from 'rn-swipeable-panel';
 import ChamberCard from '../../components/common/chamberCard';
+import {getChamber} from '../../apiCalls';
+import {useQuery} from '@tanstack/react-query';
+import LoadingScreen from '../../components/common/loadingScreen';
+import ErrorScreen from '../../components/common/errorScreen';
+import WarningScreen from '../../components/common/warningScreen';
+import FocusAwareStatusBar from '../../components/statusBar';
+import {useNavigation} from '@react-navigation/native';
 
-function FocusAwareStatusBar(props) {
-  const isFocused = useIsFocused();
-  return isFocused ? <StatusBar {...props} /> : null;
-}
+const Chamber = () => {
+  const navigation = useNavigation();
+  const {token, profile} = useContext(AuthContext);
 
-const Chamber = ({navigation}) => {
-  const {token, dispatch} = useContext(AuthContext);
-  const [chamber, setChamber] = useState({});
+  const {isError, isLoading, isRefetching, data, refetch} = useQuery({
+    queryKey: [`Chambers`, profile.userId],
+    queryFn: getChamber,
+  });
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      refetch();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  if (isLoading) return <LoadingScreen />;
+  if (isError)
+    return (
+      <ErrorScreen refetch={refetch} loading={isLoading || isRefetching} />
+    );
 
   return (
     <ScrollView
@@ -71,7 +89,7 @@ const Chamber = ({navigation}) => {
                 color: '#fff',
                 marginLeft: 10,
               }}>
-              10
+              {data.length}
             </Text>
 
             <FontAwesomeIcon icon={faHouseMedical} color={chamberColor} />
@@ -88,23 +106,16 @@ const Chamber = ({navigation}) => {
       </View>
 
       <View style={styles.content}>
-        <View style={{paddingHorizontal: 5}}>
-          <ChamberCard />
-          <ChamberCard />
-          <ChamberCard />
-        </View>
+        {data.length ? (
+          <View style={{paddingHorizontal: 5}}>
+            {data.map(e => {
+              return <ChamberCard data={e} />;
+            })}
+          </View>
+        ) : (
+          <WarningScreen label="No Chambers Added" />
+        )}
       </View>
-
-      {/* <SwipeablePanel
-        isActive={isPanelActive}
-        fullWidth={true}
-        full
-        showCloseButton={true}
-        onClose={() => {
-          setIsPanelActive(false);
-        }}>
-        <View style={styles.chamberForm}></View>
-      </SwipeablePanel> */}
     </ScrollView>
   );
 };
@@ -123,22 +134,7 @@ const styles = StyleSheet.create({
     backgroundColor: backgroundColor1,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
-  },
-  chamberForm: {},
-  inputContainer: {paddingHorizontal: 20, marginBottom: 15},
-  label: {...fontSemiBold, fontSize: 16, marginBottom: 8},
-  inputStyle: {
-    borderWidth: 2,
-    borderRadius: 10,
-    borderColor: dark1,
-    paddingHorizontal: 15,
-    color: '#000000',
-  },
-  submitBtn: {
-    backgroundColor: dark1,
-    alignItems: 'center',
-    paddingVertical: 15,
-    borderRadius: 10,
+    overflow: 'hidden',
   },
 });
 

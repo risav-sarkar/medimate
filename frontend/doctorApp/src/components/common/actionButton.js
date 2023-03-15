@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     backgroundColor: dark1,
     alignItems: 'center',
     paddingVertical: 15,
+    paddingHorizontal: 25,
     borderRadius: 10,
   },
 });

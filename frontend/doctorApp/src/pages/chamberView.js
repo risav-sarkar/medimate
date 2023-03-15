@@ -2,15 +2,12 @@ import {
   Text,
   StyleSheet,
   View,
-  Image,
-  StatusBar,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 
-import {useIsFocused} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   backgroundColor1,
   backgroundColor2,
@@ -33,14 +30,18 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {endOfMonth, format, startOfMonth, addMonths, subMonths} from 'date-fns';
 import ScheduleComponent from '../components/common/scheduleComponent';
-import {SwipeablePanel} from 'rn-swipeable-panel';
+import DeletePanel from '../components/common/deletePanel';
+import {deleteChamber} from '../apiCalls';
+import {useToast} from 'react-native-toast-notifications';
+import {AuthContext} from '../context/AuthContext';
+import FocusAwareStatusBar from '../components/statusBar';
 
-function FocusAwareStatusBar(props) {
-  const isFocused = useIsFocused();
-  return isFocused ? <StatusBar {...props} /> : null;
-}
-
-const ChamberView = ({navigation}) => {
+const ChamberView = () => {
+  const toast = useToast();
+  const route = useRoute();
+  const navigation = useNavigation();
+  const {token} = useContext(AuthContext);
+  const data = route.params.data;
   const [isPanelActive, setIsPanelActive] = useState(false);
   const [month, setMonth] = useState(new Date());
   const [dates, setDates] = useState({
@@ -58,6 +59,11 @@ const ChamberView = ({navigation}) => {
     setLoading(false);
   }, [month]);
 
+  const HandleDeleteChamber = () => {
+    setLoading(true);
+    deleteChamber(data._id, setLoading, token, navigation, toast);
+  };
+
   return (
     <ScrollView
       style={styles.container}
@@ -70,14 +76,14 @@ const ChamberView = ({navigation}) => {
 
       <View style={styles.header}>
         <View style={{paddingHorizontal: 20}}>
-          <Header name={'Belle Vue Clinic'} />
+          <Header name={data.name} />
         </View>
 
         <View style={styles.heroBtnContainer}>
           <TouchableOpacity
             style={styles.heroBtn}
             onPress={() => {
-              navigation.navigate('SlotCreate');
+              navigation.navigate('SlotCreate', {data});
             }}>
             <FontAwesomeIcon icon={faCheckToSlot} color={slotColor} />
             <Text style={styles.heroBtnText} numberOfLines={1}>
@@ -88,7 +94,7 @@ const ChamberView = ({navigation}) => {
           <TouchableOpacity
             style={styles.heroBtn}
             onPress={() => {
-              navigation.navigate('ChamberEdit');
+              navigation.navigate('ChamberEdit', {data});
             }}>
             <FontAwesomeIcon icon={faHouseMedical} color={chamberColor} />
             <Text style={styles.heroBtnText} numberOfLines={1}>
@@ -145,49 +151,18 @@ const ChamberView = ({navigation}) => {
       </View>
 
       <View style={styles.content}>
-        {loading ? (
-          <ActivityIndicator
-            style={{alignItems: 'center', flex: 1}}
-            color={dark1}
-          />
-        ) : (
-          <ScheduleComponent />
-        )}
+        <ScheduleComponent />
       </View>
 
-      <SwipeablePanel
-        isActive={isPanelActive}
-        fullWidth={true}
-        noBackgroundOpacity={true}
-        closeOnTouchOutside={true}
-        showCloseButton={true}
-        closeIconStyle={{backgroundColor: '#000000'}}
-        onClose={() => {
-          setIsPanelActive(false);
-        }}>
-        <View style={{paddingVertical: 15}}>
-          <Text style={{...fontSemiBold, fontSize: 16, textAlign: 'center'}}>
-            Are you sure you want to delete?
-          </Text>
-
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#ff6a6a',
-              maxWidth: 240,
-              marginHorizontal: 20,
-              alignSelf: 'center',
-              padding: 12,
-              borderRadius: 15,
-              alignItems: 'center',
-              width: '100%',
-              marginTop: 15,
-            }}>
-            <Text style={{...fontBold, fontSize: 18, color: '#fff'}}>
-              Delete
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </SwipeablePanel>
+      <DeletePanel
+        isPanelActive={isPanelActive}
+        setIsPanelActive={setIsPanelActive}
+        label="Delete"
+        handlePress={() => {
+          HandleDeleteChamber();
+        }}
+        loading={loading}
+      />
     </ScrollView>
   );
 };
