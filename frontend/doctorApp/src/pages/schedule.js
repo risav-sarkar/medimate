@@ -30,11 +30,7 @@ import {AuthContext} from '../context/AuthContext';
 import {getSlotsByDoctorAndMonth} from '../apiCalls';
 import ScheduleAll from '../components/common/scheduleAll';
 import WarningScreen from '../components/common/warningScreen';
-
-function FocusAwareStatusBar(props) {
-  const isFocused = useIsFocused();
-  return isFocused ? <StatusBar {...props} /> : null;
-}
+import FocusAwareStatusBar from '../components/statusBar';
 
 const Schedule = () => {
   const navigation = useNavigation();
