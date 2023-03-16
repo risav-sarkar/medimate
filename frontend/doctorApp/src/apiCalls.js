@@ -288,3 +288,56 @@ export const postMultipleSlot = async (
     setLoading(false);
   }
 };
+
+export const getSlot = async params => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const slotId = params.queryKey[1];
+  const res = await axios.get(`${DoctorURL}/api/slot/${slotId}`);
+  return res.data;
+};
+
+export const getSlotsByChamberAndMonth = async params => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const chamberID = params.queryKey[1];
+  const date = params.queryKey[2];
+  const res = await axios.get(`${DoctorURL}/api/slots/${chamberID}/${date}`);
+  return res.data;
+};
+
+export const patchSlot = async (data, setLoading, token, navigation, toast) => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  try {
+    const res = await axios.patch(
+      `${DoctorURL}/doctor/slot/${data._id}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    navigation.goBack();
+  } catch (err) {
+    console.log(err);
+    ToastError(toast, err.response?.data?.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+export const deleteSlot = async (id, setLoading, token, navigation, toast) => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  try {
+    const res = await axios.delete(`${DoctorURL}/doctor/slot/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    navigation.goBack();
+  } catch (err) {
+    console.log(err);
+    ToastError(toast, err.response?.data?.message);
+  } finally {
+    setLoading(false);
+  }
+};

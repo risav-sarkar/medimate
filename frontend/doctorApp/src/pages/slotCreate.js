@@ -37,11 +37,7 @@ import {ToastError, ToastSuccess} from '../components/toastFunction';
 import ActionButton from '../components/common/actionButton';
 import {postMultipleSlot, postSingleSlot} from '../apiCalls';
 import {AuthContext} from '../context/AuthContext';
-
-function FocusAwareStatusBar(props) {
-  const isFocused = useIsFocused();
-  return isFocused ? <StatusBar {...props} /> : null;
-}
+import FocusAwareStatusBar from '../components/statusBar';
 
 const SlotCreate = () => {
   const toast = useToast();
@@ -54,6 +50,7 @@ const SlotCreate = () => {
     chamberId: route.params.data,
     time: {start: '-', end: '-'},
     date: '-',
+    bookingLimit: 10,
   });
   const [days, setDays] = useState([]);
   const [dateRange, setDateRange] = useState({startDate: '-', endDate: '-'});
@@ -114,6 +111,7 @@ const SlotCreate = () => {
         time: slot.time,
         ...dateRange,
         days: days,
+        bookingLimit: slot.bookingLimit,
       },
       setLoading,
       token,

@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 
-import {useIsFocused} from '@react-navigation/native';
+import {useIsFocused, useNavigation, useRoute} from '@react-navigation/native';
 import {
   backgroundColor1,
   backgroundColor2,
@@ -33,14 +33,54 @@ import {
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import PatientCard from '../components/common/patientCard';
+import {useToast} from 'react-native-toast-notifications';
+import DeletePanel from '../components/common/deletePanel';
+import {format} from 'date-fns';
+import {deleteSlot, getSlot} from '../apiCalls';
+import {useQuery} from '@tanstack/react-query';
+import LoadingScreen from '../components/common/loadingScreen';
+import ErrorScreen from '../components/common/errorScreen';
+import {AuthContext} from '../context/AuthContext';
+import FocusAwareStatusBar from '../components/statusBar';
 
-function FocusAwareStatusBar(props) {
-  const isFocused = useIsFocused();
-  return isFocused ? <StatusBar {...props} /> : null;
-}
+const SlotView = () => {
+  const toast = useToast();
+  const route = useRoute();
+  const navigation = useNavigation();
+  const {token} = useContext(AuthContext);
+  const [isPanelActive, setIsPanelActive] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-const SlotView = ({navigation}) => {
-  const [modal, setModal] = useState(false);
+  const {
+    isError: slotError,
+    isLoading: slotLoading,
+    isRefetching: slotRefetching,
+    data: slotData,
+    refetch: slotRefetch,
+  } = useQuery({
+    queryKey: [`Slot${route.params.data._id}`, route.params.data._id],
+    queryFn: getSlot,
+  });
+  const HandleDeleteSlot = () => {
+    setLoading(true);
+    deleteSlot(slotData._id, setLoading, token, navigation, toast);
+  };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      slotRefetch();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  if (slotLoading) return <LoadingScreen />;
+  if (slotError)
+    return (
+      <ErrorScreen
+        refetch={slotRefetch}
+        loading={slotLoading || slotRefetching}
+      />
+    );
 
   return (
     <ScrollView
@@ -54,14 +94,19 @@ const SlotView = ({navigation}) => {
 
       <View style={styles.header}>
         <View style={{paddingHorizontal: 20}}>
-          <Header name={'Belle Vue Clinic'} />
+          <Header
+            name={`${format(new Date(slotData.date), 'do, MMM')} | ${format(
+              new Date(slotData.time.start),
+              'h:mm aa',
+            )}`}
+          />
         </View>
 
         <View style={styles.heroBtnContainer}>
           <TouchableOpacity
             style={styles.heroBtn}
             onPress={() => {
-              navigation.navigate('SlotEdit');
+              navigation.navigate('SlotEdit', {data: slotData});
             }}>
             <FontAwesomeIcon icon={faPenToSquare} color={slotColor} />
             <Text style={styles.heroBtnText} numberOfLines={1}>
@@ -72,7 +117,7 @@ const SlotView = ({navigation}) => {
           <TouchableOpacity
             style={styles.heroBtn}
             onPress={() => {
-              setModal(true);
+              setIsPanelActive(true);
             }}>
             <FontAwesomeIcon icon={faTrash} color={'#ff6a6a'} />
             <Text style={styles.heroBtnText} numberOfLines={1}>
@@ -96,6 +141,16 @@ const SlotView = ({navigation}) => {
         <PatientCard />
         <PatientCard />
       </View>
+
+      <DeletePanel
+        isPanelActive={isPanelActive}
+        setIsPanelActive={setIsPanelActive}
+        label="Delete"
+        handlePress={() => {
+          HandleDeleteSlot();
+        }}
+        loading={loading}
+      />
     </ScrollView>
   );
 };

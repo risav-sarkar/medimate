@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useContext, useEffect, useRef, useState} from 'react';
 
-import {useIsFocused, useRoute} from '@react-navigation/native';
+import {useIsFocused, useNavigation, useRoute} from '@react-navigation/native';
 import {
   backgroundColor1,
   backgroundColor2,
@@ -28,32 +28,38 @@ import {
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import Header from '../components/common/header';
-import Tabbar from '../components/common/tabbar';
-import PagerView from 'react-native-pager-view';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import {format, isBefore, setDay} from 'date-fns';
 import {useToast} from 'react-native-toast-notifications';
 import {ToastError, ToastSuccess} from '../components/toastFunction';
+import {AuthContext} from '../context/AuthContext';
+import ActionButton from '../components/common/actionButton';
+import {patchSlot} from '../apiCalls';
+import FocusAwareStatusBar from '../components/statusBar';
 
-function FocusAwareStatusBar(props) {
-  const isFocused = useIsFocused();
-  return isFocused ? <StatusBar {...props} /> : null;
-}
-
-const SlotEdit = ({navigation}) => {
+const SlotEdit = () => {
   const toast = useToast();
+  const route = useRoute();
+  const navigation = useNavigation();
+  const {token} = useContext(AuthContext);
 
   const [slot, setSlot] = useState({
-    chamberId: '',
-    time: {start: '-', end: '-'},
-    date: '-',
+    chamberId: route.params.data.chamberId,
+    time: {
+      start: new Date(route.params.data.time.start),
+      end: new Date(route.params.data.time.end),
+    },
+    date: new Date(route.params.data.date),
+    bookingLimit: 10,
+    _id: route.params.data._id,
   });
+  const [loading, setLoading] = useState(false);
 
   const [slotDatePicker, setSlotDatePicker] = useState(false);
   const [slotStartTimePicker, setSlotStartTimePicker] = useState(false);
   const [slotEndTimePicker, setSlotEndTimePicker] = useState(false);
 
-  const HandleSingleSubmit = () => {
+  const HandleSubmit = () => {
     if (slot.time.start === '-' || slot.time.end === '-') {
       ToastError(toast, 'Select timings for the slot');
       return;
@@ -67,7 +73,8 @@ const SlotEdit = ({navigation}) => {
       return;
     }
 
-    console.log({...slot});
+    setLoading(true);
+    patchSlot({...slot}, setLoading, token, navigation, toast);
   };
 
   return (
@@ -167,13 +174,11 @@ const SlotEdit = ({navigation}) => {
           </View>
 
           <View style={{paddingHorizontal: 7.5, paddingTop: 20}}>
-            <TouchableOpacity
-              style={styles.submitBtn}
-              onPress={() => HandleSingleSubmit()}>
-              <Text style={{color: '#fff', ...fontBold, fontSize: 16}}>
-                Submit
-              </Text>
-            </TouchableOpacity>
+            <ActionButton
+              loading={loading}
+              label="Submit"
+              handlePress={() => HandleSubmit()}
+            />
           </View>
         </View>
       </View>

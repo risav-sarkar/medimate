@@ -21,132 +21,90 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faClock, faUserGroup} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
+import {format} from 'date-fns';
 
 const SlotCard2 = ({data}) => {
   const navigation = useNavigation();
+  const date = new Date(data.date.jsDate);
+
   return (
     <View style={styles.slotContainer}>
       <View style={styles.dateContainer}>
         <Text style={{...fontRegular, fontSize: 14, color: '#00000099'}}>
-          Thu
+          {format(date, 'EEE')}
         </Text>
-        <Text style={{...fontBold, fontSize: 16}}>29</Text>
+        <Text style={{...fontBold, fontSize: 16}}>{format(date, 'd')}</Text>
       </View>
 
       <View style={{flex: 1, paddingRight: 10}}>
-        <View style={styles.container}>
-          <TouchableOpacity
-            style={[
-              styles.content,
-              {...shadow, backgroundColor: backgroundColor1},
-            ]}
-            onPress={() => {
-              navigation.navigate('SlotView');
-            }}>
-            <View style={styles.textContainer}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
+        {data.slots.map(e => {
+          return (
+            <View style={styles.container}>
+              <TouchableOpacity
+                style={[
+                  styles.content,
+                  {...shadow, backgroundColor: backgroundColor1},
+                ]}
+                onPress={() => {
+                  navigation.navigate('SlotView', {data: {...e}});
                 }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}>
-                  <FontAwesomeIcon icon={faClock} color={dark1} size={14} />
-                  <Text
-                    style={{...fontMedium, fontSize: 16, marginLeft: 8}}
-                    numberOfLines={1}>
-                    9:30AM - 10:30AM
-                  </Text>
-                </View>
-
-                <View
-                  style={{
-                    backgroundColor: dark1,
-                    alignSelf: 'flex-start',
-                    paddingVertical: 5,
-                    paddingHorizontal: 10,
-                    borderRadius: 10,
-                    flexDirection: 'row-reverse',
-                    alignItems: 'center',
-                    ...shadow,
-                  }}>
-                  <Text
+                <View style={styles.textContainer}>
+                  <View
                     style={{
-                      ...fontMedium,
-                      fontSize: 16,
-                      color: '#fff',
-                      marginLeft: 10,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
                     }}>
-                    10
-                  </Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <FontAwesomeIcon icon={faClock} color={dark1} size={14} />
+                      <Text
+                        style={{...fontMedium, fontSize: 16, marginLeft: 8}}
+                        numberOfLines={1}>
+                        {`${format(
+                          new Date(e.time.start),
+                          'h:mm aa',
+                        )} - ${format(new Date(e.time.end), 'h:mm aa')}`}
+                      </Text>
+                    </View>
 
-                  <FontAwesomeIcon icon={faUserGroup} color={patientColor} />
+                    <View
+                      style={{
+                        backgroundColor: dark1,
+                        alignSelf: 'flex-start',
+                        paddingVertical: 5,
+                        paddingHorizontal: 10,
+                        borderRadius: 10,
+                        flexDirection: 'row-reverse',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        width: 85,
+                        ...shadow,
+                      }}>
+                      <Text
+                        style={{
+                          ...fontMedium,
+                          fontSize: 16,
+                          color: '#fff',
+                          marginLeft: 10,
+                        }}>
+                        {`${e.numberOfBookings || 0} / ${e.bookingLimit || 0}`}
+                      </Text>
+
+                      <FontAwesomeIcon
+                        icon={faUserGroup}
+                        color={patientColor}
+                      />
+                    </View>
+                  </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.container}>
-          <TouchableOpacity
-            style={[
-              styles.content,
-              {...shadow, backgroundColor: backgroundColor1},
-            ]}
-            onPress={() => {
-              navigation.navigate('SlotView');
-            }}>
-            <View style={styles.textContainer}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}>
-                  <FontAwesomeIcon icon={faClock} color={dark1} size={14} />
-                  <Text
-                    style={{...fontMedium, fontSize: 16, marginLeft: 8}}
-                    numberOfLines={1}>
-                    9:30AM - 10:30AM
-                  </Text>
-                </View>
-
-                <View
-                  style={{
-                    backgroundColor: dark1,
-                    alignSelf: 'flex-start',
-                    paddingVertical: 5,
-                    paddingHorizontal: 10,
-                    borderRadius: 10,
-                    flexDirection: 'row-reverse',
-                    alignItems: 'center',
-                    ...shadow,
-                  }}>
-                  <Text
-                    style={{
-                      ...fontMedium,
-                      fontSize: 16,
-                      color: '#fff',
-                      marginLeft: 10,
-                    }}>
-                    10
-                  </Text>
-
-                  <FontAwesomeIcon icon={faUserGroup} color={patientColor} />
-                </View>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
+          );
+        })}
       </View>
     </View>
   );

@@ -4,6 +4,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 
@@ -31,13 +32,18 @@ import {
 import {endOfMonth, format, startOfMonth, addMonths, subMonths} from 'date-fns';
 import ScheduleChamber from '../components/common/scheduleChamber';
 import DeletePanel from '../components/common/deletePanel';
-import {deleteChamber, getChamber} from '../apiCalls';
+import {
+  deleteChamber,
+  getChamber,
+  getSlotsByChamberAndMonth,
+} from '../apiCalls';
 import {useToast} from 'react-native-toast-notifications';
 import {AuthContext} from '../context/AuthContext';
 import FocusAwareStatusBar from '../components/statusBar';
 import {useQuery} from '@tanstack/react-query';
 import LoadingScreen from '../components/common/loadingScreen';
 import ErrorScreen from '../components/common/errorScreen';
+import WarningScreen from '../components/common/warningScreen';
 
 const ChamberView = () => {
   const toast = useToast();
@@ -57,6 +63,21 @@ const ChamberView = () => {
     queryFn: getChamber,
   });
 
+  const {
+    isError: slotsError,
+    isLoading: slotsLoading,
+    isRefetching: slotsRefetching,
+    data: slotsData,
+    refetch: slotsRefetch,
+  } = useQuery({
+    queryKey: [
+      `SlotsChamberID${route.params.data._id}Date${format(month, 'YMMdd')}`,
+      route.params.data._id,
+      format(month, 'YMMdd'),
+    ],
+    queryFn: getSlotsByChamberAndMonth,
+  });
+
   useEffect(() => {
     setLoading(true);
     setDates({
@@ -69,6 +90,7 @@ const ChamberView = () => {
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       refetch();
+      slotsRefetch();
     });
     return unsubscribe;
   }, [navigation]);
@@ -171,7 +193,13 @@ const ChamberView = () => {
       </View>
 
       <View style={styles.content}>
-        <ScheduleChamber />
+        {slotsLoading ? (
+          <ActivityIndicator color={dark1} style={{flex: 1}} />
+        ) : !slotsData.length ? (
+          <WarningScreen label="No Slots Found" />
+        ) : (
+          <ScheduleChamber data={slotsData} />
+        )}
       </View>
 
       <DeletePanel
@@ -227,6 +255,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     paddingTop: 10,
     paddingBottom: 20,
+    overflow: 'hidden',
   },
 });
 

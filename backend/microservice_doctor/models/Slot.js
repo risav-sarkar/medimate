@@ -29,6 +29,14 @@ const SlotSchema = new mongoose.Schema(
       type: TimeSchema,
       required: true,
     },
+    bookingLimit: {
+      type: Number,
+      required: true,
+    },
+    numberOfBookings: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );
