@@ -10,11 +10,14 @@ const UserSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
       min: 6,
+    },
+    isGoogle: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("DoctorUser", UserSchema);

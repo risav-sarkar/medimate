@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Profile = require("../models/Profile");
+const DoctorProfile = require("../models/DoctorProfile");
 const Chamber = require("../models/Chamber");
 const Slot = require("../models/Slot");
 const Booking = require("../models/Booking");
@@ -8,8 +8,18 @@ const { format } = require("date-fns");
 //GET All Doctors
 router.get("/doctors", async (req, res) => {
   try {
-    const allDoctors = await Profile.find();
+    const allDoctors = await DoctorProfile.find();
     return res.status(200).json(allDoctors);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//GET Doctor By Id
+router.get("/doctor/:id", async (req, res) => {
+  try {
+    const doctor = await DoctorProfile.findOne({ _id: req.params.id });
+    return res.status(200).json(doctor);
   } catch (err) {
     res.status(500).json(err);
   }

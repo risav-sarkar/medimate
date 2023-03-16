@@ -10,7 +10,7 @@ const doctorRoutes = require("./routes/doctorRoutes");
 const apiRoutes = require("./routes/apiRoutes");
 dotenv.config();
 
-const dbName = "doctor";
+const dbName = "cilver";
 
 mongoose
   .connect(`${process.env.MONGO_URL}${dbName}`, {

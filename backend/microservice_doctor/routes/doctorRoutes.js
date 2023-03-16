@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { getTokenData } = require("../util");
+const { getTokenData, verifyIdToken } = require("../util");
 
-const User = require("../models/User");
-const Profile = require("../models/Profile");
+const DoctorUser = require("../models/DoctorUser");
+const DoctorProfile = require("../models/DoctorProfile");
 const Chamber = require("../models/Chamber");
 const Slot = require("../models/Slot");
 const { eachDayOfInterval, format } = require("date-fns");
@@ -15,7 +15,7 @@ const Booking = require("../models/Booking");
 //REGISTER
 router.post("/register", async (req, res) => {
   try {
-    const doctor = await User.findOne({ email: req.body.email });
+    const doctor = await DoctorUser.findOne({ email: req.body.email });
     if (doctor) {
       return res.status(403).json({ message: "Email already taken" });
     }
@@ -23,7 +23,7 @@ router.post("/register", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-    const newDoctor = new User({
+    const newDoctor = new DoctorUser({
       email: req.body.email,
       password: hashedPassword,
     });
@@ -38,7 +38,7 @@ router.post("/register", async (req, res) => {
 //LOGIN
 router.post("/login", async (req, res) => {
   try {
-    const doctor = await User.findOne({ email: req.body.email });
+    const doctor = await DoctorUser.findOne({ email: req.body.email });
     if (!doctor) {
       return res.status(404).json({ message: "Doctor not found" });
     }
@@ -65,6 +65,17 @@ router.post("/login", async (req, res) => {
   }
 });
 
+//GOOGLE LOGIN
+router.post("/googlelogin", async (req, res) => {
+  try {
+    const uid = await verifyIdToken(req.body.idToken);
+    console.log(uid);
+    return res.status(200).json(uid);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 // ---------------Profile---------------
 
 //GET PROFILE
@@ -72,8 +83,13 @@ router.get("/profile", async (req, res) => {
   try {
     const token = await getTokenData(req);
     if (token) {
-      const profile = await Profile.findOne({ userId: token._id });
-      return res.status(200).json(profile);
+      let profile = await DoctorProfile.findOne({ userId: token._id });
+      const userData = await DoctorUser.findOne({ _id: profile.userId });
+
+      return res.status(200).json({
+        ...JSON.parse(JSON.stringify(profile)),
+        isGoogle: userData.isGoogle || false,
+      });
     } else {
       return res.status(404).json({ message: "Invalid token" });
     }
@@ -88,12 +104,12 @@ router.post("/profile", async (req, res) => {
     const token = await getTokenData(req);
 
     if (token) {
-      const profile = await Profile.findOne({ userId: token._id });
+      const profile = await DoctorProfile.findOne({ userId: token._id });
 
       if (profile) {
         return res.status(404).json({ message: "Profile already exists" });
       } else {
-        const newProfile = new Profile({
+        const newProfile = new DoctorProfile({
           ...req.body,
           userId: token._id,
         });
@@ -114,12 +130,12 @@ router.patch("/profile", async (req, res) => {
   try {
     const token = await getTokenData(req);
     if (token) {
-      const profile = await Profile.findOne({ userId: token._id });
+      const profile = await DoctorProfile.findOne({ userId: token._id });
 
       if (!profile) {
         return res.status(404).json({ message: "Profile does not exist" });
       } else {
-        await Profile.findOneAndUpdate(
+        await DoctorProfile.findOneAndUpdate(
           { userId: token._id },
           {
             $set: req.body,
@@ -143,7 +159,7 @@ router.post("/chamber", async (req, res) => {
     const token = await getTokenData(req);
 
     if (token) {
-      const profile = await Profile.findOne({ userId: token._id });
+      const profile = await DoctorProfile.findOne({ userId: token._id });
 
       if (!profile) {
         return res.status(404).json({ message: "Profile does not exist" });
@@ -170,7 +186,7 @@ router.patch("/chamber/:chamberId", async (req, res) => {
     const token = await getTokenData(req);
 
     if (token) {
-      const profile = await Profile.findOne({ userId: token._id });
+      const profile = await DoctorProfile.findOne({ userId: token._id });
 
       if (!profile) {
         return res.status(404).json({ message: "Profile does not exist" });
@@ -194,7 +210,7 @@ router.delete("/chamber/:chamberId", async (req, res) => {
     const token = await getTokenData(req);
 
     if (token) {
-      const profile = await Profile.findOne({ userId: token._id });
+      const profile = await DoctorProfile.findOne({ userId: token._id });
 
       if (!profile) {
         return res.status(404).json({ message: "Profile does not exist" });
@@ -217,7 +233,7 @@ router.post("/slot", async (req, res) => {
   try {
     const token = await getTokenData(req);
     if (token) {
-      const profile = await Profile.findOne({ userId: token._id });
+      const profile = await DoctorProfile.findOne({ userId: token._id });
 
       if (!profile) {
         return res.status(404).json({ message: "Profile does not exist" });
@@ -244,7 +260,7 @@ router.post("/slot/multiple", async (req, res) => {
     const token = await getTokenData(req);
 
     if (token) {
-      const profile = await Profile.findOne({ userId: token._id });
+      const profile = await DoctorProfile.findOne({ userId: token._id });
 
       if (!profile) {
         return res.status(404).json({ message: "Profile does not exist" });
@@ -283,7 +299,7 @@ router.patch("/slot/:slotId", async (req, res) => {
     const token = await getTokenData(req);
 
     if (token) {
-      const profile = await Profile.findOne({ userId: token._id });
+      const profile = await DoctorProfile.findOne({ userId: token._id });
 
       if (!profile) {
         return res.status(404).json({ message: "Profile does not exist" });
@@ -307,7 +323,7 @@ router.delete("/slot/:slotId", async (req, res) => {
     const token = await getTokenData(req);
 
     if (token) {
-      const profile = await Profile.findOne({ userId: token._id });
+      const profile = await DoctorProfile.findOne({ userId: token._id });
 
       if (!profile) {
         return res.status(404).json({ message: "Profile does not exist" });
@@ -331,7 +347,7 @@ router.patch("/booking/:bookingId", async (req, res) => {
     const token = await getTokenData(req);
 
     if (token) {
-      const profile = await Profile.findOne({ userId: token._id });
+      const profile = await DoctorProfile.findOne({ userId: token._id });
 
       if (!profile) {
         return res.status(404).json({ message: "Profile does not exist" });
@@ -355,7 +371,7 @@ router.get("/booking/:slotId", async (req, res) => {
     const token = await getTokenData(req);
 
     if (token) {
-      const profile = await Profile.findOne({ userId: token._id });
+      const profile = await DoctorProfile.findOne({ userId: token._id });
 
       if (!profile) {
         return res.status(404).json({ message: "Profile does not exist" });
