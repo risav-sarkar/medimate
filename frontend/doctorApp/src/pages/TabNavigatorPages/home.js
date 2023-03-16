@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StatusBar,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {AuthContext} from '../../context/AuthContext';
@@ -34,11 +35,11 @@ import {
 
 import SlotCard from '../../components/common/slotCard';
 import {format} from 'date-fns';
-
-function FocusAwareStatusBar(props) {
-  const isFocused = useIsFocused();
-  return isFocused ? <StatusBar {...props} /> : null;
-}
+import {useQuery} from '@tanstack/react-query';
+import {getSlotsByDoctorAndDate} from '../../apiCalls';
+import ScheduleAll from '../../components/common/scheduleAll';
+import WarningScreen from '../../components/common/warningScreen';
+import FocusAwareStatusBar from '../../components/statusBar';
 
 const Home = ({navigation}) => {
   const {token, dispatch, profile} = useContext(AuthContext);
@@ -49,6 +50,28 @@ const Home = ({navigation}) => {
     'Good Evening',
     'Time to Sleep',
   ];
+
+  const {
+    isError: slotsError,
+    isLoading: slotsLoading,
+    isRefetching: slotsRefetching,
+    data: slotsData,
+    refetch: slotsRefetch,
+  } = useQuery({
+    queryKey: [
+      `SlotsToday${format(new Date(), 'YMMdd')}`,
+      profile.userId,
+      format(new Date(), 'YMMdd'),
+    ],
+    queryFn: getSlotsByDoctorAndDate,
+  });
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      slotsRefetch();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <ScrollView
@@ -106,7 +129,7 @@ const Home = ({navigation}) => {
             </View>
 
             <Text style={styles.boxheaderMainText} numberOfLines={1}>
-              5
+              {slotsData?.stats?.chambers}
             </Text>
           </View>
 
@@ -121,7 +144,7 @@ const Home = ({navigation}) => {
             </View>
 
             <Text style={styles.boxheaderMainText} numberOfLines={1}>
-              5
+              {slotsData?.stats?.slots}
             </Text>
           </View>
 
@@ -136,7 +159,7 @@ const Home = ({navigation}) => {
             </View>
 
             <Text style={styles.boxheaderMainText} numberOfLines={1}>
-              5
+              {slotsData?.stats?.patients}
             </Text>
           </View>
         </View>
@@ -170,11 +193,18 @@ const Home = ({navigation}) => {
           </TouchableOpacity>
         </View>
 
-        <View style={{paddingHorizontal: 5}}>
-          <SlotCard />
-          <SlotCard />
-          <SlotCard />
-          <SlotCard />
+        <View style={{paddingHorizontal: 5, flex: 1}}>
+          {slotsLoading ? (
+            <ActivityIndicator color={dark1} style={{flex: 1}} />
+          ) : !slotsData?.slots?.length ? (
+            <WarningScreen label="No Slots Found" />
+          ) : (
+            slotsData.slots.map(e => {
+              return (
+                <SlotCard slotData={e.slotData} chamberData={e.chamberData} />
+              );
+            })
+          )}
         </View>
       </View>
     </ScrollView>

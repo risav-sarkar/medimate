@@ -20,8 +20,9 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faClock, faUserGroup} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
+import {format} from 'date-fns';
 
-const SlotCard = ({data, isShadow}) => {
+const SlotCard = ({slotData, chamberData, isShadow}) => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -31,7 +32,7 @@ const SlotCard = ({data, isShadow}) => {
           isShadow ? {...shadow, backgroundColor: backgroundColor1} : null,
         ]}
         onPress={() => {
-          navigation.navigate('SlotView');
+          navigation.navigate('SlotView', {data: {...slotData}});
         }}>
         <View style={styles.imageContainer}>
           <View
@@ -45,7 +46,7 @@ const SlotCard = ({data, isShadow}) => {
         <View style={styles.textContainer}>
           <View>
             <Text style={{...fontBold, fontSize: 20, marginBottom: 2}}>
-              Belle Vue Clinic
+              {chamberData.name}
             </Text>
 
             <View
@@ -58,7 +59,10 @@ const SlotCard = ({data, isShadow}) => {
               <Text
                 style={{...fontMedium, fontSize: 14, marginLeft: 8}}
                 numberOfLines={1}>
-                9:30AM - 10:30AM
+                {`${format(
+                  new Date(slotData.time.start),
+                  'h:mm aa',
+                )} - ${format(new Date(slotData.time.end), 'h:mm aa')}`}
               </Text>
             </View>
 
@@ -71,6 +75,7 @@ const SlotCard = ({data, isShadow}) => {
                 borderRadius: 10,
                 flexDirection: 'row-reverse',
                 alignItems: 'center',
+                width: 85,
                 ...shadow,
               }}>
               <Text
@@ -80,7 +85,9 @@ const SlotCard = ({data, isShadow}) => {
                   color: '#fff',
                   marginLeft: 10,
                 }}>
-                10
+                {`${slotData.numberOfBookings || 0} / ${
+                  slotData.bookingLimit || 0
+                }`}
               </Text>
 
               <FontAwesomeIcon icon={faUserGroup} color={patientColor} />

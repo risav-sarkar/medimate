@@ -97,6 +97,83 @@ router.get("/slots/:chamberId/:date", async (req, res) => {
   }
 });
 
+//GET Slots By DoctorId and Month
+router.get("/slots/doctor/:doctorId/:date", async (req, res) => {
+  try {
+    const allSlots = await Slot.find({ doctorId: req.params.doctorId });
+    let arr = [];
+    for (let i = 0; i < allSlots.length; i++) {
+      let slotDate = {
+        dateNumber: format(new Date(allSlots[i].date), "YMMdd"),
+        jsDate: allSlots[i].date,
+      };
+      if (
+        slotDate.dateNumber.toString().substring(0, 6) ===
+        req.params.date.toString().substring(0, 6)
+      ) {
+        let t = 0;
+        for (let j = 0; j < arr.length; j++) {
+          if (arr[j].date.dateNumber === slotDate.dateNumber) {
+            t = t + 1;
+            const chamber = await Chamber.findOne({
+              _id: allSlots[i].chamberId,
+            });
+            arr[j].slots.push({ slotData: allSlots[i], chamberData: chamber });
+            break;
+          }
+        }
+        if (t === 0) {
+          const chamber = await Chamber.findOne({
+            _id: allSlots[i].chamberId,
+          });
+          arr.push({
+            date: { ...slotDate },
+            slots: [{ slotData: allSlots[i], chamberData: chamber }],
+          });
+        }
+      }
+    }
+    return res.status(200).json(arr);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//GET Slots By DoctorId and Date
+router.get("/slots/doctor/date/:doctorId/:date", async (req, res) => {
+  try {
+    const allSlots = await Slot.find({ doctorId: req.params.doctorId });
+    let arr = [];
+    let chambers = [];
+    let slots = [];
+    let patients = 0;
+
+    for (let i = 0; i < allSlots.length; i++) {
+      let slotDate = format(new Date(allSlots[i].date), "YMMdd");
+
+      if (slotDate.toString() === req.params.date.toString()) {
+        const chamber = await Chamber.findOne({
+          _id: allSlots[i].chamberId,
+        });
+        arr.push({ slotData: allSlots[i], chamberData: chamber });
+        slots.push(allSlots[i]._id);
+        chambers.push(allSlots[i].chamberId);
+        patients = patients + allSlots[i].numberOfBookings;
+      }
+    }
+    return res.status(200).json({
+      slots: arr,
+      stats: {
+        chambers: new Set(chambers).size,
+        slots: new Set(slots).size,
+        patients: patients,
+      },
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 //GET Slot By Id
 router.get("/slot/:id", async (req, res) => {
   try {
@@ -112,7 +189,9 @@ router.post("/booking", async (req, res) => {
   try {
     const slot = await Slot.findOne({ _id: req.body.slotId });
 
-    if (slot) {
+    if (!slot) return res.status(404).json({ message: "Slot does not exist" });
+
+    if (slot.numberOfBookings < slot.bookingLimit) {
       const booking = await Booking.findOne({
         slotId: req.body.slotId,
         patientId: req.body.patientId,
@@ -128,10 +207,15 @@ router.post("/booking", async (req, res) => {
         });
 
         await newBooking.save();
+
+        await Slot.findByIdAndUpdate(slot._id, {
+          numberOfBookings: slot.numberOfBookings + 1,
+        });
+
         return res.status(200).json({ message: "Booking created" });
       }
     } else {
-      return res.status(404).json({ message: "Slot does not exist" });
+      return res.status(400).json({ message: "Slot full" });
     }
   } catch (err) {
     res.status(500).json(err);

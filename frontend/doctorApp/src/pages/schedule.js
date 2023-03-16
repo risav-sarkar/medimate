@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 
-import {useIsFocused} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {
   backgroundColor1,
   backgroundColor2,
@@ -24,6 +24,12 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faAngleLeft, faAngleRight} from '@fortawesome/free-solid-svg-icons';
 import {endOfMonth, format, startOfMonth, addMonths, subMonths} from 'date-fns';
 import SlotCard from '../components/common/slotCard';
+import SlotCard3 from '../components/common/slotCard3';
+import {useQuery} from '@tanstack/react-query';
+import {AuthContext} from '../context/AuthContext';
+import {getSlotsByDoctorAndMonth} from '../apiCalls';
+import ScheduleAll from '../components/common/scheduleAll';
+import WarningScreen from '../components/common/warningScreen';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -31,21 +37,31 @@ function FocusAwareStatusBar(props) {
 }
 
 const Schedule = () => {
+  const navigation = useNavigation();
   const [month, setMonth] = useState(new Date());
-  const [dates, setDates] = useState({
-    start: startOfMonth(month),
-    end: endOfMonth(month),
+  const {profile} = useContext(AuthContext);
+
+  const {
+    isError: slotsError,
+    isLoading: slotsLoading,
+    isRefetching: slotsRefetching,
+    data: slotsData,
+    refetch: slotsRefetch,
+  } = useQuery({
+    queryKey: [
+      `DoctorSlotsDate${format(month, 'YMMdd')}`,
+      profile.userId,
+      format(month, 'YMMdd'),
+    ],
+    queryFn: getSlotsByDoctorAndMonth,
   });
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    setDates({
-      start: startOfMonth(month),
-      end: endOfMonth(month),
+    const unsubscribe = navigation.addListener('focus', () => {
+      slotsRefetch();
     });
-    setLoading(false);
-  }, [month]);
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <ScrollView
@@ -99,31 +115,13 @@ const Schedule = () => {
       </View>
 
       <View style={styles.content}>
-        <View style={styles.dateContainer}>
-          <View style={styles.dateContent}>
-            <Text style={{...fontRegular, fontSize: 14, color: '#00000099'}}>
-              Thu
-            </Text>
-            <Text style={{...fontBold, fontSize: 16}}>29</Text>
-          </View>
-
-          <View style={{flex: 1, paddingRight: 10}}>
-            <SlotCard isShadow={true} />
-          </View>
-        </View>
-
-        <View style={styles.dateContainer}>
-          <View style={styles.dateContent}>
-            <Text style={{...fontRegular, fontSize: 14, color: '#00000099'}}>
-              Thu
-            </Text>
-            <Text style={{...fontBold, fontSize: 16}}>29</Text>
-          </View>
-
-          <View style={{flex: 1, paddingRight: 10}}>
-            <SlotCard isShadow={true} />
-          </View>
-        </View>
+        {slotsLoading ? (
+          <ActivityIndicator color={dark1} style={{flex: 1}} />
+        ) : !slotsData.length ? (
+          <WarningScreen label="No Slots Found" />
+        ) : (
+          <ScheduleAll data={slotsData} />
+        )}
       </View>
     </ScrollView>
   );
@@ -151,14 +149,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     paddingTop: 5,
     paddingBottom: 20,
-  },
-  dateContainer: {
-    flexDirection: 'row',
-  },
-  dateContent: {
-    width: 70,
-    alignItems: 'center',
-    paddingVertical: 10,
+    overflow: 'hidden',
   },
 });
 

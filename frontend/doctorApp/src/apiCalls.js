@@ -304,6 +304,26 @@ export const getSlotsByChamberAndMonth = async params => {
   return res.data;
 };
 
+export const getSlotsByDoctorAndMonth = async params => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const doctorID = params.queryKey[1];
+  const date = params.queryKey[2];
+  const res = await axios.get(
+    `${DoctorURL}/api/slots/doctor/${doctorID}/${date}`,
+  );
+  return res.data;
+};
+
+export const getSlotsByDoctorAndDate = async params => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const doctorID = params.queryKey[1];
+  const date = params.queryKey[2];
+  const res = await axios.get(
+    `${DoctorURL}/api/slots/doctor/date/${doctorID}/${date}`,
+  );
+  return res.data;
+};
+
 export const patchSlot = async (data, setLoading, token, navigation, toast) => {
   const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
   try {

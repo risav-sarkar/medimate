@@ -52,10 +52,6 @@ const ChamberView = () => {
   const {token} = useContext(AuthContext);
   const [isPanelActive, setIsPanelActive] = useState(false);
   const [month, setMonth] = useState(new Date());
-  const [dates, setDates] = useState({
-    start: startOfMonth(month),
-    end: endOfMonth(month),
-  });
   const [loading, setLoading] = useState(false);
 
   const {isError, isLoading, isRefetching, data, refetch} = useQuery({
@@ -77,15 +73,6 @@ const ChamberView = () => {
     ],
     queryFn: getSlotsByChamberAndMonth,
   });
-
-  useEffect(() => {
-    setLoading(true);
-    setDates({
-      start: startOfMonth(month),
-      end: endOfMonth(month),
-    });
-    setLoading(false);
-  }, [month]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
