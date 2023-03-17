@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const DoctorProfile = require("../models/DoctorProfile");
+const DoctorUser = require("../models/DoctorUser");
 const Chamber = require("../models/Chamber");
 const Slot = require("../models/Slot");
 const Booking = require("../models/Booking");
@@ -237,6 +238,17 @@ router.get("/booking/:patientId", async (req, res) => {
   try {
     const allBookings = await Booking.find({ patientId: req.params.patientId });
     return res.status(200).json(allBookings);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//GET Check Email Of doctor exists
+router.get("/doctoremail/:email", async (req, res) => {
+  try {
+    const doctor = await DoctorUser.findOne({ email: req.params.email });
+    if (doctor) return res.status(200).json({ message: "Email Found" });
+    else return res.status(404).json({ message: "Email Not Found" });
   } catch (err) {
     res.status(500).json(err);
   }

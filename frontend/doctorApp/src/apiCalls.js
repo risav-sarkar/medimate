@@ -99,6 +99,54 @@ export const signOutUser = async dispatch => {
   dispatch({type: 'USER_SIGNOUT'});
 };
 
+export const generateOTP = async (email, type, setLoading, toast) => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  try {
+    const res = await axios.post(`${DoctorURL}/doctor/generateotp`, {
+      email,
+      type,
+    });
+    ToastSuccess(toast, 'OTP has been send to your email');
+    return 'SUCCESS';
+  } catch (err) {
+    console.log(err);
+    ToastError(toast, err.response?.data?.message);
+    return 'FAILED';
+  } finally {
+    setLoading(false);
+  }
+};
+
+export const verifyEmail = async (email, setLoading, toast) => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  try {
+    const res = await axios.get(`${DoctorURL}/api/doctoremail/${email}`);
+    return 'SUCCESS';
+  } catch (err) {
+    console.log(err);
+    ToastError(toast, err.response?.data?.message);
+    return 'FAILED';
+  } finally {
+    setLoading(false);
+  }
+};
+
+export const resetPassword = async (data, setLoading, navigation, toast) => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  try {
+    const res = await axios.post(`${DoctorURL}/doctor/resetpassword`, data);
+    ToastSuccess(toast, 'Password reset successful');
+    navigation.navigate('Login');
+    return 'SUCCESS';
+  } catch (err) {
+    console.log(err);
+    ToastError(toast, err.response?.data?.message);
+    return 'FAILED';
+  } finally {
+    setLoading(false);
+  }
+};
+
 //PROFILE
 export const setProfile = async (token, dispatch) => {
   const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');

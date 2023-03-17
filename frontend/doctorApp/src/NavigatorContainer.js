@@ -23,6 +23,7 @@ import StartUp from './pages/Auth/startup';
 import Auth from './pages/Auth/auth';
 import SlotView from './pages/slotView';
 import ProfileCreateEdit from './pages/profileCreateEdit';
+import ForgetPassword from './pages/Auth/forgetPassword';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -120,6 +121,7 @@ const NavigatorContainer = () => {
             <Stack.Screen name="StartUp" component={StartUp} />
             <Stack.Screen name="Login" component={Auth} />
             <Stack.Screen name="Signup" component={Auth} />
+            <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
           </>
         )}
       </Stack.Navigator>

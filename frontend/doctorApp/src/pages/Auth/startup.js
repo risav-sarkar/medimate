@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import React, {useContext, useEffect} from 'react';
 
-import {useIsFocused} from '@react-navigation/native';
 import {
   backgroundColor2,
   dark1,
@@ -17,11 +16,7 @@ import {
   fontSemiBold,
   shadow,
 } from '../../globalStyle';
-
-function FocusAwareStatusBar(props) {
-  const isFocused = useIsFocused();
-  return isFocused ? <StatusBar {...props} /> : null;
-}
+import FocusAwareStatusBar from '../../components/statusBar';
 
 const StartUp = ({navigation}) => {
   return (

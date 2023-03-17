@@ -1,20 +1,68 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const otpGenerator = require("otp-generator");
 const { getTokenData, verifyIdToken } = require("../util");
 
 const DoctorUser = require("../models/DoctorUser");
 const DoctorProfile = require("../models/DoctorProfile");
 const Chamber = require("../models/Chamber");
 const Slot = require("../models/Slot");
-const { eachDayOfInterval, format } = require("date-fns");
 const Booking = require("../models/Booking");
+const EmailOTP = require("../models/EmailOTP");
+const { eachDayOfInterval, format } = require("date-fns");
+
+//OTP
+router.post("/generateotp", async (req, res) => {
+  try {
+    const otp = otpGenerator.generate(6, {
+      lowerCaseAlphabets: false,
+      upperCaseAlphabets: false,
+      specialChars: false,
+    });
+
+    await EmailOTP.remove({
+      email: req.body.email,
+      type: req.body.type,
+    });
+
+    const emailOtp = new EmailOTP({
+      email: req.body.email,
+      type: req.body.type,
+      otp,
+    });
+    await emailOtp.save();
+
+    return res
+      .status(200)
+      .json({ message: "Otp have been send to your email" });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 // ---------------Auth---------------
 
 //REGISTER
 router.post("/register", async (req, res) => {
   try {
+    const emailOtp = await EmailOTP.findOne({
+      email: req.body.email,
+      type: "email",
+    });
+
+    if (!emailOtp)
+      return res.status(404).json({ message: "OTP not generated" });
+
+    if (emailOtp.otp !== req.body.otp) {
+      return res.status(400).json({ message: "OTP Invalid" });
+    }
+
+    await EmailOTP.remove({
+      email: req.body.email,
+      type: "email",
+    });
+
     const doctor = await DoctorUser.findOne({ email: req.body.email });
     if (doctor) {
       return res.status(403).json({ message: "Email already taken" });
@@ -61,6 +109,7 @@ router.post("/login", async (req, res) => {
 
     return res.status(200).json({ token: token });
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });
@@ -70,9 +119,20 @@ router.post("/googlelogin", async (req, res) => {
   try {
     const { uid, email } = await verifyIdToken(req.body.idToken);
     if (uid && email) {
-      const doctor = await DoctorUser.findOne({ uid: uid });
+      const doctor = await DoctorUser.findOne({ email: email });
 
-      if (doctor) {
+      if (doctor.uid && doctor.email) {
+        const token = jwt.sign(
+          {
+            _id: doctor._id,
+          },
+          process.env.JWT_SECRET
+        );
+        return res.status(200).json({ token: token });
+      } else if (!doctor.uid && doctor.email) {
+        await DoctorUser.findByIdAndUpdate(doctor._id, {
+          uid: uid,
+        });
         const token = jwt.sign(
           {
             _id: doctor._id,
@@ -101,6 +161,42 @@ router.post("/googlelogin", async (req, res) => {
   }
 });
 
+//RESET PASSWORD
+router.post("/resetpassword", async (req, res) => {
+  try {
+    const emailOtp = await EmailOTP.findOne({
+      email: req.body.email,
+      type: "password",
+    });
+
+    if (!emailOtp)
+      return res.status(404).json({ message: "OTP not generated" });
+
+    if (emailOtp.otp !== req.body.otp) {
+      return res.status(400).json({ message: "OTP Invalid" });
+    }
+
+    await EmailOTP.remove({
+      email: req.body.email,
+      type: "password",
+    });
+
+    const doctor = await DoctorUser.findOne({ email: req.body.email });
+    if (!doctor) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+    await DoctorUser.findByIdAndUpdate(doctor._id, {
+      password: hashedPassword,
+    });
+    return res.status(200).json({ message: "Password Updated" });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 // ---------------Profile---------------
 
 //GET PROFILE
