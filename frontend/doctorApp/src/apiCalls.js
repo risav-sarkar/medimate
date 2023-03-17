@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import {GoogleSignin} from '@react-native-google-signin/google-signin';
-// import auth, {firebase} from '@react-native-firebase/auth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import auth, {firebase} from '@react-native-firebase/auth';
 import axios from 'axios';
 import NetInfo from '@react-native-community/netinfo';
 import {ToastError, ToastSuccess} from './components/toastFunction';
@@ -8,10 +8,10 @@ import {ToastError, ToastSuccess} from './components/toastFunction';
 //AUTH
 export const fetchUser = async dispatch => {
   dispatch({type: 'FETCH_USER_START'});
-  // GoogleSignin.configure({
-  //   webClientId:
-  //     '112285166864-cg5bk4mnqget75apg3a8tado53t553lk.apps.googleusercontent.com',
-  // });
+  GoogleSignin.configure({
+    webClientId:
+      '439664914133-mmpie5cg3ifbnoltliu54t1fjt4ir077.apps.googleusercontent.com',
+  });
 
   const token = await AsyncStorage.getItem('CILVER_TOKEN_DOCTOR');
 
@@ -69,9 +69,33 @@ export const userRegister = async (data, toast, dispatch) => {
   }
 };
 
+export const googleLogin = async (toast, dispatch) => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  dispatch({type: 'LOGIN_USER_START'});
+  try {
+    await GoogleSignin.signOut();
+    const {idToken} = await GoogleSignin.signIn();
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    await auth().signInWithCredential(googleCredential);
+    const idTokenResult = await firebase.auth().currentUser.getIdTokenResult();
+
+    const res = await axios.post(`${DoctorURL}/doctor/googlelogin`, {
+      idToken: idTokenResult.token,
+    });
+
+    await AsyncStorage.setItem('CILVER_TOKEN_DOCTOR', res.data.token);
+    await setProfile(res.data.token, dispatch);
+    dispatch({type: 'LOGIN_USER_SUCCESS', payload: res.data.token});
+  } catch (err) {
+    ToastError(toast, err.response?.data?.message);
+    console.log(err.message);
+    dispatch({type: 'LOGIN_USER_FAILURE', payload: err});
+  }
+};
+
 export const signOutUser = async dispatch => {
   await AsyncStorage.removeItem('CILVER_TOKEN_DOCTOR');
-  // await GoogleSignin.signOut();
+  await GoogleSignin.signOut();
   dispatch({type: 'USER_SIGNOUT'});
 };
 

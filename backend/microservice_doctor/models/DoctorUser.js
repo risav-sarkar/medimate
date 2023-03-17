@@ -13,10 +13,6 @@ const UserSchema = new mongoose.Schema(
       min: 6,
     },
     uid: { type: String, default: null },
-    isGoogle: {
-      type: Boolean,
-      default: false,
-    },
   },
   { timestamps: true }
 );

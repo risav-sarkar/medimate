@@ -9,8 +9,7 @@ initializeApp({
 module.exports.verifyIdToken = async (idToken) => {
   try {
     const decodedToken = await getAuth().verifyIdToken(idToken);
-    console.log(decodedToken);
-    return decodedToken;
+    return { email: decodedToken.email, uid: decodedToken.uid };
   } catch (error) {
     console.log(error);
     return null;

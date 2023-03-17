@@ -68,9 +68,34 @@ router.post("/login", async (req, res) => {
 //GOOGLE LOGIN
 router.post("/googlelogin", async (req, res) => {
   try {
-    const uid = await verifyIdToken(req.body.idToken);
-    console.log(uid);
-    return res.status(200).json(uid);
+    const { uid, email } = await verifyIdToken(req.body.idToken);
+    if (uid && email) {
+      const doctor = await DoctorUser.findOne({ uid: uid });
+
+      if (doctor) {
+        const token = jwt.sign(
+          {
+            _id: doctor._id,
+          },
+          process.env.JWT_SECRET
+        );
+        return res.status(200).json({ token: token });
+      } else {
+        const newDoctor = new DoctorUser({
+          email: email,
+          uid: uid,
+        });
+        await newDoctor.save();
+        const doctor = await DoctorUser.findOne({ uid: uid });
+        const token = jwt.sign(
+          {
+            _id: doctor._id,
+          },
+          process.env.JWT_SECRET
+        );
+        return res.status(200).json({ token: token });
+      }
+    } else return res.status(404).json({ message: "Invalid token" });
   } catch (err) {
     res.status(500).json(err);
   }

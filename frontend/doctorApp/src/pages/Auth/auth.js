@@ -26,7 +26,7 @@ import Input from '../../components/common/input';
 import {AuthContext} from '../../context/AuthContext';
 import {ToastError, ToastSuccess} from '../../components/toastFunction';
 import {useToast} from 'react-native-toast-notifications';
-import {userLogin, userRegister} from '../../apiCalls';
+import {googleLogin, userLogin, userRegister} from '../../apiCalls';
 import ActionButton from '../../components/common/actionButton';
 
 function FocusAwareStatusBar(props) {
@@ -158,7 +158,10 @@ const Auth = ({navigation, route}) => {
                     flexDirection: 'row',
                   },
                   shadow,
-                ]}>
+                ]}
+                onPress={() => {
+                  googleLogin(toast, dispatch);
+                }}>
                 <FontAwesomeIcon icon={faGoogle} />
                 <Text
                   style={{
