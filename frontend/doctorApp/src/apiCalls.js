@@ -20,8 +20,8 @@ export const fetchUser = async dispatch => {
       NetInfo.fetch().then(async state => {
         if (state.isConnected) {
           try {
-            const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
-            const res = await axios.get(`${DoctorURL}/doctor/profile`, {
+            const HeadURL = await AsyncStorage.getItem('CILVER_URL');
+            const res = await axios.get(`${HeadURL}/doctor/profile`, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -41,10 +41,10 @@ export const fetchUser = async dispatch => {
 };
 
 export const userLogin = async (data, toast, dispatch) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   dispatch({type: 'LOGIN_USER_START'});
   try {
-    const res = await axios.post(`${DoctorURL}/doctor/login`, data);
+    const res = await axios.post(`${HeadURL}/doctor/login`, data);
     await AsyncStorage.setItem('CILVER_TOKEN_DOCTOR', res.data.token);
     await setProfile(res.data.token, dispatch);
     dispatch({type: 'LOGIN_USER_SUCCESS', payload: res.data.token});
@@ -56,10 +56,10 @@ export const userLogin = async (data, toast, dispatch) => {
 };
 
 export const userRegister = async (data, toast, dispatch) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   dispatch({type: 'LOGIN_USER_START'});
   try {
-    const res = await axios.post(`${DoctorURL}/doctor/register`, data);
+    const res = await axios.post(`${HeadURL}/doctor/register`, data);
     await userLogin(data, toast, dispatch);
     console.log(res.data);
   } catch (err) {
@@ -70,7 +70,7 @@ export const userRegister = async (data, toast, dispatch) => {
 };
 
 export const googleLogin = async (toast, dispatch) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   dispatch({type: 'LOGIN_USER_START'});
   try {
     await GoogleSignin.signOut();
@@ -79,7 +79,7 @@ export const googleLogin = async (toast, dispatch) => {
     await auth().signInWithCredential(googleCredential);
     const idTokenResult = await firebase.auth().currentUser.getIdTokenResult();
 
-    const res = await axios.post(`${DoctorURL}/doctor/googlelogin`, {
+    const res = await axios.post(`${HeadURL}/doctor/googlelogin`, {
       idToken: idTokenResult.token,
     });
 
@@ -100,9 +100,9 @@ export const signOutUser = async dispatch => {
 };
 
 export const generateOTP = async (email, type, setLoading, toast) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   try {
-    const res = await axios.post(`${DoctorURL}/doctor/generateotp`, {
+    const res = await axios.post(`${HeadURL}/doctor/generateotp`, {
       email,
       type,
     });
@@ -118,9 +118,9 @@ export const generateOTP = async (email, type, setLoading, toast) => {
 };
 
 export const verifyEmail = async (email, setLoading, toast) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   try {
-    const res = await axios.get(`${DoctorURL}/api/doctoremail/${email}`);
+    const res = await axios.get(`${HeadURL}/api/doctoremail/${email}`);
     return 'SUCCESS';
   } catch (err) {
     console.log(err);
@@ -132,9 +132,9 @@ export const verifyEmail = async (email, setLoading, toast) => {
 };
 
 export const resetPassword = async (data, setLoading, navigation, toast) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   try {
-    const res = await axios.post(`${DoctorURL}/doctor/resetpassword`, data);
+    const res = await axios.post(`${HeadURL}/doctor/resetpassword`, data);
     ToastSuccess(toast, 'Password reset successful');
     navigation.navigate('Login');
     return 'SUCCESS';
@@ -148,9 +148,9 @@ export const resetPassword = async (data, setLoading, navigation, toast) => {
 };
 
 export const resetEmail = async (data, setLoading, navigation, toast) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   try {
-    const res = await axios.post(`${DoctorURL}/doctor/resetemail`, data);
+    const res = await axios.post(`${HeadURL}/doctor/resetemail`, data);
     ToastSuccess(toast, 'Email reset successful');
     navigation.navigate('Profile');
     return 'SUCCESS';
@@ -165,9 +165,9 @@ export const resetEmail = async (data, setLoading, navigation, toast) => {
 
 //PROFILE
 export const setProfile = async (token, dispatch) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   try {
-    const res = await axios.get(`${DoctorURL}/doctor/profile`, {
+    const res = await axios.get(`${HeadURL}/doctor/profile`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -180,9 +180,9 @@ export const setProfile = async (token, dispatch) => {
 };
 
 export const getProfile = async params => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   const token = params.queryKey[1];
-  const res = await axios.get(`${DoctorURL}/doctor/profile`, {
+  const res = await axios.get(`${HeadURL}/doctor/profile`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -198,9 +198,9 @@ export const postProfile = async (
   toast,
   dispatch,
 ) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   try {
-    const res = await axios.post(`${DoctorURL}/doctor/profile`, data, {
+    const res = await axios.post(`${HeadURL}/doctor/profile`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -223,9 +223,9 @@ export const patchProfile = async (
   toast,
   dispatch,
 ) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   try {
-    const res = await axios.patch(`${DoctorURL}/doctor/profile`, data, {
+    const res = await axios.patch(`${HeadURL}/doctor/profile`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -242,16 +242,16 @@ export const patchProfile = async (
 
 //Chamber
 export const getChambers = async params => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   const doctorID = params.queryKey[1];
-  const res = await axios.get(`${DoctorURL}/api/chambers/${doctorID}`);
+  const res = await axios.get(`${HeadURL}/api/chambers/${doctorID}`);
   return res.data;
 };
 
 export const getChamber = async params => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   const chamberID = params.queryKey[1];
-  const res = await axios.get(`${DoctorURL}/api/chamber/${chamberID}`);
+  const res = await axios.get(`${HeadURL}/api/chamber/${chamberID}`);
   return res.data;
 };
 
@@ -262,9 +262,9 @@ export const postChamber = async (
   navigation,
   toast,
 ) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   try {
-    const res = await axios.post(`${DoctorURL}/doctor/chamber`, data, {
+    const res = await axios.post(`${HeadURL}/doctor/chamber`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -285,10 +285,10 @@ export const patchChamber = async (
   navigation,
   toast,
 ) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   try {
     const res = await axios.patch(
-      `${DoctorURL}/doctor/chamber/${data._id}`,
+      `${HeadURL}/doctor/chamber/${data._id}`,
       data,
       {
         headers: {
@@ -312,9 +312,9 @@ export const deleteChamber = async (
   navigation,
   toast,
 ) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   try {
-    const res = await axios.delete(`${DoctorURL}/doctor/chamber/${id}`, {
+    const res = await axios.delete(`${HeadURL}/doctor/chamber/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -336,9 +336,9 @@ export const postSingleSlot = async (
   navigation,
   toast,
 ) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   try {
-    const res = await axios.post(`${DoctorURL}/doctor/slot`, data, {
+    const res = await axios.post(`${HeadURL}/doctor/slot`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -360,9 +360,9 @@ export const postMultipleSlot = async (
   navigation,
   toast,
 ) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   try {
-    const res = await axios.post(`${DoctorURL}/doctor/slot/multiple`, data, {
+    const res = await axios.post(`${HeadURL}/doctor/slot/multiple`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -378,52 +378,48 @@ export const postMultipleSlot = async (
 };
 
 export const getSlot = async params => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   const slotId = params.queryKey[1];
-  const res = await axios.get(`${DoctorURL}/api/slot/${slotId}`);
+  const res = await axios.get(`${HeadURL}/api/slot/${slotId}`);
   return res.data;
 };
 
 export const getSlotsByChamberAndMonth = async params => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   const chamberID = params.queryKey[1];
   const date = params.queryKey[2];
-  const res = await axios.get(`${DoctorURL}/api/slots/${chamberID}/${date}`);
+  const res = await axios.get(`${HeadURL}/api/slots/${chamberID}/${date}`);
   return res.data;
 };
 
 export const getSlotsByDoctorAndMonth = async params => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   const doctorID = params.queryKey[1];
   const date = params.queryKey[2];
   const res = await axios.get(
-    `${DoctorURL}/api/slots/doctor/${doctorID}/${date}`,
+    `${HeadURL}/api/slots/doctor/${doctorID}/${date}`,
   );
   return res.data;
 };
 
 export const getSlotsByDoctorAndDate = async params => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   const doctorID = params.queryKey[1];
   const date = params.queryKey[2];
   const res = await axios.get(
-    `${DoctorURL}/api/slots/doctor/date/${doctorID}/${date}`,
+    `${HeadURL}/api/slots/doctor/date/${doctorID}/${date}`,
   );
   return res.data;
 };
 
 export const patchSlot = async (data, setLoading, token, navigation, toast) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   try {
-    const res = await axios.patch(
-      `${DoctorURL}/doctor/slot/${data._id}`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    const res = await axios.patch(`${HeadURL}/doctor/slot/${data._id}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-    );
+    });
     navigation.goBack();
   } catch (err) {
     console.log(err);
@@ -434,9 +430,9 @@ export const patchSlot = async (data, setLoading, token, navigation, toast) => {
 };
 
 export const deleteSlot = async (id, setLoading, token, navigation, toast) => {
-  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   try {
-    const res = await axios.delete(`${DoctorURL}/doctor/slot/${id}`, {
+    const res = await axios.delete(`${HeadURL}/doctor/slot/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

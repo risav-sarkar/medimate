@@ -18,8 +18,7 @@ export const AuthContextProvider = ({children}) => {
   const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
 
   const SetUrl = async e => {
-    await AsyncStorage.setItem('CILVER_DOCTOR_URL', e.doctorURL);
-    await AsyncStorage.setItem('CILVER_PATIENT_URL', e.patientURL);
+    await AsyncStorage.setItem('CILVER_URL', e.url);
   };
 
   useEffect(() => {
