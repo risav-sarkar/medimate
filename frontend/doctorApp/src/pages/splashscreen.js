@@ -1,14 +1,8 @@
-import {Text, StyleSheet, View, Image, StatusBar} from 'react-native';
+import {StyleSheet, View, Image, StatusBar} from 'react-native';
 import React, {useContext, useEffect} from 'react';
 import {AuthContext} from '../context/AuthContext';
-
-import {useIsFocused} from '@react-navigation/native';
 import {fetchUser} from '../apiCalls';
-
-function FocusAwareStatusBar(props) {
-  const isFocused = useIsFocused();
-  return isFocused ? <StatusBar {...props} /> : null;
-}
+import FocusAwareStatusBar from '../components/statusBar';
 
 const SplashScreen = () => {
   const {dispatch} = useContext(AuthContext);

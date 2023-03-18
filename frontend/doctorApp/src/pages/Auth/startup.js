@@ -1,12 +1,5 @@
-import {
-  Text,
-  StyleSheet,
-  View,
-  Image,
-  StatusBar,
-  TouchableOpacity,
-} from 'react-native';
-import React, {useContext, useEffect} from 'react';
+import {Text, StyleSheet, View, TouchableOpacity} from 'react-native';
+import React from 'react';
 
 import {
   backgroundColor2,

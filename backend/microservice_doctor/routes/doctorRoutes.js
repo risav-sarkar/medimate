@@ -121,6 +121,22 @@ router.post("/googlelogin", async (req, res) => {
     if (uid && email) {
       const doctor = await DoctorUser.findOne({ email: email });
 
+      if (!doctor) {
+        const newDoctor = new DoctorUser({
+          email: email,
+          uid: uid,
+        });
+        await newDoctor.save();
+        const doctor = await DoctorUser.findOne({ uid: uid });
+        const token = jwt.sign(
+          {
+            _id: doctor._id,
+          },
+          process.env.JWT_SECRET
+        );
+        return res.status(200).json({ token: token });
+      }
+
       if (doctor.uid && doctor.email) {
         const token = jwt.sign(
           {
@@ -129,24 +145,12 @@ router.post("/googlelogin", async (req, res) => {
           process.env.JWT_SECRET
         );
         return res.status(200).json({ token: token });
-      } else if (!doctor.uid && doctor.email) {
+      }
+
+      if (!doctor.uid && doctor.email) {
         await DoctorUser.findByIdAndUpdate(doctor._id, {
           uid: uid,
         });
-        const token = jwt.sign(
-          {
-            _id: doctor._id,
-          },
-          process.env.JWT_SECRET
-        );
-        return res.status(200).json({ token: token });
-      } else {
-        const newDoctor = new DoctorUser({
-          email: email,
-          uid: uid,
-        });
-        await newDoctor.save();
-        const doctor = await DoctorUser.findOne({ uid: uid });
         const token = jwt.sign(
           {
             _id: doctor._id,
@@ -197,6 +201,49 @@ router.post("/resetpassword", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+//RESET EMAIL
+router.post("/resetemail", async (req, res) => {
+  try {
+    const emailOtp1 = await EmailOTP.findOne({
+      email: req.body.email1,
+      type: "emailreset",
+    });
+    const emailOtp2 = await EmailOTP.findOne({
+      email: req.body.email2,
+      type: "emailreset",
+    });
+
+    if (!emailOtp1 || !emailOtp2)
+      return res.status(404).json({ message: "OTP not generated" });
+
+    if (emailOtp1.otp !== req.body.otp1 || emailOtp2.otp !== req.body.otp2) {
+      return res.status(400).json({ message: "OTP Invalid" });
+    }
+
+    await EmailOTP.remove({
+      email: req.body.email1,
+      type: "emailreset",
+    });
+
+    await EmailOTP.remove({
+      email: req.body.email2,
+      type: "emailreset",
+    });
+
+    await DoctorUser.findOneAndUpdate(
+      { email: req.body.email1 },
+      {
+        email: req.body.email2,
+        uid: null,
+      }
+    );
+    return res.status(200).json({ message: "Email Changed" });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 // ---------------Profile---------------
 
 //GET PROFILE
@@ -209,7 +256,7 @@ router.get("/profile", async (req, res) => {
 
       return res.status(200).json({
         ...JSON.parse(JSON.stringify(profile)),
-        isGoogle: userData.isGoogle || false,
+        email: userData.email || "",
       });
     } else {
       return res.status(404).json({ message: "Invalid token" });

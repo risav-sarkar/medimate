@@ -3,18 +3,14 @@ import {
   Text,
   View,
   TouchableOpacity,
-  StatusBar,
   ScrollView,
-  TextInput,
 } from 'react-native';
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 
-import {useIsFocused, useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   backgroundColor1,
   backgroundColor2,
-  chamberColor,
-  color1,
   dark1,
   fontBold,
   fontMedium,
@@ -22,18 +18,14 @@ import {
   shadow,
 } from '../globalStyle';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faClock,
-  faHouseMedical,
-  faPlus,
-} from '@fortawesome/free-solid-svg-icons';
+import {faClock} from '@fortawesome/free-solid-svg-icons';
 import Header from '../components/common/header';
 import Tabbar from '../components/common/tabbar';
 import PagerView from 'react-native-pager-view';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import {format, isBefore, setDay} from 'date-fns';
+import {format, isBefore} from 'date-fns';
 import {useToast} from 'react-native-toast-notifications';
-import {ToastError, ToastSuccess} from '../components/toastFunction';
+import {ToastError} from '../components/toastFunction';
 import ActionButton from '../components/common/actionButton';
 import {postMultipleSlot, postSingleSlot} from '../apiCalls';
 import {AuthContext} from '../context/AuthContext';

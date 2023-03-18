@@ -1,118 +1,82 @@
-import {
-  Text,
-  StyleSheet,
-  View,
-  Image,
-  StatusBar,
-  TouchableOpacity,
-  ScrollView,
-  TextInput,
-  ActivityIndicator,
-} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import {
-  backgroundColor2,
-  dark1,
-  fontBold,
-  fontRegular,
-  fontSemiBold,
-  shadow,
-} from '../../globalStyle';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faGoogle} from '@fortawesome/free-brands-svg-icons';
+import {Text, StyleSheet, View, TouchableOpacity} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {fontBold, fontRegular, fontSemiBold} from '../../globalStyle';
 import Input from '../../components/common/input';
 import {AuthContext} from '../../context/AuthContext';
-import {ToastError, ToastSuccess} from '../../components/toastFunction';
+import {ToastError} from '../../components/toastFunction';
 import {useToast} from 'react-native-toast-notifications';
-import {
-  generateOTP,
-  googleLogin,
-  resetPassword,
-  userLogin,
-  userRegister,
-  verifyEmail,
-} from '../../apiCalls';
+import {generateOTP, resetEmail} from '../../apiCalls';
 import ActionButton from '../../components/common/actionButton';
 import PrimaryLayout from '../../layouts/primaryLayout';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
-const ForgetPassword = () => {
+const ResetEmail = () => {
   const toast = useToast();
   const navigation = useNavigation();
   const route = useRoute();
-  const [form, setForm] = useState({email: '', password: ''});
+  const {profile} = useContext(AuthContext);
+  const [form, setForm] = useState({
+    email1: profile.email,
+    email2: '',
+    otp1: '',
+    otp2: '',
+  });
   const [loading, setLoading] = useState(false);
-  const [isEmailVerified, setIsEmailVerified] = useState(false);
-  const [isOtpSend, setIsOtpSend] = useState(false);
+  const [isEmailEntered, setIsEmailEntered] = useState(false);
 
-  const GenerateOTP = async () => {
+  const GenerateOTP = async email => {
     setLoading(true);
-    const res = await generateOTP(form.email, 'password', setLoading, toast);
-    if (res === 'SUCCESS') setIsOtpSend(true);
-  };
-
-  const VerifyEmail = async () => {
-    if (!form.email) {
-      ToastError(toast, 'Enter Email');
-      return;
-    }
-
-    setLoading(true);
-    const res = await verifyEmail(form.email, setLoading, toast);
-    if (res === 'SUCCESS') {
-      setIsEmailVerified(true);
-      GenerateOTP();
-    }
+    const res = await generateOTP(email, 'emailreset', setLoading, toast);
   };
 
   const HandleSubmit = () => {
-    if (!form.email) {
-      ToastError(toast, 'Enter Email');
+    if (!form.otp1) {
+      ToastError(toast, 'Enter OTP');
       return;
     }
-    if (!form.password) {
-      ToastError(toast, 'Enter Password');
+    if (!form.otp2) {
+      ToastError(toast, 'Enter OTP');
       return;
     }
 
     setLoading(true);
-    resetPassword(form, setLoading, navigation, toast);
+    resetEmail(form, setLoading, navigation, toast);
   };
 
   return (
-    <PrimaryLayout name="Reset Password">
+    <PrimaryLayout name="Reset Email">
       <View style={styles.inputContainer}>
-        {!isEmailVerified && (
+        {!isEmailEntered && (
           <Input
-            label={'Email'}
+            label={'Enter Your New Email'}
             value={form.email}
             placeholder={'abc@gmail.com'}
             handleOnChange={e => {
-              setForm({...form, email: e});
+              setForm({...form, email2: e});
             }}
             autoCapitalize="none"
           />
         )}
 
-        {isOtpSend && (
+        {isEmailEntered && (
           <>
             <Input
-              label={'Password'}
-              value={form.password}
-              placeholder={'ah#%53'}
+              label={'OTP from current email'}
+              value={form.otp1}
+              placeholder={'******'}
               handleOnChange={e => {
-                setForm({...form, password: e});
+                setForm({...form, otp1: e});
               }}
               secureTextEntry={true}
-              autoCapitalize="none"
+              keyboardType="numeric"
             />
 
             <Input
-              label={'OTP'}
-              value={form.otp}
+              label={'OTP from new email'}
+              value={form.otp2}
               placeholder={'******'}
               handleOnChange={e => {
-                setForm({...form, otp: e});
+                setForm({...form, otp2: e});
               }}
               secureTextEntry={true}
               keyboardType="numeric"
@@ -135,10 +99,18 @@ const ForgetPassword = () => {
       <View style={{paddingHorizontal: 15}}>
         <ActionButton
           loading={loading}
-          label={!isEmailVerified ? 'Continue' : 'Submit'}
+          label={!isEmailEntered ? 'Send OTP' : 'Submit'}
           handlePress={() => {
-            if (!isEmailVerified) VerifyEmail();
-            else HandleSubmit();
+            if (!isEmailEntered) {
+              if (!form.email2) ToastError(toast, 'Enter your email');
+              else if (form.email2 === form.email1)
+                ToastError(toast, 'Current and new emails same');
+              else {
+                setIsEmailEntered(true);
+                GenerateOTP(form.email1);
+                GenerateOTP(form.email2);
+              }
+            } else HandleSubmit();
           }}
         />
       </View>
@@ -171,4 +143,4 @@ const styles = StyleSheet.create({
   inputContainer: {paddingHorizontal: 20, marginBottom: 15},
 });
 
-export default ForgetPassword;
+export default ResetEmail;

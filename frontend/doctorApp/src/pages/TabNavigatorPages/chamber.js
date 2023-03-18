@@ -3,11 +3,9 @@ import {
   Text,
   View,
   TouchableOpacity,
-  StatusBar,
   ScrollView,
-  TextInput,
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {AuthContext} from '../../context/AuthContext';
 
 import {
@@ -18,7 +16,6 @@ import {
   dark1,
   fontBold,
   fontMedium,
-  fontSemiBold,
   shadow,
 } from '../../globalStyle';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';

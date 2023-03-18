@@ -24,6 +24,7 @@ import Auth from './pages/Auth/auth';
 import SlotView from './pages/slotView';
 import ProfileCreateEdit from './pages/profileCreateEdit';
 import ForgetPassword from './pages/Auth/forgetPassword';
+import ResetEmail from './pages/Auth/resetEmail';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -97,7 +98,9 @@ const NavigatorContainer = () => {
             <>
               <Stack.Screen name="MainScreen" component={MainScreen} />
               <Stack.Screen name="ProfileEdit" component={ProfileCreateEdit} />
+              <Stack.Screen name="ResetEmail" component={ResetEmail} />
               <Stack.Screen name="Schedule" component={Schedule} />
+              <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
               <Stack.Screen
                 name="ChamberCreate"
                 component={ChamberCreateEdit}
@@ -121,7 +124,10 @@ const NavigatorContainer = () => {
             <Stack.Screen name="StartUp" component={StartUp} />
             <Stack.Screen name="Login" component={Auth} />
             <Stack.Screen name="Signup" component={Auth} />
-            <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+            <Stack.Screen
+              name="ForgetPasswordNoUser"
+              component={ForgetPassword}
+            />
           </>
         )}
       </Stack.Navigator>

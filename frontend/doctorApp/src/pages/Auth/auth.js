@@ -2,14 +2,10 @@ import {
   Text,
   StyleSheet,
   View,
-  Image,
-  StatusBar,
   TouchableOpacity,
   ScrollView,
-  TextInput,
-  ActivityIndicator,
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   backgroundColor2,
   dark1,
@@ -152,7 +148,7 @@ const Auth = ({navigation, route}) => {
                 alignItems: 'flex-end',
               }}
               onPress={() => {
-                navigation.navigate('ForgetPassword');
+                navigation.navigate('ForgetPasswordNoUser');
               }}>
               <Text style={{...fontSemiBold}}>Forget Password?</Text>
             </TouchableOpacity>

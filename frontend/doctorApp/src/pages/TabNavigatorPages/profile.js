@@ -3,13 +3,12 @@ import {
   Text,
   View,
   TouchableOpacity,
-  StatusBar,
   ScrollView,
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {AuthContext} from '../../context/AuthContext';
 
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {
   backgroundColor1,
   color1,
@@ -21,21 +20,19 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faAngleRight,
-  faGear,
+  faEnvelope,
+  faLock,
   faPenToSquare,
   faRightFromBracket,
+  faTrash,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import {signOutUser} from '../../apiCalls';
-
-function FocusAwareStatusBar(props) {
-  const isFocused = useIsFocused();
-  return isFocused ? <StatusBar {...props} /> : null;
-}
+import FocusAwareStatusBar from '../../components/statusBar';
 
 const Profile = () => {
   const navigation = useNavigation();
-  const {token, dispatch, profile} = useContext(AuthContext);
+  const {dispatch, profile} = useContext(AuthContext);
 
   return (
     <ScrollView
@@ -113,12 +110,50 @@ const Profile = () => {
         </View>
 
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => {
+              navigation.navigate('ForgetPassword');
+            }}>
             <View style={styles.btnContent}>
               <View style={styles.btnIconContainer}>
-                <FontAwesomeIcon icon={faGear} color={dark1} size={20} />
+                <FontAwesomeIcon icon={faLock} color={dark1} size={20} />
               </View>
-              <Text style={styles.btnText}>Settings</Text>
+              <Text style={styles.btnText}>Reset Password</Text>
+            </View>
+
+            <FontAwesomeIcon icon={faAngleRight} color={dark1} size={20} />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.btnContainer}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => {
+              navigation.navigate('ResetEmail');
+            }}>
+            <View style={styles.btnContent}>
+              <View style={styles.btnIconContainer}>
+                <FontAwesomeIcon icon={faEnvelope} color={dark1} size={20} />
+              </View>
+              <Text style={styles.btnText}>Reset Email</Text>
+            </View>
+
+            <FontAwesomeIcon icon={faAngleRight} color={dark1} size={20} />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.btnContainer}>
+          <TouchableOpacity style={styles.btn} onPress={() => {}}>
+            <View style={styles.btnContent}>
+              <View
+                style={[
+                  styles.btnIconContainer,
+                  {backgroundColor: '#ff00006b'},
+                ]}>
+                <FontAwesomeIcon icon={faTrash} color={dark1} size={20} />
+              </View>
+              <Text style={styles.btnText}>Delete Account</Text>
             </View>
 
             <FontAwesomeIcon icon={faAngleRight} color={dark1} size={20} />

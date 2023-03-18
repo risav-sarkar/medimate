@@ -1,7 +1,7 @@
 import {faTriangleExclamation} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import React, {useContext} from 'react';
-import {TouchableOpacity, View, Text} from 'react-native';
+import {View, Text} from 'react-native';
 import {fetchUser, signOutUser} from '../apiCalls';
 import ActionButton from '../components/common/actionButton';
 import FocusAwareStatusBar from '../components/statusBar';

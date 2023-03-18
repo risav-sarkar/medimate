@@ -3,14 +3,12 @@ import {
   Text,
   View,
   TouchableOpacity,
-  StatusBar,
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {AuthContext} from '../../context/AuthContext';
 
-import {useIsFocused} from '@react-navigation/native';
 import {
   backgroundColor1,
   backgroundColor2,
@@ -19,7 +17,6 @@ import {
   dark1,
   fontBold,
   fontRegular,
-  fontSemiBold,
   patientColor,
   shadow,
   slotColor,
@@ -28,7 +25,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faCheckToSlot,
   faCircleUser,
-  faHourglass,
   faHouseMedical,
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
@@ -37,7 +33,6 @@ import SlotCard from '../../components/common/slotCard';
 import {format} from 'date-fns';
 import {useQuery} from '@tanstack/react-query';
 import {getSlotsByDoctorAndDate} from '../../apiCalls';
-import ScheduleAll from '../../components/common/scheduleAll';
 import WarningScreen from '../../components/common/warningScreen';
 import FocusAwareStatusBar from '../../components/statusBar';
 

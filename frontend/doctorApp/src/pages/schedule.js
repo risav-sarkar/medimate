@@ -2,15 +2,13 @@ import {
   Text,
   StyleSheet,
   View,
-  Image,
-  StatusBar,
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {
   backgroundColor1,
   backgroundColor2,
@@ -22,9 +20,7 @@ import {
 import Header from '../components/common/header';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faAngleLeft, faAngleRight} from '@fortawesome/free-solid-svg-icons';
-import {endOfMonth, format, startOfMonth, addMonths, subMonths} from 'date-fns';
-import SlotCard from '../components/common/slotCard';
-import SlotCard3 from '../components/common/slotCard3';
+import {format, addMonths, subMonths} from 'date-fns';
 import {useQuery} from '@tanstack/react-query';
 import {AuthContext} from '../context/AuthContext';
 import {getSlotsByDoctorAndMonth} from '../apiCalls';

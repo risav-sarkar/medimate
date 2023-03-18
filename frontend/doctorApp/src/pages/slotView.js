@@ -2,36 +2,24 @@ import {
   Text,
   StyleSheet,
   View,
-  Image,
-  StatusBar,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 
-import {useIsFocused, useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   backgroundColor1,
   backgroundColor2,
-  chamberColor,
   dark1,
   fontBold,
   fontRegular,
-  fontSemiBold,
   shadow,
   slotColor,
 } from '../globalStyle';
 import Header from '../components/common/header';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faAngleLeft,
-  faAngleRight,
-  faCheckToSlot,
-  faHouseMedical,
-  faPenToSquare,
-  faTrash,
-} from '@fortawesome/free-solid-svg-icons';
+import {faPenToSquare, faTrash} from '@fortawesome/free-solid-svg-icons';
 import PatientCard from '../components/common/patientCard';
 import {useToast} from 'react-native-toast-notifications';
 import DeletePanel from '../components/common/deletePanel';

@@ -147,6 +147,22 @@ export const resetPassword = async (data, setLoading, navigation, toast) => {
   }
 };
 
+export const resetEmail = async (data, setLoading, navigation, toast) => {
+  const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');
+  try {
+    const res = await axios.post(`${DoctorURL}/doctor/resetemail`, data);
+    ToastSuccess(toast, 'Email reset successful');
+    navigation.navigate('Profile');
+    return 'SUCCESS';
+  } catch (err) {
+    console.log(err);
+    ToastError(toast, err.response?.data?.message);
+    return 'FAILED';
+  } finally {
+    setLoading(false);
+  }
+};
+
 //PROFILE
 export const setProfile = async (token, dispatch) => {
   const DoctorURL = await AsyncStorage.getItem('CILVER_DOCTOR_URL');

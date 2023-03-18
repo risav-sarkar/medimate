@@ -16,7 +16,6 @@ import {
   dark1,
   fontBold,
   fontRegular,
-  fontSemiBold,
   shadow,
   slotColor,
 } from '../globalStyle';
@@ -29,7 +28,7 @@ import {
   faHouseMedical,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import {endOfMonth, format, startOfMonth, addMonths, subMonths} from 'date-fns';
+import {format, addMonths, subMonths} from 'date-fns';
 import ScheduleChamber from '../components/common/scheduleChamber';
 import DeletePanel from '../components/common/deletePanel';
 import {
