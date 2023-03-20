@@ -9,7 +9,7 @@ const DoctorProfile = require("../models/DoctorProfile");
 const Chamber = require("../models/Chamber");
 const Slot = require("../models/Slot");
 const Booking = require("../models/Booking");
-const EmailOTP = require("../models/EmailOTP");
+const DoctorEmailOTP = require("../models/DoctorEmailOTP");
 const { eachDayOfInterval, format } = require("date-fns");
 
 //OTP
@@ -21,12 +21,12 @@ router.post("/generateotp", async (req, res) => {
       specialChars: false,
     });
 
-    await EmailOTP.remove({
+    await DoctorEmailOTP.remove({
       email: req.body.email,
       type: req.body.type,
     });
 
-    const emailOtp = new EmailOTP({
+    const emailOtp = new DoctorEmailOTP({
       email: req.body.email,
       type: req.body.type,
       otp,
@@ -46,7 +46,7 @@ router.post("/generateotp", async (req, res) => {
 //REGISTER
 router.post("/register", async (req, res) => {
   try {
-    const emailOtp = await EmailOTP.findOne({
+    const emailOtp = await DoctorEmailOTP.findOne({
       email: req.body.email,
       type: "email",
     });
@@ -58,7 +58,7 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ message: "OTP Invalid" });
     }
 
-    await EmailOTP.remove({
+    await DoctorEmailOTP.remove({
       email: req.body.email,
       type: "email",
     });
@@ -168,7 +168,7 @@ router.post("/googlelogin", async (req, res) => {
 //RESET PASSWORD
 router.post("/resetpassword", async (req, res) => {
   try {
-    const emailOtp = await EmailOTP.findOne({
+    const emailOtp = await DoctorEmailOTP.findOne({
       email: req.body.email,
       type: "password",
     });
@@ -180,7 +180,7 @@ router.post("/resetpassword", async (req, res) => {
       return res.status(400).json({ message: "OTP Invalid" });
     }
 
-    await EmailOTP.remove({
+    await DoctorEmailOTP.remove({
       email: req.body.email,
       type: "password",
     });
@@ -205,11 +205,11 @@ router.post("/resetpassword", async (req, res) => {
 //RESET EMAIL
 router.post("/resetemail", async (req, res) => {
   try {
-    const emailOtp1 = await EmailOTP.findOne({
+    const emailOtp1 = await DoctorEmailOTP.findOne({
       email: req.body.email1,
       type: "emailreset",
     });
-    const emailOtp2 = await EmailOTP.findOne({
+    const emailOtp2 = await DoctorEmailOTP.findOne({
       email: req.body.email2,
       type: "emailreset",
     });
@@ -221,12 +221,12 @@ router.post("/resetemail", async (req, res) => {
       return res.status(400).json({ message: "OTP Invalid" });
     }
 
-    await EmailOTP.remove({
+    await DoctorEmailOTP.remove({
       email: req.body.email1,
       type: "emailreset",
     });
 
-    await EmailOTP.remove({
+    await DoctorEmailOTP.remove({
       email: req.body.email2,
       type: "emailreset",
     });
@@ -252,6 +252,10 @@ router.get("/profile", async (req, res) => {
     const token = await getTokenData(req);
     if (token) {
       let profile = await DoctorProfile.findOne({ userId: token._id });
+
+      if (!profile) {
+        return res.status(200).json(null);
+      }
       const userData = await DoctorUser.findOne({ _id: profile.userId });
 
       return res.status(200).json({

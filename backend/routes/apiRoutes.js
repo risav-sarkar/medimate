@@ -195,54 +195,6 @@ router.get("/slot/:id", async (req, res) => {
   }
 });
 
-//POST Booking
-router.post("/booking", async (req, res) => {
-  try {
-    const slot = await Slot.findOne({ _id: req.body.slotId });
-
-    if (!slot) return res.status(404).json({ message: "Slot does not exist" });
-
-    if (slot.numberOfBookings < slot.bookingLimit) {
-      const booking = await Booking.findOne({
-        slotId: req.body.slotId,
-        patientId: req.body.patientId,
-      });
-
-      if (booking) {
-        return res.status(404).json({ message: "Booking exists" });
-      } else {
-        const newBooking = new Booking({
-          slotId: req.body.slotId,
-          patientId: req.body.patientId,
-          status: "Booked",
-        });
-
-        await newBooking.save();
-
-        await Slot.findByIdAndUpdate(slot._id, {
-          numberOfBookings: slot.numberOfBookings + 1,
-        });
-
-        return res.status(200).json({ message: "Booking created" });
-      }
-    } else {
-      return res.status(400).json({ message: "Slot full" });
-    }
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-//GET Bookings By PatientId
-router.get("/booking/:patientId", async (req, res) => {
-  try {
-    const allBookings = await Booking.find({ patientId: req.params.patientId });
-    return res.status(200).json(allBookings);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
 //GET Check Email Of doctor exists
 router.get("/doctoremail/:email", async (req, res) => {
   try {

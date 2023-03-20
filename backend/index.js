@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 const doctorRoutes = require("./routes/doctorRoutes");
+const patientRoutes = require("./routes/patientRoutes");
 const apiRoutes = require("./routes/apiRoutes");
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use(morgan("common"));
 app.use(cors());
 
 app.use("/doctor", doctorRoutes);
+app.use("/patient", patientRoutes);
 app.use("/api", apiRoutes);
 
 app.listen(8800, () => {

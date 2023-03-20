@@ -10,11 +10,12 @@ const UserSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
       min: 6,
+      default: null,
     },
+    uid: { type: String, default: null },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("PatientUser", UserSchema);
