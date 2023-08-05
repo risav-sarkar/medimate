@@ -1,6 +1,8 @@
 import {createContext, useEffect, useReducer} from 'react';
 import React from 'react';
 import AuthReducer from './AuthReducer';
+import firestore from '@react-native-firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const INITIAL_STATE = {
   token: null,
@@ -14,6 +16,19 @@ export const AuthContext = createContext(INITIAL_STATE);
 
 export const AuthContextProvider = ({children}) => {
   const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
+
+  const SetUrl = async e => {
+    await AsyncStorage.setItem('CILVER_URL', e.url);
+  };
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('headUrl')
+      .doc('kv3CZRyRhKdNeB9LJIUF')
+      .onSnapshot(documentSnapshot => {
+        SetUrl(documentSnapshot.data());
+      });
+  }, []);
 
   return (
     <AuthContext.Provider

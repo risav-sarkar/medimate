@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "439664914133",
+    "project_id": "cilver-857b6",
+    "storage_bucket": "cilver-857b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439664914133:android:9379019db04a4887a73c5c",
+        "android_client_info": {
+          "package_name": "com.cilver.doctor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439664914133-mmpie5cg3ifbnoltliu54t1fjt4ir077.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE318g1gg-u8AuFft7tud7j_4Kiy3DABw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439664914133-mmpie5cg3ifbnoltliu54t1fjt4ir077.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,20 +1,30 @@
 import {faTriangleExclamation} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import React, {useContext} from 'react';
-import {TouchableOpacity, View, Text} from 'react-native';
+import {View, Text} from 'react-native';
+import {fetchUser, signOutUser} from '../apiCalls';
+import ActionButton from '../components/common/actionButton';
+import FocusAwareStatusBar from '../components/statusBar';
 import {AuthContext} from '../context/AuthContext';
+import {backgroundColor1, dark1} from '../globalStyle';
 
 const Error = () => {
   const {dispatch} = useContext(AuthContext);
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: backgroundColor1,
+      }}>
+      <FocusAwareStatusBar
+        barStyle="dark-content"
+        backgroundColor={backgroundColor1}
+      />
       <View style={{alignItems: 'center'}}>
-        <FontAwesomeIcon
-          icon={faTriangleExclamation}
-          size={70}
-          color={'blue'}
-        />
+        <FontAwesomeIcon icon={faTriangleExclamation} size={60} color={dark1} />
         <Text
           style={{
             fontWeight: 'bold',
@@ -24,16 +34,22 @@ const Error = () => {
           }}>
           Something Went Wrong
         </Text>
-        <TouchableOpacity
-          style={{
-            backgroundColor: 'blue',
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-            borderRadius: 10,
+
+        <View style={{marginBottom: 10}}>
+          <ActionButton
+            label="Refresh"
+            handlePress={() => {
+              fetchUser(dispatch);
+            }}
+          />
+        </View>
+
+        <ActionButton
+          label="Sign Out"
+          handlePress={() => {
+            signOutUser(dispatch);
           }}
-          onPress={() => {}}>
-          <Text style={{color: '#fff'}}>Try Again</Text>
-        </TouchableOpacity>
+        />
       </View>
     </View>
   );

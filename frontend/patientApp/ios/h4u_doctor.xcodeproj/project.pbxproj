@@ -7,13 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* h4u_doctorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* h4u_doctorTests.m */; };
-		0C80B921A6F3F58F76C31292 /* libPods-h4u_doctor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-h4u_doctor.a */; };
+		00E356F31AD99517003FC87E /* CilverDoctorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CilverDoctorTests.m */; };
+		0C80B921A6F3F58F76C31292 /* libPods-CilverDoctor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-CilverDoctor.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		7699B88040F8A987B510C191 /* libPods-h4u_doctor-h4u_doctorTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-h4u_doctor-h4u_doctorTests.a */; };
+		7699B88040F8A987B510C191 /* libPods-CilverDoctor-CilverDoctorTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-CilverDoctor-CilverDoctorTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		060F8C5A4D04414ABA1B6B8B /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9D4CD0C143F438D9B0326AD /* Nunito-Bold.ttf */; };
+		B0D200F63DFC49B58A41EAAB /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60519DD2BEEA4A138CC5AC58 /* Nunito-Light.ttf */; };
+		32FA0DAE53E1496E90B1E4C4 /* Nunito-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8859C52D5D704B4899B888FD /* Nunito-Medium.ttf */; };
+		CFD59289D5F9455291821D1D /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 195B8FBB26974F38A46DF553 /* Nunito-Regular.ttf */; };
+		B1FD370094924F0DA0A7A80E /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C4A9F288692C49599EB0BC29 /* Nunito-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,28 +27,33 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = h4u_doctor;
+			remoteInfo = "CilverDoctor";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* h4u_doctorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = h4u_doctorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* CilverDoctorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CilverDoctorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* h4u_doctorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = h4u_doctorTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* h4u_doctor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = h4u_doctor.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = h4u_doctor/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = h4u_doctor/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = h4u_doctor/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = h4u_doctor/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = h4u_doctor/main.m; sourceTree = "<group>"; };
-		19F6CBCC0A4E27FBF8BF4A61 /* libPods-h4u_doctor-h4u_doctorTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-h4u_doctor-h4u_doctorTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B4392A12AC88292D35C810B /* Pods-h4u_doctor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-h4u_doctor.debug.xcconfig"; path = "Target Support Files/Pods-h4u_doctor/Pods-h4u_doctor.debug.xcconfig"; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-h4u_doctor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-h4u_doctor.release.xcconfig"; path = "Target Support Files/Pods-h4u_doctor/Pods-h4u_doctor.release.xcconfig"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-h4u_doctor-h4u_doctorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-h4u_doctor-h4u_doctorTests.debug.xcconfig"; path = "Target Support Files/Pods-h4u_doctor-h4u_doctorTests/Pods-h4u_doctor-h4u_doctorTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-h4u_doctor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-h4u_doctor.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = h4u_doctor/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-h4u_doctor-h4u_doctorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-h4u_doctor-h4u_doctorTests.release.xcconfig"; path = "Target Support Files/Pods-h4u_doctor-h4u_doctorTests/Pods-h4u_doctor-h4u_doctorTests.release.xcconfig"; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* CilverDoctorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CilverDoctorTests.m"; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* CilverDoctor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CilverDoctor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = "CilverDoctor/AppDelegate.h"; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = "CilverDoctor/AppDelegate.mm"; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "CilverDoctor/Images.xcassets"; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "CilverDoctor/Info.plist"; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "CilverDoctor/main.m"; sourceTree = "<group>"; };
+		19F6CBCC0A4E27FBF8BF4A61 /* libPods-CilverDoctor-CilverDoctorTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CilverDoctor-CilverDoctorTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B4392A12AC88292D35C810B /* Pods-CilverDoctor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CilverDoctor.debug.xcconfig"; path = "Target Support Files/Pods-CilverDoctor/Pods-CilverDoctor.debug.xcconfig"; sourceTree = "<group>"; };
+		5709B34CF0A7D63546082F79 /* Pods-CilverDoctor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CilverDoctor.release.xcconfig"; path = "Target Support Files/Pods-CilverDoctor/Pods-CilverDoctor.release.xcconfig"; sourceTree = "<group>"; };
+		5B7EB9410499542E8C5724F5 /* Pods-CilverDoctor-CilverDoctorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CilverDoctor-CilverDoctorTests.debug.xcconfig"; path = "Target Support Files/Pods-CilverDoctor-CilverDoctorTests/Pods-CilverDoctor-CilverDoctorTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5DCACB8F33CDC322A6C60F78 /* libPods-CilverDoctor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CilverDoctor.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "CilverDoctor/LaunchScreen.storyboard"; sourceTree = "<group>"; };
+		89C6BE57DB24E9ADA2F236DE /* Pods-CilverDoctor-CilverDoctorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CilverDoctor-CilverDoctorTests.release.xcconfig"; path = "Target Support Files/Pods-CilverDoctor-CilverDoctorTests/Pods-CilverDoctor-CilverDoctorTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		A9D4CD0C143F438D9B0326AD /* Nunito-Bold.ttf */ = {isa = PBXFileReference; name = "Nunito-Bold.ttf"; path = "../src/assets/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		60519DD2BEEA4A138CC5AC58 /* Nunito-Light.ttf */ = {isa = PBXFileReference; name = "Nunito-Light.ttf"; path = "../src/assets/fonts/Nunito-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8859C52D5D704B4899B888FD /* Nunito-Medium.ttf */ = {isa = PBXFileReference; name = "Nunito-Medium.ttf"; path = "../src/assets/fonts/Nunito-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		195B8FBB26974F38A46DF553 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; name = "Nunito-Regular.ttf"; path = "../src/assets/fonts/Nunito-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C4A9F288692C49599EB0BC29 /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; name = "Nunito-SemiBold.ttf"; path = "../src/assets/fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7699B88040F8A987B510C191 /* libPods-h4u_doctor-h4u_doctorTests.a in Frameworks */,
+				7699B88040F8A987B510C191 /* libPods-CilverDoctor-CilverDoctorTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,20 +69,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C80B921A6F3F58F76C31292 /* libPods-h4u_doctor.a in Frameworks */,
+				0C80B921A6F3F58F76C31292 /* libPods-CilverDoctor.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* h4u_doctorTests */ = {
+		00E356EF1AD99517003FC87E /* CilverDoctorTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* h4u_doctorTests.m */,
+				00E356F21AD99517003FC87E /* CilverDoctorTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = h4u_doctorTests;
+			path = "CilverDoctorTests";
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -83,7 +93,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* h4u_doctor */ = {
+		13B07FAE1A68108700A75B9A /* CilverDoctor */ = {
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -93,15 +103,15 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = h4u_doctor;
+			name = "CilverDoctor";
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-h4u_doctor.a */,
-				19F6CBCC0A4E27FBF8BF4A61 /* libPods-h4u_doctor-h4u_doctorTests.a */,
+				5DCACB8F33CDC322A6C60F78 /* libPods-CilverDoctor.a */,
+				19F6CBCC0A4E27FBF8BF4A61 /* libPods-CilverDoctor-CilverDoctorTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -116,12 +126,13 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* h4u_doctor */,
+				13B07FAE1A68108700A75B9A /* CilverDoctor */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* h4u_doctorTests */,
+				00E356EF1AD99517003FC87E /* CilverDoctorTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				C8D73AC0918A477DAE3CE8EF /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -131,8 +142,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* h4u_doctor.app */,
-				00E356EE1AD99517003FC87E /* h4u_doctorTests.xctest */,
+				13B07F961A680F5B00A75B9A /* CilverDoctor.app */,
+				00E356EE1AD99517003FC87E /* CilverDoctorTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,20 +151,33 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-h4u_doctor.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-h4u_doctor.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-h4u_doctor-h4u_doctorTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-h4u_doctor-h4u_doctorTests.release.xcconfig */,
+				3B4392A12AC88292D35C810B /* Pods-CilverDoctor.debug.xcconfig */,
+				5709B34CF0A7D63546082F79 /* Pods-CilverDoctor.release.xcconfig */,
+				5B7EB9410499542E8C5724F5 /* Pods-CilverDoctor-CilverDoctorTests.debug.xcconfig */,
+				89C6BE57DB24E9ADA2F236DE /* Pods-CilverDoctor-CilverDoctorTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		C8D73AC0918A477DAE3CE8EF /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				A9D4CD0C143F438D9B0326AD /* Nunito-Bold.ttf */,
+				60519DD2BEEA4A138CC5AC58 /* Nunito-Light.ttf */,
+				8859C52D5D704B4899B888FD /* Nunito-Medium.ttf */,
+				195B8FBB26974F38A46DF553 /* Nunito-Regular.ttf */,
+				C4A9F288692C49599EB0BC29 /* Nunito-SemiBold.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* h4u_doctorTests */ = {
+		00E356ED1AD99517003FC87E /* CilverDoctorTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "h4u_doctorTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "CilverDoctorTests" */;
 			buildPhases = (
 				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -167,14 +191,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = h4u_doctorTests;
-			productName = h4u_doctorTests;
-			productReference = 00E356EE1AD99517003FC87E /* h4u_doctorTests.xctest */;
+			name = CilverDoctorTests;
+			productName = CilverDoctorTests;
+			productReference = 00E356EE1AD99517003FC87E /* CilverDoctorTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* h4u_doctor */ = {
+		13B07F861A680F5B00A75B9A /* CilverDoctor */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "h4u_doctor" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "CilverDoctor" */;
 			buildPhases = (
 				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -189,9 +213,9 @@
 			);
 			dependencies = (
 			);
-			name = h4u_doctor;
-			productName = h4u_doctor;
-			productReference = 13B07F961A680F5B00A75B9A /* h4u_doctor.app */;
+			name = "CilverDoctor";
+			productName = "CilverDoctor";
+			productReference = 13B07F961A680F5B00A75B9A /* CilverDoctor.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -211,7 +235,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "h4u_doctor" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "CilverDoctor" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -224,8 +248,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* h4u_doctor */,
-				00E356ED1AD99517003FC87E /* h4u_doctorTests */,
+				13B07F861A680F5B00A75B9A /* CilverDoctor */,
+				00E356ED1AD99517003FC87E /* CilverDoctorTests */,
 			);
 		};
 /* End PBXProject section */
@@ -244,6 +268,11 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				060F8C5A4D04414ABA1B6B8B /* Nunito-Bold.ttf in Resources */,
+				B0D200F63DFC49B58A41EAAB /* Nunito-Light.ttf in Resources */,
+				32FA0DAE53E1496E90B1E4C4 /* Nunito-Medium.ttf in Resources */,
+				CFD59289D5F9455291821D1D /* Nunito-Regular.ttf in Resources */,
+				B1FD370094924F0DA0A7A80E /* Nunito-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,15 +301,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-h4u_doctor/Pods-h4u_doctor-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CilverDoctor/Pods-CilverDoctor-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-h4u_doctor/Pods-h4u_doctor-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CilverDoctor/Pods-CilverDoctor-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-h4u_doctor/Pods-h4u_doctor-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CilverDoctor/Pods-CilverDoctor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
@@ -298,7 +327,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-h4u_doctor-h4u_doctorTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-CilverDoctor-CilverDoctorTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -320,7 +349,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-h4u_doctor-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-CilverDoctor-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -333,15 +362,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-h4u_doctor-h4u_doctorTests/Pods-h4u_doctor-h4u_doctorTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CilverDoctor-CilverDoctorTests/Pods-CilverDoctor-CilverDoctorTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-h4u_doctor-h4u_doctorTests/Pods-h4u_doctor-h4u_doctorTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CilverDoctor-CilverDoctorTests/Pods-CilverDoctor-CilverDoctorTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-h4u_doctor-h4u_doctorTests/Pods-h4u_doctor-h4u_doctorTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CilverDoctor-CilverDoctorTests/Pods-CilverDoctor-CilverDoctorTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
@@ -350,15 +379,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-h4u_doctor/Pods-h4u_doctor-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CilverDoctor/Pods-CilverDoctor-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-h4u_doctor/Pods-h4u_doctor-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CilverDoctor/Pods-CilverDoctor-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-h4u_doctor/Pods-h4u_doctor-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CilverDoctor/Pods-CilverDoctor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */ = {
@@ -367,15 +396,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-h4u_doctor-h4u_doctorTests/Pods-h4u_doctor-h4u_doctorTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CilverDoctor-CilverDoctorTests/Pods-CilverDoctor-CilverDoctorTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-h4u_doctor-h4u_doctorTests/Pods-h4u_doctor-h4u_doctorTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CilverDoctor-CilverDoctorTests/Pods-CilverDoctor-CilverDoctorTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-h4u_doctor-h4u_doctorTests/Pods-h4u_doctor-h4u_doctorTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CilverDoctor-CilverDoctorTests/Pods-CilverDoctor-CilverDoctorTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -404,7 +433,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* h4u_doctorTests.m in Sources */,
+				00E356F31AD99517003FC87E /* CilverDoctorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,7 +451,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* h4u_doctor */;
+			target = 13B07F861A680F5B00A75B9A /* CilverDoctor */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -430,14 +459,14 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-h4u_doctor-h4u_doctorTests.debug.xcconfig */;
+			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-CilverDoctor-CilverDoctorTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = h4u_doctorTests/Info.plist;
+				INFOPLIST_FILE = "CilverDoctorTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -449,19 +478,19 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cilver.doctor";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/h4u_doctor.app/h4u_doctor";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CilverDoctor.app/CilverDoctor";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-h4u_doctor-h4u_doctorTests.release.xcconfig */;
+			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-CilverDoctor-CilverDoctorTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = h4u_doctorTests/Info.plist;
+				INFOPLIST_FILE = "CilverDoctorTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -473,21 +502,22 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cilver.doctor";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/h4u_doctor.app/h4u_doctor";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CilverDoctor.app/CilverDoctor";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-h4u_doctor.debug.xcconfig */;
+			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-CilverDoctor.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = h4u_doctor/Info.plist;
+				INFOPLIST_FILE = "CilverDoctor/Info.plist";
+             INFOPLIST_KEY_CFBundleDisplayName = "Cilver";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -497,8 +527,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = h4u_doctor;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cilver.doctor";
+				PRODUCT_NAME = "CilverDoctor";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -507,12 +537,13 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-h4u_doctor.release.xcconfig */;
+			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-CilverDoctor.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = h4u_doctor/Info.plist;
+				INFOPLIST_FILE = "CilverDoctor/Info.plist";
+             INFOPLIST_KEY_CFBundleDisplayName = "Cilver";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -522,8 +553,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = h4u_doctor;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cilver.doctor";
+				PRODUCT_NAME = "CilverDoctor";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -667,7 +698,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "h4u_doctorTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "CilverDoctorTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -676,7 +707,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "h4u_doctor" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "CilverDoctor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -685,7 +716,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "h4u_doctor" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "CilverDoctor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

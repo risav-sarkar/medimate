@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "h4u_doctor.app"
-               BlueprintName = "h4u_doctor"
-               ReferencedContainer = "container:h4u_doctor.xcodeproj">
+               BuildableName = "CilverDoctor.app"
+               BlueprintName = "CilverDoctor"
+               ReferencedContainer = "container:CilverDoctor.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "h4u_doctorTests.xctest"
-               BlueprintName = "h4u_doctorTests"
-               ReferencedContainer = "container:h4u_doctor.xcodeproj">
+               BuildableName = "CilverDoctorTests.xctest"
+               BlueprintName = "CilverDoctorTests"
+               ReferencedContainer = "container:CilverDoctor.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "h4u_doctor.app"
-            BlueprintName = "h4u_doctor"
-            ReferencedContainer = "container:h4u_doctor.xcodeproj">
+            BuildableName = "CilverDoctor.app"
+            BlueprintName = "CilverDoctor"
+            ReferencedContainer = "container:CilverDoctor.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "h4u_doctor.app"
-            BlueprintName = "h4u_doctor"
-            ReferencedContainer = "container:h4u_doctor.xcodeproj">
+            BuildableName = "CilverDoctor.app"
+            BlueprintName = "CilverDoctor"
+            ReferencedContainer = "container:CilverDoctor.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

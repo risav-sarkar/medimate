@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.h4u_doctor">
+  package="com.cilver.doctor">
 
     <uses-permission android:name="android.permission.INTERNET" />
 

@@ -3,7 +3,6 @@ const DoctorProfile = require("../models/DoctorProfile");
 const DoctorUser = require("../models/DoctorUser");
 const Chamber = require("../models/Chamber");
 const Slot = require("../models/Slot");
-const Booking = require("../models/Booking");
 const { format } = require("date-fns");
 
 //GET All Doctors
@@ -190,6 +189,42 @@ router.get("/slot/:id", async (req, res) => {
   try {
     const slot = await Slot.findOne({ _id: req.params.id });
     return res.status(200).json(slot);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//GET SEARCH Doctors
+router.get("/searchdoctors/:searchString", async (req, res) => {
+  try {
+    const doctors = await DoctorProfile.find({
+      name: { $regex: req.params.searchString, $options: "i" },
+    });
+    return res.status(200).json(doctors);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//GET SEARCH Chambers
+router.get("/searchchambers/:searchString", async (req, res) => {
+  try {
+    const chambers = await Chamber.find({
+      name: { $regex: req.params.searchString, $options: "i" },
+    });
+    return res.status(200).json(chambers);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//GET SEARCH Medical Department
+router.get("/searchmedicaldepartment/:searchString", async (req, res) => {
+  try {
+    const doctors = await DoctorProfile.find({
+      medicalDepartment: { $regex: req.params.searchString, $options: "i" },
+    });
+    return res.status(200).json(doctors);
   } catch (err) {
     res.status(500).json(err);
   }

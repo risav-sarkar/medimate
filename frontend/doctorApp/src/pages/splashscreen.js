@@ -1,4 +1,10 @@
-import {StyleSheet, View, Image, StatusBar} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  StatusBar,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useContext, useEffect} from 'react';
 import {AuthContext} from '../context/AuthContext';
 import {fetchUser} from '../apiCalls';
@@ -15,16 +21,11 @@ const SplashScreen = () => {
     <View style={styles.splashScreen}>
       <FocusAwareStatusBar
         barStyle="dark-content"
-        backgroundColor={'#0F1145'}
+        backgroundColor={'#212121'}
       />
 
       <View style={styles.mainContent}>
-        <View style={styles.imageConatiner}>
-          <Image
-            style={styles.image}
-            source={require('../assets/splash.png')}
-          />
-        </View>
+        <ActivityIndicator color="#fff" size="large" />
       </View>
     </View>
   );
@@ -33,12 +34,11 @@ const SplashScreen = () => {
 const styles = StyleSheet.create({
   splashScreen: {
     flex: 1,
-    backgroundColor: '#0F1145',
+    backgroundColor: '#212121',
     justifyContent: 'center',
     alignItems: 'center',
   },
   mainContent: {alignItems: 'center'},
-  imageConatiner: {height: 200, width: 200},
   image: {height: '100%', width: '100%'},
   text: {
     fontSize: 24,
