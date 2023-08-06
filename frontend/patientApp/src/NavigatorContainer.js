@@ -21,6 +21,7 @@ import ForgetPassword from './pages/Auth/forgetPassword';
 import ResetEmail from './pages/Auth/resetEmail';
 import SearchPage from './pages/searchPage';
 import DoctorProfileView from './pages/doctorProfileView';
+import SlotsView from './pages/slotsView';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -101,6 +102,8 @@ const NavigatorContainer = () => {
                 name="DoctorProfileView"
                 component={DoctorProfileView}
               />
+
+              <Stack.Screen name="SlotsView" component={SlotsView} />
             </>
           ) : (
             <>

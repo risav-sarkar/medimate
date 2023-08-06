@@ -310,3 +310,38 @@ export const getDoctorSearchResults = async (
     setLoading(false);
   }
 };
+
+//Booking
+export const postBooking = async (
+  data,
+  setLoading,
+  token,
+  navigation,
+  toast,
+) => {
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
+  try {
+    const res = await axios.post(`${HeadURL}/patient/booking`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    navigation.navigate('Appointments');
+  } catch (err) {
+    console.log(err);
+    ToastError(toast, err.response?.data?.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+export const getBookings = async params => {
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
+  const token = params.queryKey[1];
+  const res = await axios.get(`${HeadURL}/patient/bookings`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data;
+};

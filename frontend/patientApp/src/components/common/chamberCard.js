@@ -89,7 +89,7 @@ const ChamberCard = ({isShadow, data}) => {
               <TouchableOpacity
                 style={[styles.btns, {marginLeft: 10, paddingHorizontal: 20}]}
                 onPress={() => {
-                  navigation.navigate('ChamberView', {data});
+                  navigation.navigate('SlotsView', {data});
                 }}>
                 <Text
                   style={{
@@ -98,7 +98,7 @@ const ChamberCard = ({isShadow, data}) => {
                     color: '#fff',
                     marginLeft: 10,
                   }}>
-                  View
+                  View Slots
                 </Text>
 
                 <FontAwesomeIcon icon={faHouseMedical} color={chamberColor} />

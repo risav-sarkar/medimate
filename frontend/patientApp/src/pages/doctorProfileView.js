@@ -47,7 +47,7 @@ const DoctorProfileView = () => {
     data: chambers,
     refetch,
   } = useQuery({
-    queryKey: [`Chambers`, DoctorData.userId],
+    queryKey: [`DoctorId${DoctorData.userId}`, DoctorData.userId],
     queryFn: getChambers,
   });
 
@@ -83,9 +83,14 @@ const DoctorProfileView = () => {
               size={60}
             />
           </View>
-          <Text style={styles.doctorName}>{`Dr. A Roy`}</Text>
-          <Text style={styles.departmentText}>{'Cardiology'}</Text>
-          <Text style={styles.qualificationText}>{'MBBS'}</Text>
+          <Text style={styles.doctorName}>{`Dr. ${DoctorData.name}`}</Text>
+          <Text
+            style={
+              styles.departmentText
+            }>{`${DoctorData.medicalDepartment}`}</Text>
+          <Text style={styles.qualificationText}>
+            {DoctorData.qualification}
+          </Text>
         </View>
       </View>
 

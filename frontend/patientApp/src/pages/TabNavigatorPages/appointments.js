@@ -21,7 +21,7 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHouseMedical, faPlus} from '@fortawesome/free-solid-svg-icons';
 import ChamberCard from '../../components/common/chamberCard';
-import {getChambers} from '../../apiCalls';
+import {getBookings, getChambers} from '../../apiCalls';
 import {useQuery} from '@tanstack/react-query';
 import LoadingScreen from '../../components/common/loadingScreen';
 import ErrorScreen from '../../components/common/errorScreen';
@@ -32,30 +32,36 @@ import Tabbar from '../../components/common/tabbar';
 
 const Appointments = () => {
   const navigation = useNavigation();
-  const {token, profile} = useContext(AuthContext);
+  const {token} = useContext(AuthContext);
   const [tab, setTab] = useState(0);
   const TabBtns = [
     {name: 'Today', index: 0},
     {name: 'Upcoming', index: 1},
     {name: 'Past', index: 2},
   ];
-  // const {isError, isLoading, isRefetching, data, refetch} = useQuery({
-  //   queryKey: [`Chambers`, profile.userId],
-  //   queryFn: getChambers,
-  // });
+  const {
+    isError,
+    isLoading,
+    isRefetching,
+    data: bookings,
+    refetch,
+  } = useQuery({
+    queryKey: [`Bookings`, token, tab],
+    queryFn: getBookings,
+  });
 
-  // useEffect(() => {
-  //   const unsubscribe = navigation.addListener('focus', () => {
-  //     refetch();
-  //   });
-  //   return unsubscribe;
-  // }, [navigation]);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      refetch();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
-  // if (isLoading) return <LoadingScreen />;
-  // if (isError)
-  //   return (
-  //     <ErrorScreen refetch={refetch} loading={isLoading || isRefetching} />
-  //   );
+  if (isLoading) return <LoadingScreen />;
+  if (isError)
+    return (
+      <ErrorScreen refetch={refetch} loading={isLoading || isRefetching} />
+    );
 
   return (
     <ScrollView

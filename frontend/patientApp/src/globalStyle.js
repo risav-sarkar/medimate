@@ -1,5 +1,6 @@
 export const color1 = '#d1e2f6';
 export const color1_light = '#143159';
+export const color1_dark = '#143159';
 
 export const dark1 = '#3b3b3b';
 
