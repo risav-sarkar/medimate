@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { getTokenData, verifyIdToken } = require("../util");
@@ -382,10 +383,44 @@ router.get("/bookings", async (req, res) => {
       if (!profile) {
         return res.status(404).json({ message: "Profile does not exist" });
       } else {
-        const allBookings = await Booking.find({
-          patientId: profile.userId,
-        });
-        return res.status(200).json(allBookings);
+        const aggregatedData = await Booking.aggregate([
+          {
+            $match: {
+              // patientId: mongoose.Types.ObjectId("64cdedf8c380fa7a3fa10227"),
+              patientId: profile.userId,
+            },
+          },
+          {
+            $lookup: {
+              from: "slots",
+              localField: "slotId",
+              foreignField: "_id",
+              as: "slotData",
+            },
+          },
+          {
+            $unwind: "$slotData",
+          },
+          {
+            $lookup: {
+              from: "doctorprofiles",
+              localField: "slotData.doctorId",
+              foreignField: "userId",
+              as: "doctorData",
+            },
+          },
+          {
+            $project: {
+              _id: 1,
+              patientId: 1,
+              slotData: 1,
+              doctorData: {
+                $arrayElemAt: ["$doctorData", 0],
+              },
+            },
+          },
+        ]).exec();
+        return res.status(200).json(aggregatedData);
       }
     }
   } catch (err) {
