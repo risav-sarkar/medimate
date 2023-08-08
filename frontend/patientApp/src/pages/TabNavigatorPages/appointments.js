@@ -4,6 +4,7 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {AuthContext} from '../../context/AuthContext';
@@ -29,6 +30,7 @@ import WarningScreen from '../../components/common/warningScreen';
 import FocusAwareStatusBar from '../../components/statusBar';
 import {useNavigation} from '@react-navigation/native';
 import Tabbar from '../../components/common/tabbar';
+import BookingCard from '../../components/common/bookingCard';
 
 const Appointments = () => {
   const navigation = useNavigation();
@@ -57,7 +59,6 @@ const Appointments = () => {
     return unsubscribe;
   }, [navigation]);
 
-  if (isLoading) return <LoadingScreen />;
   if (isError)
     return (
       <ErrorScreen refetch={refetch} loading={isLoading || isRefetching} />
@@ -92,17 +93,64 @@ const Appointments = () => {
       </View>
 
       <View style={styles.content}>
-        {tab === 0 ? (
+        {isLoading ? (
           <>
-            <WarningScreen label="No Appoinments Today" />
+            <View
+              style={{
+                alignItems: 'center',
+                flex: 1,
+                justifyContent: 'center',
+              }}>
+              <ActivityIndicator color={dark1} />
+            </View>
+          </>
+        ) : tab === 0 ? (
+          <>
+            {bookings.today.length ? (
+              bookings.today.map(e => {
+                return (
+                  <BookingCard
+                    doctorData={e.doctorData}
+                    slotData={e.slotData}
+                    chamberData={e.chamberData}
+                  />
+                );
+              })
+            ) : (
+              <WarningScreen label="No Appoinments Today" />
+            )}
           </>
         ) : tab === 1 ? (
           <>
-            <WarningScreen label="No Upcoming Appoinments" />
+            {bookings.upcoming.length ? (
+              bookings.upcoming.map(e => {
+                return (
+                  <BookingCard
+                    doctorData={e.doctorData}
+                    slotData={e.slotData}
+                    chamberData={e.chamberData}
+                  />
+                );
+              })
+            ) : (
+              <WarningScreen label="No Upcoming Appoinments" />
+            )}
           </>
         ) : (
           <>
-            <WarningScreen label="No Past Appoinments" />
+            {bookings.past.length ? (
+              bookings.past.map(e => {
+                return (
+                  <BookingCard
+                    doctorData={e.doctorData}
+                    slotData={e.slotData}
+                    chamberData={e.chamberData}
+                  />
+                );
+              })
+            ) : (
+              <WarningScreen label="No Past Appoinments" />
+            )}
           </>
         )}
       </View>

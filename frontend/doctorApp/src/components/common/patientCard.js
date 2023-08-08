@@ -22,12 +22,15 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faCakeCandles,
   faClock,
+  faMars,
   faUserGroup,
+  faVenus,
   faVenusMars,
 } from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 
-const PatientCard = ({isShadow}) => {
+const PatientCard = ({isShadow, data}) => {
+  console.log(data);
   const navigation = useNavigation();
   return (
     <>
@@ -41,26 +44,22 @@ const PatientCard = ({isShadow}) => {
             <Text
               numberOfLines={1}
               style={{...fontSemiBold, fontSize: 18, marginBottom: 5}}>
-              Risav Sarkar
+              {data.name}
             </Text>
 
             <View style={{flexDirection: 'row'}}>
               <View style={styles.box}>
                 <FontAwesomeIcon
-                  icon={faVenusMars}
+                  icon={data.gender === 'Male' ? faMars : faVenus}
                   color={patientColor}
                   size={14}
                 />
-                <Text style={styles.boxText}>Male</Text>
+                <Text style={styles.boxText}>{data.gender}</Text>
               </View>
 
               <View style={[styles.box, {marginLeft: 5}]}>
-                <FontAwesomeIcon
-                  icon={faCakeCandles}
-                  color={patientColor}
-                  size={12}
-                />
-                <Text style={styles.boxText}>29</Text>
+                <Text style={{color: patientColor, fontSize: 14}}>Age</Text>
+                <Text style={styles.boxText}>{`${data.age} Years Old`}</Text>
               </View>
             </View>
           </View>

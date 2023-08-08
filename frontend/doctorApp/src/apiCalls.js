@@ -445,3 +445,16 @@ export const deleteSlot = async (id, setLoading, token, navigation, toast) => {
     setLoading(false);
   }
 };
+
+//Bookings
+export const getBookingsBySlotId = async params => {
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
+  const token = params.queryKey[1];
+  const slotId = params.queryKey[2];
+  const res = await axios.get(`${HeadURL}/doctor/booking/${slotId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data;
+};

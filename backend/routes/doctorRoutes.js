@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const otpGenerator = require("otp-generator");
@@ -450,6 +451,7 @@ router.post("/slot/multiple", async (req, res) => {
               time: req.body.time,
               date: i,
               doctorId: token._id,
+              bookingLimit: req.body.bookingLimit,
             });
 
             await newSlot.save();
@@ -548,10 +550,34 @@ router.get("/booking/:slotId", async (req, res) => {
       if (!profile) {
         return res.status(404).json({ message: "Profile does not exist" });
       } else {
-        const allbookings = await Booking.find({
-          slotId: req.params.slotId,
-        });
-        return res.status(200).json(allbookings);
+        const aggregatedData = await Booking.aggregate([
+          {
+            $match: {
+              slotId: mongoose.Types.ObjectId(req.params.slotId),
+            },
+          },
+          {
+            $lookup: {
+              from: "patientprofiles",
+              localField: "patientId",
+              foreignField: "userId",
+              as: "patientData",
+            },
+          },
+          {
+            $project: {
+              _id: 1,
+              slotId: 1,
+              status: 1,
+              createdAt: 1,
+              updatedAt: 1,
+              patientData: {
+                $arrayElemAt: ["$patientData", 0],
+              },
+            },
+          },
+        ]).exec();
+        return res.status(200).json(aggregatedData);
       }
     } else {
       return res.status(404).json({ message: "Invalid token" });

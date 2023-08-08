@@ -68,7 +68,8 @@ const ProfileCreateEdit = () => {
 
   return (
     <PrimaryLayout
-      name={route.name === 'ProfileCreate' ? 'Create Profile' : 'Edit Profile'}>
+      name={route.name === 'ProfileCreate' ? 'Create Profile' : 'Edit Profile'}
+      isSignOut={route.name === 'ProfileCreate'}>
       <View>
         <View style={styles.inputContainer}>
           <Input

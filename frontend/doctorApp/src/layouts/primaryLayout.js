@@ -23,7 +23,7 @@ import {
 import Header from '../components/common/header';
 import FocusAwareStatusBar from '../components/statusBar';
 
-const PrimaryLayout = ({name, children}) => {
+const PrimaryLayout = ({name, isSignOut, children}) => {
   return (
     <ScrollView
       style={styles.container}
@@ -36,7 +36,7 @@ const PrimaryLayout = ({name, children}) => {
 
       <View style={styles.header}>
         <View style={{paddingHorizontal: 20}}>
-          <Header name={name} />
+          <Header name={name} isSignOut={isSignOut} />
         </View>
       </View>
 

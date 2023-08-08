@@ -9,6 +9,7 @@ const PatientProfile = require("../models/PatientProfile");
 const PatientEmailOTP = require("../models/PatientEmailOTP");
 const Slot = require("../models/Slot");
 const Booking = require("../models/Booking");
+const { format } = require("date-fns");
 
 //OTP
 router.post("/generateotp", async (req, res) => {
@@ -386,7 +387,6 @@ router.get("/bookings", async (req, res) => {
         const aggregatedData = await Booking.aggregate([
           {
             $match: {
-              // patientId: mongoose.Types.ObjectId("64cdedf8c380fa7a3fa10227"),
               patientId: profile.userId,
             },
           },
@@ -419,8 +419,57 @@ router.get("/bookings", async (req, res) => {
               },
             },
           },
+          {
+            $unwind: "$doctorData",
+          },
+          {
+            $lookup: {
+              from: "chambers",
+              localField: "slotData.chamberId",
+              foreignField: "_id",
+              as: "chamberData",
+            },
+          },
+          {
+            $project: {
+              _id: 1,
+              patientId: 1,
+              slotData: 1,
+              doctorData: 1,
+              chamberData: {
+                $arrayElemAt: ["$chamberData", 0],
+              },
+            },
+          },
         ]).exec();
-        return res.status(200).json(aggregatedData);
+
+        let bookings = { today: [], upcoming: [], past: [] };
+        for (let i = 0; i < aggregatedData.length; i++) {
+          if (
+            format(new Date(aggregatedData[i].slotData.date), "YMMdd") ===
+            format(new Date(), "YMMdd")
+          ) {
+            bookings = {
+              ...bookings,
+              today: [...bookings.today, aggregatedData[i]],
+            };
+          } else if (
+            parseInt(
+              format(new Date(aggregatedData[i].slotData.date), "YMMdd")
+            ) > parseInt(format(new Date(), "YMMdd"))
+          ) {
+            bookings = {
+              ...bookings,
+              upcoming: [...bookings.upcoming, aggregatedData[i]],
+            };
+          } else {
+            bookings = {
+              ...bookings,
+              past: [...bookings.past, aggregatedData[i]],
+            };
+          }
+        }
+        return res.status(200).json(bookings);
       }
     }
   } catch (err) {

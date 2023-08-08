@@ -34,34 +34,31 @@ import {
 
 import {format} from 'date-fns';
 import {useQuery} from '@tanstack/react-query';
-import {getSlotsByDoctorAndDate} from '../../apiCalls';
+import {getBookings, getSlotsByDoctorAndDate} from '../../apiCalls';
 import WarningScreen from '../../components/common/warningScreen';
 import FocusAwareStatusBar from '../../components/statusBar';
+import ErrorScreen from '../../components/common/errorScreen';
 
 const Home = ({navigation}) => {
   const {token, dispatch, profile} = useContext(AuthContext);
 
-  // const {
-  //   isError: slotsError,
-  //   isLoading: slotsLoading,
-  //   isRefetching: slotsRefetching,
-  //   data: slotsData,
-  //   refetch: slotsRefetch,
-  // } = useQuery({
-  //   queryKey: [
-  //     `SlotsToday${format(new Date(), 'YMMdd')}`,
-  //     profile.userId,
-  //     format(new Date(), 'YMMdd'),
-  //   ],
-  //   queryFn: getSlotsByDoctorAndDate,
-  // });
+  const {
+    isError,
+    isLoading,
+    isRefetching,
+    data: bookings,
+    refetch,
+  } = useQuery({
+    queryKey: [`Bookings`, token],
+    queryFn: getBookings,
+  });
 
-  // useEffect(() => {
-  //   const unsubscribe = navigation.addListener('focus', () => {
-  //     slotsRefetch();
-  //   });
-  //   return unsubscribe;
-  // }, [navigation]);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      refetch();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const SpecialityCard = ({text}) => {
     return (
@@ -161,18 +158,23 @@ const Home = ({navigation}) => {
 
       <View style={styles.content}>
         <View style={{paddingHorizontal: 5, flex: 1}}>
-          {/* {slotsLoading ? (
+          {isLoading ? (
             <ActivityIndicator color={dark1} style={{flex: 1}} />
-          ) : !slotsData?.slots?.length ? (
-            <WarningScreen label="No Slots Found" />
-          ) : (
-            slotsData.slots.map(e => {
+          ) : isError ? (
+            <ErrorScreen label="Something Went Wrong" />
+          ) : bookings.today.length ? (
+            bookings.today.map(e => {
               return (
-                <SlotCard slotData={e.slotData} chamberData={e.chamberData} />
+                <BookingCard
+                  doctorData={e.doctorData}
+                  slotData={e.slotData}
+                  chamberData={e.chamberData}
+                />
               );
             })
-          )} */}
-          <WarningScreen label="No Appoinments Today" />
+          ) : (
+            <WarningScreen label="No Appoinments Today" />
+          )}
         </View>
       </View>
     </ScrollView>

@@ -24,7 +24,7 @@ import PatientCard from '../components/common/patientCard';
 import {useToast} from 'react-native-toast-notifications';
 import DeletePanel from '../components/common/deletePanel';
 import {format} from 'date-fns';
-import {deleteSlot, getSlot} from '../apiCalls';
+import {deleteSlot, getBookingsBySlotId, getSlot} from '../apiCalls';
 import {useQuery} from '@tanstack/react-query';
 import LoadingScreen from '../components/common/loadingScreen';
 import ErrorScreen from '../components/common/errorScreen';
@@ -49,6 +49,22 @@ const SlotView = () => {
     queryKey: [`Slot${route.params.data._id}`, route.params.data._id],
     queryFn: getSlot,
   });
+
+  const {
+    isError: bookingError,
+    isLoading: bookingLoading,
+    isRefetching: bookingRefetching,
+    data: bookingData,
+    refetch: bookingRefetch,
+  } = useQuery({
+    queryKey: [
+      `Bookings${route.params.data._id}`,
+      token,
+      route.params.data._id,
+    ],
+    queryFn: getBookingsBySlotId,
+  });
+
   const HandleDeleteSlot = () => {
     setLoading(true);
     deleteSlot(slotData._id, setLoading, token, navigation, toast);
@@ -57,15 +73,19 @@ const SlotView = () => {
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       slotRefetch();
+      bookingRefetch();
     });
     return unsubscribe;
   }, [navigation]);
-
-  if (slotLoading) return <LoadingScreen />;
-  if (slotError)
+  console.log(bookingData);
+  if (slotLoading || bookingLoading) return <LoadingScreen />;
+  if (slotError || bookingError)
     return (
       <ErrorScreen
-        refetch={slotRefetch}
+        refetch={() => {
+          slotRefetch();
+          bookingRefetch();
+        }}
         loading={slotLoading || slotRefetching}
       />
     );
@@ -125,9 +145,10 @@ const SlotView = () => {
           }}>
           Patients
         </Text>
-        <PatientCard />
-        <PatientCard />
-        <PatientCard />
+
+        {bookingData.map(e => {
+          return <PatientCard data={e.patientData} />;
+        })}
       </View>
 
       <DeletePanel
