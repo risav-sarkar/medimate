@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "439664914133-mmpie5cg3ifbnoltliu54t1fjt4ir077.apps.googleusercontent.com",
+          "client_id": "439664914133-or6pmqsmognbrrc8npkdf1l2ean9g6e7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cilver.doctor",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "439664914133-0q13cs3agcijsu14p111gk5eq1n0fjtp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +35,36 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "439664914133-mmpie5cg3ifbnoltliu54t1fjt4ir077.apps.googleusercontent.com",
+              "client_id": "439664914133-0q13cs3agcijsu14p111gk5eq1n0fjtp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439664914133:android:154ab46fc1b623cea73c5c",
+        "android_client_info": {
+          "package_name": "com.medimate.doctor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439664914133-0q13cs3agcijsu14p111gk5eq1n0fjtp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE318g1gg-u8AuFft7tud7j_4Kiy3DABw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439664914133-0q13cs3agcijsu14p111gk5eq1n0fjtp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

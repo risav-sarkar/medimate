@@ -49,12 +49,7 @@ const SlotCard2 = ({data}) => {
                   navigation.navigate('SlotView', {data: {...e}});
                 }}>
                 <View style={styles.textContainer}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}>
+                  <View>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -82,6 +77,7 @@ const SlotCard2 = ({data}) => {
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         width: 85,
+                        marginTop: 10,
                         ...shadow,
                       }}>
                       <Text
@@ -129,7 +125,6 @@ const styles = StyleSheet.create({
   imageContainer: {height: 120, borderRadius: 15, overflow: 'hidden'},
   textContainer: {
     padding: 5,
-    paddingLeft: 10,
     flex: 1,
   },
 });

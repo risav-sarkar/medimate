@@ -10,7 +10,7 @@ export const fetchUser = async dispatch => {
   dispatch({type: 'FETCH_USER_START'});
   GoogleSignin.configure({
     webClientId:
-      '439664914133-mmpie5cg3ifbnoltliu54t1fjt4ir077.apps.googleusercontent.com',
+      '439664914133-0q13cs3agcijsu14p111gk5eq1n0fjtp.apps.googleusercontent.com',
   });
 
   const token = await AsyncStorage.getItem('CILVER_TOKEN_PATIENT');

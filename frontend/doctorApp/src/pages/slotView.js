@@ -30,6 +30,7 @@ import LoadingScreen from '../components/common/loadingScreen';
 import ErrorScreen from '../components/common/errorScreen';
 import {AuthContext} from '../context/AuthContext';
 import FocusAwareStatusBar from '../components/statusBar';
+import WarningScreen from '../components/common/warningScreen';
 
 const SlotView = () => {
   const toast = useToast();
@@ -143,12 +144,22 @@ const SlotView = () => {
             paddingHorizontal: 20,
             paddingBottom: 10,
           }}>
-          Patients
+          Bookings
         </Text>
 
-        {bookingData.map(e => {
-          return <PatientCard data={e.patientData} />;
-        })}
+        {!bookingData.length ? (
+          <WarningScreen label="No Bookings Found" />
+        ) : (
+          bookingData.map(e => {
+            return (
+              <PatientCard
+                patientData={e.patientData}
+                bookingData={e}
+                bookingRefetch={bookingRefetch}
+              />
+            );
+          })
+        )}
       </View>
 
       <DeletePanel

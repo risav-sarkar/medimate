@@ -458,3 +458,30 @@ export const getBookingsBySlotId = async params => {
   });
   return res.data;
 };
+
+export const patchBookingStatus = async (
+  bookingId,
+  status,
+  setLoading,
+  token,
+  toast,
+) => {
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
+  try {
+    const res = await axios.patch(
+      `${HeadURL}/doctor/booking/${bookingId}`,
+      {status},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    ToastSuccess(toast, `Status updated to - ${status}`);
+  } catch (err) {
+    console.log(err);
+    ToastError(toast, err.response?.data?.message);
+  } finally {
+    setLoading(false);
+  }
+};

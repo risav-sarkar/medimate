@@ -352,7 +352,7 @@ router.post("/booking", async (req, res) => {
             const newBooking = new Booking({
               slotId: req.body.slotId,
               patientId: req.body.patientId,
-              status: "Booked",
+              status: "Pending",
             });
 
             await newBooking.save();

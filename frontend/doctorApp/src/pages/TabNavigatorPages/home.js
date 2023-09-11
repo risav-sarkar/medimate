@@ -86,8 +86,7 @@ const Home = ({navigation}) => {
             paddingVertical: 20,
           }}>
           <View>
-            <Text
-              style={styles.headerText1}>{`Hello, Dr. ${profile.name}`}</Text>
+            <Text style={styles.headerText1}>{`Hello, Doctor`}</Text>
             <Text style={styles.headerText2}>
               {format(new Date(), 'H') >= 6 && format(new Date(), 'H') < 12
                 ? salutation[0]

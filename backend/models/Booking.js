@@ -14,6 +14,7 @@ const BookingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    //Pending, Confirmed, Cancelled
   },
   { timestamps: true }
 );

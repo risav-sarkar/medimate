@@ -478,7 +478,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.cilver.doctor";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.medimate.doctor";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CilverDoctor.app/CilverDoctor";
 			};
@@ -502,7 +502,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.cilver.doctor";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.medimate.doctor";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CilverDoctor.app/CilverDoctor";
 			};
@@ -517,7 +517,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "CilverDoctor/Info.plist";
-             INFOPLIST_KEY_CFBundleDisplayName = "Cilver Doctor";
+             INFOPLIST_KEY_CFBundleDisplayName = "Medimate Doctor";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -527,7 +527,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.cilver.doctor";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.medimate.doctor";
 				PRODUCT_NAME = "CilverDoctor";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -543,7 +543,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = "CilverDoctor/Info.plist";
-             INFOPLIST_KEY_CFBundleDisplayName = "Cilver Doctor";
+             INFOPLIST_KEY_CFBundleDisplayName = "Medimate Doctor";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -553,7 +553,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.cilver.doctor";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.medimate.doctor";
 				PRODUCT_NAME = "CilverDoctor";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
