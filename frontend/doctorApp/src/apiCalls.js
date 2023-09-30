@@ -50,7 +50,7 @@ export const userLogin = async (data, toast, dispatch) => {
     dispatch({type: 'LOGIN_USER_SUCCESS', payload: res.data.token});
   } catch (err) {
     console.log(err);
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
     dispatch({type: 'LOGIN_USER_FAILURE', payload: err});
   }
 };
@@ -64,7 +64,7 @@ export const userRegister = async (data, toast, dispatch) => {
     console.log(res.data);
   } catch (err) {
     console.log(err);
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
     dispatch({type: 'LOGIN_USER_FAILURE', payload: err});
   }
 };
@@ -87,7 +87,7 @@ export const googleLogin = async (toast, dispatch) => {
     await setProfile(res.data.token, dispatch);
     dispatch({type: 'LOGIN_USER_SUCCESS', payload: res.data.token});
   } catch (err) {
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
     console.log(err.message);
     dispatch({type: 'LOGIN_USER_FAILURE', payload: err});
   }
@@ -110,7 +110,7 @@ export const generateOTP = async (email, type, setLoading, toast) => {
     return 'SUCCESS';
   } catch (err) {
     console.log(err);
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
     return 'FAILED';
   } finally {
     setLoading(false);
@@ -124,7 +124,7 @@ export const verifyEmail = async (email, setLoading, toast) => {
     return 'SUCCESS';
   } catch (err) {
     console.log(err);
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
     return 'FAILED';
   } finally {
     setLoading(false);
@@ -140,7 +140,7 @@ export const resetPassword = async (data, setLoading, navigation, toast) => {
     return 'SUCCESS';
   } catch (err) {
     console.log(err);
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
     return 'FAILED';
   } finally {
     setLoading(false);
@@ -156,7 +156,7 @@ export const resetEmail = async (data, setLoading, navigation, toast) => {
     return 'SUCCESS';
   } catch (err) {
     console.log(err);
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
     return 'FAILED';
   } finally {
     setLoading(false);
@@ -209,7 +209,7 @@ export const postProfile = async (
     await setProfile(token, dispatch);
   } catch (err) {
     console.log(err);
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
   } finally {
     setLoading(false);
   }
@@ -234,7 +234,7 @@ export const patchProfile = async (
     await setProfile(token, dispatch);
   } catch (err) {
     console.log(err);
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
   } finally {
     setLoading(false);
   }
@@ -272,7 +272,7 @@ export const postChamber = async (
     navigation.navigate('Chamber');
   } catch (err) {
     console.log(err);
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
   } finally {
     setLoading(false);
   }
@@ -299,7 +299,7 @@ export const patchChamber = async (
     navigation.goBack();
   } catch (err) {
     console.log(err);
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
   } finally {
     setLoading(false);
   }
@@ -322,7 +322,7 @@ export const deleteChamber = async (
     navigation.navigate('Chamber');
   } catch (err) {
     console.log(err);
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
   } finally {
     setLoading(false);
   }
@@ -347,7 +347,7 @@ export const postSingleSlot = async (
     ToastSuccess(toast, 'Slot Created');
   } catch (err) {
     console.log(err);
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
   } finally {
     setLoading(false);
   }
@@ -371,7 +371,7 @@ export const postMultipleSlot = async (
     ToastSuccess(toast, 'Slots Created');
   } catch (err) {
     console.log(err);
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
   } finally {
     setLoading(false);
   }
@@ -423,7 +423,7 @@ export const patchSlot = async (data, setLoading, token, navigation, toast) => {
     navigation.goBack();
   } catch (err) {
     console.log(err);
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
   } finally {
     setLoading(false);
   }
@@ -440,7 +440,7 @@ export const deleteSlot = async (id, setLoading, token, navigation, toast) => {
     navigation.goBack();
   } catch (err) {
     console.log(err);
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
   } finally {
     setLoading(false);
   }
@@ -480,7 +480,7 @@ export const patchBookingStatus = async (
     ToastSuccess(toast, `Status updated to - ${status}`);
   } catch (err) {
     console.log(err);
-    ToastError(toast, err.response?.data?.message);
+    ToastError(err.response?.data?.message || 'Backend cholche na!!!');
   } finally {
     setLoading(false);
   }

@@ -20,6 +20,7 @@ import {
 } from '../../globalStyle';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
+  faCalendar,
   faClock,
   faHouseMedical,
   faLocationCrosshairs,
@@ -32,6 +33,7 @@ import {format} from 'date-fns';
 
 const BookingCard = ({isShadow, doctorData, slotData, chamberData}) => {
   const navigation = useNavigation();
+  console.log(slotData);
   return (
     <View style={styles.container}>
       <View
@@ -40,12 +42,66 @@ const BookingCard = ({isShadow, doctorData, slotData, chamberData}) => {
           isShadow ? {...shadow, backgroundColor: backgroundColor1} : null,
         ]}>
         <View style={{}}>
-          <Text>{`Dr. ${doctorData.name}`}</Text>
-          <Text>{chamberData.name}</Text>
-          <Text>{`${format(
-            new Date(slotData.time.start),
-            'h:mm aa',
-          )} - ${format(new Date(slotData.time.end), 'h:mm aa')}`}</Text>
+          <Text
+            style={{
+              ...fontBold,
+              fontSize: 18,
+              marginBottom: 10,
+            }}>{`Dr. ${doctorData.name}`}</Text>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: 3,
+            }}>
+            <FontAwesomeIcon icon={faLocationDot} color={dark1} size={14} />
+            <Text
+              style={{
+                ...fontMedium,
+                fontSize: 14,
+                marginLeft: 8,
+              }}>
+              {chamberData.name}
+            </Text>
+          </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: 3,
+            }}>
+            <FontAwesomeIcon icon={faCalendar} color={dark1} size={14} />
+            <Text
+              style={{
+                ...fontMedium,
+                fontSize: 14,
+                marginLeft: 8,
+              }}>
+              {`${format(new Date(slotData.date), 'Mo, MMM, yyyy')}`}
+            </Text>
+          </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: 3,
+            }}>
+            <FontAwesomeIcon icon={faClock} color={dark1} size={14} />
+            <Text
+              style={{
+                ...fontMedium,
+                fontSize: 14,
+                marginLeft: 8,
+              }}>
+              {`${format(new Date(slotData.time.start), 'h:mm aa')} - ${format(
+                new Date(slotData.time.end),
+                'h:mm aa',
+              )}`}
+            </Text>
+          </View>
         </View>
       </View>
     </View>
@@ -53,12 +109,17 @@ const BookingCard = ({isShadow, doctorData, slotData, chamberData}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {paddingHorizontal: 5, paddingVertical: 10},
+  container: {
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    marginBottom: 5,
+  },
   content: {
+    ...shadow,
     borderRadius: 15,
     backgroundColor: backgroundColor1,
     flexDirection: 'row',
-    padding: 5,
+    padding: 20,
   },
 });
 

@@ -141,11 +141,18 @@ const Appointments = () => {
             {bookings.past.length ? (
               bookings.past.map(e => {
                 return (
-                  <BookingCard
-                    doctorData={e.doctorData}
-                    slotData={e.slotData}
-                    chamberData={e.chamberData}
-                  />
+                  <>
+                    <BookingCard
+                      doctorData={e.doctorData}
+                      slotData={e.slotData}
+                      chamberData={e.chamberData}
+                    />
+                    <BookingCard
+                      doctorData={e.doctorData}
+                      slotData={e.slotData}
+                      chamberData={e.chamberData}
+                    />
+                  </>
                 );
               })
             ) : (
@@ -169,6 +176,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
     overflow: 'hidden',
+    paddingTop: 10,
   },
 });
 

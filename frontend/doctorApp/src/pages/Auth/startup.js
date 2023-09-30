@@ -1,5 +1,13 @@
-import {Text, StyleSheet, View, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import React from 'react';
+
+import Thumbnail from '../../assets/images/startup_thumbnail.png';
 
 import {
   backgroundColor2,
@@ -10,6 +18,11 @@ import {
   shadow,
 } from '../../globalStyle';
 import FocusAwareStatusBar from '../../components/statusBar';
+import FastImage from 'react-native-fast-image';
+
+const imageAspectRatio = 782 / 1024;
+const scaledWidth = Dimensions.get('window').width - 60;
+const scaledHeight = scaledWidth / imageAspectRatio;
 
 const StartUp = ({navigation}) => {
   return (
@@ -20,13 +33,25 @@ const StartUp = ({navigation}) => {
       />
 
       <View style={styles.content}>
+        <View style={styles.imageContainer}>
+          <FastImage
+            style={{
+              width: scaledWidth,
+              height: scaledHeight,
+              position: 'absolute',
+              bottom: 0,
+            }}
+            source={Thumbnail}
+            resizeMode={FastImage.resizeMode.contain}
+          />
+        </View>
         <View style={styles.getstarted}>
           <Text
             style={{
               ...fontBold,
               fontSize: 26,
               paddingHorizontal: 20,
-              paddingTop: 50,
+              paddingTop: 25,
             }}>
             Your best companion ever!
           </Text>
@@ -39,8 +64,7 @@ const StartUp = ({navigation}) => {
               color: '#a2a2a2',
               marginVertical: 15,
             }}>
-            Create chambers, see patient booked in a sexy app Create chambers,
-            see patient booked in a sexy app
+            Manage all your patients effortlessly in a single app.
           </Text>
 
           <View style={{padding: 15}}>
@@ -75,11 +99,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
   content: {flex: 1, paddingBottom: 40},
+  imageContainer: {flex: 1},
   getstarted: {
     borderRadius: 15,
     backgroundColor: '#fff',
     ...shadow,
-    marginTop: 'auto',
   },
 });
 
