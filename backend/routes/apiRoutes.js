@@ -101,6 +101,14 @@ router.get("/slots/:chamberId/:date", async (req, res) => {
         }
       }
     }
+    arr.sort(function (a, b) {
+      let keyA = a.date.dateNumber;
+      let keyB = b.date.dateNumber;
+
+      if (keyA < keyB) return -1;
+      if (keyA > keyB) return 1;
+      return 0;
+    });
     return res.status(200).json(arr);
   } catch (err) {
     res.status(500).json(err);
