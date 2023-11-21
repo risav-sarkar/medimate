@@ -79,7 +79,7 @@ const BookingCard = ({isShadow, doctorData, slotData, chamberData}) => {
                 fontSize: 14,
                 marginLeft: 8,
               }}>
-              {`${format(new Date(slotData.date), 'Mo, MMM, yyyy')}`}
+              {`${format(new Date(slotData.date), 'do MMM, yyyy')}`}
             </Text>
           </View>
 

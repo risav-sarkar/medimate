@@ -38,6 +38,7 @@ import {getBookings, getSlotsByDoctorAndDate} from '../../apiCalls';
 import WarningScreen from '../../components/common/warningScreen';
 import FocusAwareStatusBar from '../../components/statusBar';
 import ErrorScreen from '../../components/common/errorScreen';
+import BookingCard from '../../components/common/bookingCard';
 
 const Home = ({navigation}) => {
   const {token, dispatch, profile} = useContext(AuthContext);

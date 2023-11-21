@@ -33,6 +33,6 @@ app.use("/doctor", doctorRoutes);
 app.use("/patient", patientRoutes);
 app.use("/api", apiRoutes);
 
-app.listen(8800, () => {
-  console.log("Backend server is running on port 8800");
+app.listen(process.env.PORT, () => {
+  console.log(`Backend server is running on port ${process.env.PORT}`);
 });
