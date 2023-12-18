@@ -500,4 +500,29 @@ router.get("/booking/:id", async (req, res) => {
   }
 });
 
+// ---------------Reports---------------
+
+router.get("/reports", async (req, res) => {
+  try {
+    const token = await getTokenData(req);
+    if (token) {
+      let profile = await PatientProfile.findOne({ userId: token._id });
+
+      if (!profile) {
+        return res.status(200).json({ message: "Profile does not exist" });
+      }
+      else{
+        const reports = await Reports.find({
+          patientId: profile.userId,
+        })
+        return res.status(200).json(reports);
+      }
+    } else {
+      return res.status(404).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;
