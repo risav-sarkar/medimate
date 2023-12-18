@@ -507,6 +507,7 @@ router.get("/booking/:id", async (req, res) => {
 
 // ---------------Reports---------------
 
+//GET All reports
 router.get("/reports", async (req, res) => {
   try {
     const token = await getTokenData(req);
@@ -521,6 +522,81 @@ router.get("/reports", async (req, res) => {
           patientId: profile.userId,
         })
         return res.status(200).json(reports);
+      }
+    } else {
+      return res.status(404).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//GET Report By Id
+router.get("/report/:id", async (req, res) => {
+  try {
+    const token = await getTokenData(req);
+    if (token) {
+      let profile = await PatientProfile.findOne({ userId: token._id });
+
+      if (!profile) {
+        return res.status(200).json({ message: "Profile does not exist" });
+      }
+      else{
+        const reports = await Report.findOne({
+          patientId: profile.userId,
+          _id: req.params.id
+        })
+        return res.status(200).json(reports);
+      }
+    } else {
+      return res.status(404).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//POST Report
+router.post("/report", async (req, res) => {
+  try {
+    const token = await getTokenData(req);
+    if (token) {
+      let profile = await PatientProfile.findOne({ userId: token._id });
+
+      if (!profile) {
+        return res.status(200).json({ message: "Profile does not exist" });
+      }
+      else{
+        const newReport = new Report({
+            bookingId: req.body.bookingId,
+            patientId: req.body.patientId,
+            url: req.body.url,
+        });
+
+        await newReport.save(); 
+        return res.status(200).json({ message: "Report created" });   
+      }
+    } else {
+      return res.status(404).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//DELETE Report By Id
+router.delete("/report/:id", async (req, res) => {
+  try {
+    const token = await getTokenData(req);
+    if (token) {
+      let profile = await PatientProfile.findOne({ userId: token._id });
+
+      if (!profile) {
+        return res.status(200).json({ message: "Profile does not exist" });
+      }
+      else{
+        await Report.findByIdAndDelete(req.params.id);
+        return res.status(200).json({ message: "Report deleted" });
       }
     } else {
       return res.status(404).json({ message: "Invalid token" });
