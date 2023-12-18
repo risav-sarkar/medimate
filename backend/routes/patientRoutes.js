@@ -2,13 +2,18 @@ const router = require("express").Router();
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { getTokenData, verifyIdToken } = require("../util");
 const otpGenerator = require("otp-generator");
+
+//Models
 const PatientUser = require("../models/PatientUser");
 const PatientProfile = require("../models/PatientProfile");
 const PatientEmailOTP = require("../models/PatientEmailOTP");
 const Slot = require("../models/Slot");
 const Booking = require("../models/Booking");
+const Report = require("../models/Report");
+
+//Utils
+const { getTokenData, verifyIdToken } = require("../util");
 const { format } = require("date-fns");
 
 //OTP
@@ -512,7 +517,7 @@ router.get("/reports", async (req, res) => {
         return res.status(200).json({ message: "Profile does not exist" });
       }
       else{
-        const reports = await Reports.find({
+        const reports = await Report.find({
           patientId: profile.userId,
         })
         return res.status(200).json(reports);
