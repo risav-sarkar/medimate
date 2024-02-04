@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "install_backend":"cd backend && npm install",
+    "start_backend": "cd backend && node index.js",
+    "start_backend_dev": "cd backend && nodemon index.js"
+  }
+}
