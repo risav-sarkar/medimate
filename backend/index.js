@@ -33,6 +33,10 @@ app.use("/doctor", doctorRoutes);
 app.use("/patient", patientRoutes);
 app.use("/api", apiRoutes);
 
+app.get("/api/get", (req, res) => {
+  res.send({ message: "Systems UP" });
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`Backend server is running on port ${process.env.PORT}`);
 });
