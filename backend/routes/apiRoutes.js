@@ -4,6 +4,7 @@ const DoctorUser = require("../models/DoctorUser");
 const Chamber = require("../models/Chamber");
 const Slot = require("../models/Slot");
 const { format } = require("date-fns");
+const { getFirestoreData } = require("../util");
 
 //GET All Doctors
 router.get("/doctors", async (req, res) => {
@@ -244,6 +245,15 @@ router.get("/doctoremail/:email", async (req, res) => {
     const doctor = await DoctorUser.findOne({ email: req.params.email });
     if (doctor) return res.status(200).json({ message: "Email Found" });
     else return res.status(404).json({ message: "Email Not Found" });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.get("/test", async (req, res) => {
+  try {
+    getFirestoreData();
+    return res.status(200).json("Success");
   } catch (err) {
     res.status(500).json(err);
   }
