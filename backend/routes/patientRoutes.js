@@ -3,8 +3,10 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const otpGenerator = require("otp-generator");
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
 
-//Models
+//MODELS
 const PatientUser = require("../models/PatientUser");
 const PatientProfile = require("../models/PatientProfile");
 const PatientEmailOTP = require("../models/PatientEmailOTP");
@@ -12,9 +14,20 @@ const Slot = require("../models/Slot");
 const Booking = require("../models/Booking");
 const Report = require("../models/Report");
 
-//Utils
+//UTILS
 const { getTokenData, verifyIdToken } = require("../util");
 const { format } = require("date-fns");
+
+//MULTER
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+//CLOUDINARY CONFIGS
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINAR_API_KEY,
+  api_secret: process.env.CLOUDINAR_API_SECRET,
+});
 
 //OTP
 router.post("/generateotp", async (req, res) => {
@@ -516,11 +529,10 @@ router.get("/reports", async (req, res) => {
 
       if (!profile) {
         return res.status(200).json({ message: "Profile does not exist" });
-      }
-      else{
+      } else {
         const reports = await Report.find({
           patientId: profile.userId,
-        })
+        });
         return res.status(200).json(reports);
       }
     } else {
@@ -540,12 +552,11 @@ router.get("/report/:id", async (req, res) => {
 
       if (!profile) {
         return res.status(200).json({ message: "Profile does not exist" });
-      }
-      else{
+      } else {
         const reports = await Report.findOne({
           patientId: profile.userId,
-          _id: req.params.id
-        })
+          _id: req.params.id,
+        });
         return res.status(200).json(reports);
       }
     } else {
@@ -557,7 +568,7 @@ router.get("/report/:id", async (req, res) => {
 });
 
 //POST Report
-router.post("/report", async (req, res) => {
+router.post("/report", upload.single("image"), async (req, res) => {
   try {
     const token = await getTokenData(req);
     if (token) {
@@ -565,16 +576,28 @@ router.post("/report", async (req, res) => {
 
       if (!profile) {
         return res.status(200).json({ message: "Profile does not exist" });
-      }
-      else{
-        const newReport = new Report({
-            bookingId: req.body.bookingId,
-            patientId: req.body.patientId,
-            url: req.body.url,
-        });
+      } else {
+        if (!req.file) {
+          return res.status(400).json({ error: "No file uploaded" });
+        }
 
-        await newReport.save(); 
-        return res.status(200).json({ message: "Report created" });   
+        cloudinary.uploader
+          .upload_stream({ resource_type: "auto" }, async (error, result) => {
+            if (error) {
+              console.error("Error uploading image to Cloudinary:", error);
+              return res.status(500).json({ error: "Internal server error" });
+            }
+
+            const newReport = new Report({
+              bookingId: req.body.bookingId,
+              patientId: req.body.patientId,
+              url: result.secure_url,
+            });
+
+            await newReport.save();
+            return res.status(200).json({ message: "Report created" });
+          })
+          .end(req.file.buffer);
       }
     } else {
       return res.status(404).json({ message: "Invalid token" });
@@ -593,8 +616,7 @@ router.delete("/report/:id", async (req, res) => {
 
       if (!profile) {
         return res.status(200).json({ message: "Profile does not exist" });
-      }
-      else{
+      } else {
         await Report.findByIdAndDelete(req.params.id);
         return res.status(200).json({ message: "Report deleted" });
       }
