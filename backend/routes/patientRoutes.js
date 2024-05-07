@@ -2,14 +2,25 @@ const router = require("express").Router();
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { getTokenData, verifyIdToken } = require("../util");
 const otpGenerator = require("otp-generator");
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
+
+//MODELS
 const PatientUser = require("../models/PatientUser");
 const PatientProfile = require("../models/PatientProfile");
 const PatientEmailOTP = require("../models/PatientEmailOTP");
 const Slot = require("../models/Slot");
 const Booking = require("../models/Booking");
+const Report = require("../models/Report");
+
+//UTILS
+const { getTokenData, verifyIdToken } = require("../util");
 const { format } = require("date-fns");
+
+//MULTER
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 //OTP
 router.post("/generateotp", async (req, res) => {
@@ -500,4 +511,127 @@ router.get("/booking/:id", async (req, res) => {
   }
 });
 
-module.exports = router;
+// ---------------Reports---------------
+
+//GET All reports
+router.get("/reports", async (req, res) => {
+  try {
+    const token = await getTokenData(req);
+    if (token) {
+      let profile = await PatientProfile.findOne({ userId: token._id });
+
+      if (!profile) {
+        return res.status(200).json({ message: "Profile does not exist" });
+      } else {
+        const reports = await Report.find({
+          patientId: profile.userId,
+        });
+        return res.status(200).json(reports);
+      }
+    } else {
+      return res.status(404).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//GET Report By Id
+router.get("/report/:id", async (req, res) => {
+  try {
+    const token = await getTokenData(req);
+    if (token) {
+      let profile = await PatientProfile.findOne({ userId: token._id });
+
+      if (!profile) {
+        return res.status(200).json({ message: "Profile does not exist" });
+      } else {
+        const reports = await Report.findOne({
+          patientId: profile.userId,
+          _id: req.params.id,
+        });
+        return res.status(200).json(reports);
+      }
+    } else {
+      return res.status(404).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//POST Report
+router.post("/report", upload.single("image"), async (req, res) => {
+  try {
+    const token = await getTokenData(req);
+    if (token) {
+      let profile = await PatientProfile.findOne({ userId: token._id });
+
+      if (!profile) {
+        return res.status(200).json({ message: "Profile does not exist" });
+      } else {
+        if (!req.file) {
+          return res.status(400).json({ error: "No file uploaded" });
+        }
+
+        cloudinary.uploader
+          .upload_stream({ resource_type: "auto" }, async (error, result) => {
+            if (error) {
+              console.error("Error uploading image to Cloudinary:", error);
+              return res.status(500).json({ error: "Internal server error" });
+            }
+
+            const newReport = new Report({
+              bookingId: req.body.bookingId,
+              patientId: req.body.patientId,
+              url: result.secure_url,
+            });
+            await newReport.save();
+
+            return res.status(200).json({ message: "Report created" });
+          })
+          .end(req.file.buffer);
+      }
+    } else {
+      return res.status(404).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+    console.log(err);
+  }
+});
+
+//DELETE Report By Id
+router.delete("/report/:id", async (req, res) => {
+  try {
+    const token = await getTokenData(req);
+    if (token) {
+      let profile = await PatientProfile.findOne({ userId: token._id });
+
+      if (!profile) {
+        return res.status(200).json({ message: "Profile does not exist" });
+      } else {
+        await Report.findByIdAndDelete(req.params.id);
+        return res.status(200).json({ message: "Report deleted" });
+      }
+    } else {
+      return res.status(404).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+module.exports = function (config) {
+  cloudinary.config({
+    cloud_name: config.cloudinary_cloud_name,
+    api_key: config.cloudinary_api_key,
+    api_secret: config.cloudinary_api_secret,
+  });
+
+  // router.get("/", (req, res) => {
+  //   res.send("Cloudinary configured");
+  // });
+
+  return router;
+};
