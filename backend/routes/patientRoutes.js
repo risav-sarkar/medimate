@@ -22,13 +22,6 @@ const { format } = require("date-fns");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-//CLOUDINARY CONFIGS
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINAR_API_KEY,
-  api_secret: process.env.CLOUDINAR_API_SECRET,
-});
-
 //OTP
 router.post("/generateotp", async (req, res) => {
   try {
@@ -593,8 +586,8 @@ router.post("/report", upload.single("image"), async (req, res) => {
               patientId: req.body.patientId,
               url: result.secure_url,
             });
-
             await newReport.save();
+
             return res.status(200).json({ message: "Report created" });
           })
           .end(req.file.buffer);
@@ -604,6 +597,7 @@ router.post("/report", upload.single("image"), async (req, res) => {
     }
   } catch (err) {
     res.status(500).json(err);
+    console.log(err);
   }
 });
 
@@ -628,4 +622,16 @@ router.delete("/report/:id", async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = function (config) {
+  cloudinary.config({
+    cloud_name: config.cloudinary_cloud_name,
+    api_key: config.cloudinary_api_key,
+    api_secret: config.cloudinary_api_secret,
+  });
+
+  // router.get("/", (req, res) => {
+  //   res.send("Cloudinary configured");
+  // });
+
+  return router;
+};

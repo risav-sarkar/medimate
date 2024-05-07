@@ -30,7 +30,14 @@ app.use(morgan("common"));
 app.use(cors());
 
 app.use("/doctor", doctorRoutes);
-app.use("/patient", patientRoutes);
+app.use(
+  "/patient",
+  patientRoutes({
+    cloudinary_cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    cloudinary_api_key: process.env.CLOUDINARY_API_KEY,
+    cloudinary_api_secret: process.env.CLOUDINARY_API_SECRET,
+  })
+);
 app.use("/api", apiRoutes);
 
 app.listen(process.env.PORT, () => {
