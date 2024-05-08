@@ -33,6 +33,7 @@ import {useNavigation} from '@react-navigation/native';
 
 const DoctorCard = ({isShadow, data}) => {
   const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <TouchableOpacity

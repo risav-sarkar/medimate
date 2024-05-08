@@ -31,11 +31,15 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {format} from 'date-fns';
 
-const BookingCard = ({isShadow, doctorData, slotData, chamberData}) => {
+const BookingCard = ({isShadow, data, doctorData, slotData, chamberData}) => {
   const navigation = useNavigation();
-  console.log(slotData);
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        navigation.navigate('AppointmentView', {data});
+      }}>
       <View
         style={[
           styles.content,
@@ -47,7 +51,7 @@ const BookingCard = ({isShadow, doctorData, slotData, chamberData}) => {
               ...fontBold,
               fontSize: 18,
               marginBottom: 10,
-            }}>{`Dr. ${doctorData.name}`}</Text>
+            }}>{`Dr. ${doctorData?.name}`}</Text>
 
           <View
             style={{
@@ -62,7 +66,7 @@ const BookingCard = ({isShadow, doctorData, slotData, chamberData}) => {
                 fontSize: 14,
                 marginLeft: 8,
               }}>
-              {chamberData.name}
+              {chamberData?.name}
             </Text>
           </View>
 
@@ -79,7 +83,7 @@ const BookingCard = ({isShadow, doctorData, slotData, chamberData}) => {
                 fontSize: 14,
                 marginLeft: 8,
               }}>
-              {`${format(new Date(slotData.date), 'do MMM, yyyy')}`}
+              {`${format(new Date(slotData?.date), 'do MMM, yyyy')}`}
             </Text>
           </View>
 
@@ -96,15 +100,23 @@ const BookingCard = ({isShadow, doctorData, slotData, chamberData}) => {
                 fontSize: 14,
                 marginLeft: 8,
               }}>
-              {`${format(new Date(slotData.time.start), 'h:mm aa')} - ${format(
-                new Date(slotData.time.end),
+              {`${format(
+                new Date(slotData?.time?.start),
                 'h:mm aa',
-              )}`}
+              )} - ${format(new Date(slotData?.time?.end), 'h:mm aa')}`}
             </Text>
           </View>
+          <Text
+            style={{
+              ...fontMedium,
+              fontSize: 14,
+              marginLeft: 8,
+            }}>
+            {data.status}
+          </Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

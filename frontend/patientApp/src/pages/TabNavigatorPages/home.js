@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
   FlatList,
 } from 'react-native';
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {AuthContext} from '../../context/AuthContext';
 
 import {
@@ -21,7 +21,6 @@ import {
   patientColor,
   shadow,
   slotColor,
-  specialities,
 } from '../../globalStyle';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
@@ -39,9 +38,13 @@ import WarningScreen from '../../components/common/warningScreen';
 import FocusAwareStatusBar from '../../components/statusBar';
 import ErrorScreen from '../../components/common/errorScreen';
 import BookingCard from '../../components/common/bookingCard';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
 
-const Home = ({navigation}) => {
+const Home = () => {
   const {token, dispatch, profile} = useContext(AuthContext);
+  const [departments, setDepartments] = useState([]);
+  const navigation = useNavigation();
 
   const {
     isError,
@@ -55,15 +58,21 @@ const Home = ({navigation}) => {
   });
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    const unsubscribe = navigation.addListener('focus', async () => {
       refetch();
+      const data = await AsyncStorage.getItem('CILVER_DEPARTMENTS');
+      setDepartments(JSON.parse(data));
     });
     return unsubscribe;
   }, [navigation]);
 
   const SpecialityCard = ({text}) => {
     return (
-      <View style={{alignItems: 'center'}}>
+      <TouchableOpacity
+        style={{alignItems: 'center'}}
+        onPress={() => {
+          navigation.navigate('SearchPage', {data: text});
+        }}>
         <View
           style={{
             height: 60,
@@ -82,7 +91,7 @@ const Home = ({navigation}) => {
           }}>
           {text}
         </Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -147,11 +156,11 @@ const Home = ({navigation}) => {
             scrollEnabled={true}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
-            data={specialities}
+            data={departments}
             ItemSeparatorComponent={() => <View style={{width: 15}} />}
-            keyExtractor={item => `specialities${item.name}`}
+            keyExtractor={item => `specialities${item}`}
             renderItem={({item}) => {
-              return <SpecialityCard text={item.name} />;
+              return <SpecialityCard text={item} />;
             }}
           />
         </View>

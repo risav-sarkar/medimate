@@ -28,12 +28,3 @@ export const fontSemiBold = {fontFamily: 'Nunito-SemiBold'};
 export const fontBold = {fontFamily: 'Nunito-Bold'};
 export const fontMedium = {fontFamily: 'Nunito-Medium'};
 export const fontLight = {fontFamily: 'Nunito-Light'};
-
-export const specialities = [
-  {name: 'Cardiology'},
-  {name: 'Cardiology'},
-  {name: 'Cardiology'},
-  {name: 'Cardiology'},
-  {name: 'Cardiology'},
-  {name: 'Cardiology'},
-];

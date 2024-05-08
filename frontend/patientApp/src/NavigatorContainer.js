@@ -22,6 +22,7 @@ import ResetEmail from './pages/Auth/resetEmail';
 import SearchPage from './pages/searchPage';
 import DoctorProfileView from './pages/doctorProfileView';
 import SlotsView from './pages/slotsView';
+import AppointmentView from './pages/appointmentView';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -99,10 +100,14 @@ const NavigatorContainer = () => {
               <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
               <Stack.Screen name="SearchPage" component={SearchPage} />
               <Stack.Screen
+                name="AppointmentView"
+                component={AppointmentView}
+              />
+
+              <Stack.Screen
                 name="DoctorProfileView"
                 component={DoctorProfileView}
               />
-
               <Stack.Screen name="SlotsView" component={SlotsView} />
             </>
           ) : (

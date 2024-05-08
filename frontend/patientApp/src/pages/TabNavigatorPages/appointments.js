@@ -110,6 +110,7 @@ const Appointments = () => {
               bookings.today.map(e => {
                 return (
                   <BookingCard
+                    data={e}
                     doctorData={e.doctorData}
                     slotData={e.slotData}
                     chamberData={e.chamberData}
@@ -126,6 +127,7 @@ const Appointments = () => {
               bookings.upcoming.map(e => {
                 return (
                   <BookingCard
+                    data={e}
                     doctorData={e.doctorData}
                     slotData={e.slotData}
                     chamberData={e.chamberData}
@@ -143,11 +145,7 @@ const Appointments = () => {
                 return (
                   <>
                     <BookingCard
-                      doctorData={e.doctorData}
-                      slotData={e.slotData}
-                      chamberData={e.chamberData}
-                    />
-                    <BookingCard
+                      data={e}
                       doctorData={e.doctorData}
                       slotData={e.slotData}
                       chamberData={e.chamberData}

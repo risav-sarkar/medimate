@@ -29,7 +29,9 @@ const SearchPage = () => {
   const route = useRoute();
   const toast = useToast();
   const navigation = useNavigation();
-  const [searchString, setSearchString] = useState('');
+  const [searchString, setSearchString] = useState(
+    route.params?.data ? route.params?.data : '',
+  );
   const [result, setResult] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 

@@ -425,6 +425,7 @@ router.get("/bookings", async (req, res) => {
               _id: 1,
               patientId: 1,
               slotData: 1,
+              status: 1,
               doctorData: {
                 $arrayElemAt: ["$doctorData", 0],
               },
@@ -446,6 +447,7 @@ router.get("/bookings", async (req, res) => {
               _id: 1,
               patientId: 1,
               slotData: 1,
+              status: 1,
               doctorData: 1,
               chamberData: {
                 $arrayElemAt: ["$chamberData", 0],
