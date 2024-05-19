@@ -516,7 +516,7 @@ router.get("/booking/:id", async (req, res) => {
 // ---------------Reports---------------
 
 //GET All reports
-router.get("/reports", async (req, res) => {
+router.get("/reports/:bookingId", async (req, res) => {
   try {
     const token = await getTokenData(req);
     if (token) {
@@ -527,6 +527,7 @@ router.get("/reports", async (req, res) => {
       } else {
         const reports = await Report.find({
           patientId: profile.userId,
+          bookingId: req.params.bookingId,
         });
         return res.status(200).json(reports);
       }
@@ -585,7 +586,7 @@ router.post("/report", upload.single("image"), async (req, res) => {
 
             const newReport = new Report({
               bookingId: req.body.bookingId,
-              patientId: req.body.patientId,
+              patientId: token._id,
               url: result.secure_url,
             });
             await newReport.save();

@@ -345,3 +345,49 @@ export const getBookings = async params => {
   });
   return res.data;
 };
+
+//Prescription
+export const postPrescription = async (
+  url,
+  bookingId,
+  setLoading,
+  token,
+  toast,
+) => {
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
+  try {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append('image', {
+      uri: url,
+      type: 'image/jpeg', // or the mime type of your image
+      name: 'photo.jpg', // or the name of your image file
+    });
+    formData.append('bookingId', bookingId);
+
+    const res = await axios.post(`${HeadURL}/patient/report`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    ToastSuccess(toast, 'Report Uploaded');
+  } catch (err) {
+    console.log(err.message);
+    ToastError(toast, err.response?.data?.message || 'Backend cholche na!!!');
+  } finally {
+    setLoading(false);
+  }
+};
+
+export const getPrescriptions = async params => {
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
+  const token = params.queryKey[1];
+  const bookingId = params.queryKey[2];
+  const res = await axios.get(`${HeadURL}/patient/reports/${bookingId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data;
+};
