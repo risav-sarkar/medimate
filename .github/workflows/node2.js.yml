@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ["self-hosted", "medimate1"]
+    runs-on: ["self-hosted", "medimate2"]
 
     strategy:
       matrix:
