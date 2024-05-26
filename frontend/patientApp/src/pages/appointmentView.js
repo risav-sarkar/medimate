@@ -26,13 +26,19 @@ import Header from '../components/common/header';
 import {ToastError} from '../components/toastFunction';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {AuthContext} from '../context/AuthContext';
-import {getPrescriptions, postPrescription} from '../apiCalls';
+import {
+  deletePrescription,
+  getPrescriptions,
+  postPrescription,
+} from '../apiCalls';
 import {useQuery} from '@tanstack/react-query';
 import LoadingScreen from '../components/common/loadingScreen';
 import ErrorScreen from '../components/common/errorScreen';
 import ActionButton from '../components/common/actionButton';
 import ImageView from 'react-native-image-viewing';
 import WarningScreen from '../components/common/warningScreen';
+import {faHourglass, faTrash} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 
 const numColumns = 2;
 const imageSize = Dimensions.get('window').width / numColumns;
@@ -45,7 +51,8 @@ const AppointmentView = () => {
 
   const [isBlocked, setIsBlocked] = useState(false);
   const [isGranted, setIsGranted] = useState(false);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [visible, setIsVisible] = useState(false);
   const [images, setImages] = useState([{uri: ''}]);
 
@@ -150,6 +157,7 @@ const AppointmentView = () => {
                 contentContainerStyle={{flex: 1}}
                 data={prescriptions}
                 renderItem={({item}) => {
+                  console.log(item);
                   return (
                     <TouchableOpacity
                       style={styles.item}
@@ -158,6 +166,26 @@ const AppointmentView = () => {
                         setIsVisible(true);
                       }}>
                       <Image source={{uri: item.url}} style={styles.image} />
+
+                      <TouchableOpacity
+                        style={styles.deleteIcon}
+                        onPress={async () => {
+                          if (!deleteLoading) {
+                            await deletePrescription(
+                              item._id,
+                              setDeleteLoading,
+                              token,
+                              toast,
+                            );
+                            refetch();
+                          }
+                        }}>
+                        <FontAwesomeIcon
+                          size={20}
+                          icon={deleteLoading ? faHourglass : faTrash}
+                          color={'#000'}
+                        />
+                      </TouchableOpacity>
                     </TouchableOpacity>
                   );
                 }}
@@ -204,8 +232,17 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     overflow: 'hidden',
   },
-  item: {padding: 5},
+  item: {padding: 5, position: 'relative'},
   image: {width: imageSize - 15, height: imageSize - 10, borderRadius: 15},
+  deleteIcon: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    padding: 15,
+    backgroundColor: '#00000033',
+    borderTopRightRadius: 15,
+    borderBottomLeftRadius: 15,
+  },
 });
 
 export default AppointmentView;

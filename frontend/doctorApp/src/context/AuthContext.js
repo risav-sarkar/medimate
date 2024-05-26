@@ -21,12 +21,26 @@ export const AuthContextProvider = ({children}) => {
     await AsyncStorage.setItem('CILVER_URL', e.url);
   };
 
+  const SetDepartments = async e => {
+    await AsyncStorage.setItem(
+      'CILVER_DEPARTMENTS',
+      JSON.stringify(e.specialities),
+    );
+  };
+
   useEffect(() => {
-    const subscriber = firestore()
+    const subscriber1 = firestore()
       .collection('headUrl')
       .doc('kv3CZRyRhKdNeB9LJIUF')
       .onSnapshot(documentSnapshot => {
         SetUrl(documentSnapshot.data());
+      });
+
+    const subscriber2 = firestore()
+      .collection('headUrl')
+      .doc('otcBSBdY30uM0j6lBzbS')
+      .onSnapshot(documentSnapshot => {
+        SetDepartments(documentSnapshot.data());
       });
   }, []);
 

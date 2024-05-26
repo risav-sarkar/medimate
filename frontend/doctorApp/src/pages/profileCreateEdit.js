@@ -12,14 +12,14 @@ import {useQuery} from '@tanstack/react-query';
 import LoadingScreen from '../components/common/loadingScreen';
 import ErrorScreen from '../components/common/errorScreen';
 import PrimaryLayout from '../layouts/primaryLayout';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ProfileCreateEdit = () => {
   const toast = useToast();
   const route = useRoute();
   const navigation = useNavigation();
   const {token, dispatch} = useContext(AuthContext);
-
-  const medicalDepartment = [{name: 'Cardiology'}, {name: 'Pediatrics'}];
+  const [medicalDepartment, setMedicalDepartment] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
@@ -50,6 +50,17 @@ const ProfileCreateEdit = () => {
       });
     }
   }, [data]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', async () => {
+      refetch();
+      const data = await AsyncStorage.getItem('CILVER_DEPARTMENTS');
+      const parsedArray = JSON.parse(data);
+      const objectArray = parsedArray.map(str => ({name: str}));
+      setMedicalDepartment(objectArray);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const HandleSubmit = async () => {
     setLoading(true);

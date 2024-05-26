@@ -301,8 +301,19 @@ export const getDoctorSearchResults = async (
   const HeadURL = await AsyncStorage.getItem('CILVER_URL');
   setLoading(true);
   try {
-    const res = await axios.get(`${HeadURL}/api/searchdoctors/${searchString}`);
-    setData(res.data);
+    const res1 = await axios.get(
+      `${HeadURL}/api/searchdoctors/${searchString}`,
+    );
+    const res2 = await axios.get(
+      `${HeadURL}/api/searchmedicaldepartment/${searchString}`,
+    );
+
+    const array = [...res1.data, ...res2.data];
+    const set = new Set(array.map(item => item.id));
+    const uniqueArray = Array.from(set).map(id =>
+      array.find(item => item.id === id),
+    );
+    setData(uniqueArray);
   } catch (err) {
     console.log(err);
     ToastError(toast, err.response?.data?.message || 'Backend cholche na!!!');
@@ -390,4 +401,28 @@ export const getPrescriptions = async params => {
     },
   });
   return res.data;
+};
+
+//Prescription
+export const deletePrescription = async (
+  reportId,
+  setLoading,
+  token,
+  toast,
+) => {
+  const HeadURL = await AsyncStorage.getItem('CILVER_URL');
+  try {
+    setLoading(true);
+    const res = await axios.delete(`${HeadURL}/patient/report/${reportId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    ToastSuccess(toast, 'Report Deleted');
+  } catch (err) {
+    console.log(err.message);
+    ToastError(toast, err.response?.data?.message || 'Backend cholche na!!!');
+  } finally {
+    setLoading(false);
+  }
 };
