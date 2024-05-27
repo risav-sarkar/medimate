@@ -32,7 +32,7 @@ module.exports.getTokenData = async (req) => {
 };
 
 module.exports.getFirestoreData = (req) => {
-  const collectionRef = admin.firestore().collection("hehehehe");
+  const collectionRef = admin.firestore().collection("data");
 
   collectionRef
     .get()
