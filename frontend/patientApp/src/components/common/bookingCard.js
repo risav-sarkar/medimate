@@ -45,75 +45,107 @@ const BookingCard = ({isShadow, data, doctorData, slotData, chamberData}) => {
           styles.content,
           isShadow ? {...shadow, backgroundColor: backgroundColor1} : null,
         ]}>
-        <View style={{}}>
-          <Text
-            style={{
-              ...fontBold,
-              fontSize: 18,
-              marginBottom: 10,
-            }}>{`Dr. ${doctorData?.name}`}</Text>
-
+        <View style={{flex: 1}}>
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: 3,
+              paddingHorizontal: 20,
+              paddingTop: 20,
+              paddingBottom: 10,
+              flex: 1,
             }}>
-            <FontAwesomeIcon icon={faLocationDot} color={dark1} size={14} />
             <Text
               style={{
-                ...fontMedium,
-                fontSize: 14,
-                marginLeft: 8,
+                ...fontBold,
+                fontSize: 18,
+                marginBottom: 10,
+              }}>{`Dr. ${doctorData?.name}`}</Text>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: 3,
               }}>
-              {chamberData?.name}
-            </Text>
+              <FontAwesomeIcon icon={faLocationDot} color={dark1} size={14} />
+              <Text
+                style={{
+                  ...fontMedium,
+                  fontSize: 14,
+                  marginLeft: 8,
+                }}>
+                {chamberData?.name}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: 3,
+              }}>
+              <FontAwesomeIcon icon={faCalendar} color={dark1} size={14} />
+              <Text
+                style={{
+                  ...fontMedium,
+                  fontSize: 14,
+                  marginLeft: 8,
+                }}>
+                {`${format(new Date(slotData?.date), 'do MMM, yyyy')}`}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: 3,
+              }}>
+              <FontAwesomeIcon icon={faClock} color={dark1} size={14} />
+              <Text
+                style={{
+                  ...fontMedium,
+                  fontSize: 14,
+                  marginLeft: 8,
+                }}>
+                {`${format(
+                  new Date(slotData?.time?.start),
+                  'h:mm aa',
+                )} - ${format(new Date(slotData?.time?.end), 'h:mm aa')}`}
+              </Text>
+            </View>
           </View>
 
           <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: 3,
-            }}>
-            <FontAwesomeIcon icon={faCalendar} color={dark1} size={14} />
+            style={[
+              styles.statusFooter,
+              {
+                backgroundColor:
+                  data.status === 'Pending'
+                    ? '#FEC05533'
+                    : data.status === 'Confirmed'
+                    ? '#2497FF33'
+                    : data.status === 'Completed'
+                    ? '#01EF001a'
+                    : '#FF666633',
+              },
+            ]}>
             <Text
               style={{
-                ...fontMedium,
+                ...fontBold,
                 fontSize: 14,
                 marginLeft: 8,
+                color:
+                  data.status === 'Pending'
+                    ? '#FFA100'
+                    : data.status === 'Confirmed'
+                    ? '#0072DB'
+                    : data.status === 'Completed'
+                    ? '#01A600'
+                    : '#D63232',
               }}>
-              {`${format(new Date(slotData?.date), 'do MMM, yyyy')}`}
+              {data.status}
             </Text>
           </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: 3,
-            }}>
-            <FontAwesomeIcon icon={faClock} color={dark1} size={14} />
-            <Text
-              style={{
-                ...fontMedium,
-                fontSize: 14,
-                marginLeft: 8,
-              }}>
-              {`${format(
-                new Date(slotData?.time?.start),
-                'h:mm aa',
-              )} - ${format(new Date(slotData?.time?.end), 'h:mm aa')}`}
-            </Text>
-          </View>
-          <Text
-            style={{
-              ...fontMedium,
-              fontSize: 14,
-              marginLeft: 8,
-            }}>
-            {data.status}
-          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -131,7 +163,13 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: backgroundColor1,
     flexDirection: 'row',
-    padding: 20,
+  },
+  statusFooter: {
+    backgroundColor: 'red',
+    paddingVertical: 10,
+    alignItems: 'center',
+    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 15,
   },
 });
 
